@@ -1,0 +1,93 @@
+---
+version: '2.1'
+
+services:
+    integration-tests:
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+      volumes:
+        - .:/usr/src/app
+    remote-webdriver:
+      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome-debug:3.5.2
+      ports:
+        - 5900:5900
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+    citizen-frontend:
+      ports:
+        - 3000:3000
+    idam-database:
+      ports:
+        - 5431:5432
+      volumes:
+        - idam-database-data:/var/lib/postgresql/data
+    authentication-web:
+      ports:
+        - 8000:8000
+    idam-api:
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+      ports:
+        - 8080:8080
+    claim-store-api:
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+      ports:
+        - 4400:4400
+      environment:
+        - FRONTEND_BASE_URL=https://localhost:3000
+    claim-store-database:
+      ports:
+        - 5430:5432
+      volumes:
+        - claim-store-database-data:/var/lib/postgresql/data
+    fees-api:
+      ports:
+        - 4182:8080
+    fees-database:
+      ports:
+        - 5182:5432
+    draft-store-api:
+      ports:
+        - 8800:8800
+    draft-store-database:
+      ports:
+        - 5429:5432
+      volumes:
+        - draft-store-database-data:/var/lib/postgresql/data
+    service-auth-provider-api:
+      ports:
+        - 4552:8080
+    payments-api:
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+      ports:
+       - 4421:8080
+    payments-database:
+      ports:
+        - 5428:5432
+      volumes:
+        - payments-database-data:/var/lib/postgresql/data
+    pdf-service-api:
+      ports:
+        - 5500:5500
+    smtp-server:
+      ports:
+        - 1025:1025
+        - 8025:8025
+
+volumes:
+  draft-store-database-data:
+  claim-store-database-data:
+  idam-database-data:
+  payments-database-data:

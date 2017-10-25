@@ -1,0 +1,211 @@
+---
+version: '2.1'
+
+services:
+    integration-tests:
+      build:
+        context: .
+        args:
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      image: docker.artifactory.reform.hmcts.net/cmc/integration-tests:${INTEGRATION_TESTS_VERSION:-latest}
+      environment:
+        - WEB_DRIVER_HOST=remote-webdriver
+        - URL=https://www-local.moneyclaim.reform.hmcts.net:3000
+        - IDAM_URL=http://idam-api:8080
+        - http_proxy
+        - https_proxy
+        - no_proxy=www-local.moneyclaim.reform.hmcts.net,idam-api,remote-webdriver,authentication-web,claim-store-api
+      depends_on:
+        remote-webdriver:
+          condition: service_started
+        citizen-frontend:
+          condition: service_started
+      volumes:
+        - ./output:/usr/src/app/output
+    remote-webdriver:
+      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.5.2
+    citizen-frontend:
+      image: docker.artifactory.reform.hmcts.net/cmc/citizen-frontend:${CITIZEN_FRONTEND_VERSION:-latest}
+      environment:
+        - NODE_ENV=dockertests
+        - IDAM_API_URL=http://idam-api:8080
+        - IDAM_AUTHENTICATION_WEB_URL=https://authentication-web:8000
+        - IDAM_S2S_AUTH=http://service-auth-provider-api:8080
+        - PAY_URL=http://payments-api:8080
+        - CLAIM_STORE_URL=http://claim-store-api:4400
+        - FEES_URL=http://fees-api:8080
+        - PDF_SERVICE_URL=http://pdf-service-api:5500
+        - DRAFT_STORE_URL=http://draft-store-api:8800
+        - LOG_LEVEL=DEBUG
+        - UV_THREADPOOL_SIZE=64
+      depends_on:
+        idam-api:
+          condition: service_started
+        authentication-web:
+          condition: service_started
+        claim-store-api:
+          condition: service_healthy
+        fees-api:
+          condition: service_healthy
+        draft-store-api:
+          condition: service_healthy
+        pdf-service-api:
+          condition: service_healthy
+        payments-api:
+          condition: service_started
+      networks:
+        default:
+          aliases:
+            - www-local.moneyclaim.reform.hmcts.net
+    authentication-web:
+      image: docker.artifactory.reform.hmcts.net/auth/authentication-web:65e9cbfeeee1c6f238e7ef25e7159ae066058c8f
+      environment:
+        - IDAM_API_URL=http://idam-api:8080
+      depends_on:
+        - idam-api
+    idam-api:
+      image: docker.artifactory.reform.hmcts.net/auth/idam-api:386ea4e56789cdd0db35f3a532722b5a8de15f18
+      command: --wait-for-database 60
+      environment:
+        - IDAM_SUPERUSER_EMAIL=cmc-int-test@cmc.reform.hmcts.net
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://idam-database:5432/idam
+        - IDAM_TESTING_SUPPORT_ENABLED=true
+        - NOTIFY_API_KEY=${GOV_NOTIFY_API_KEY}
+        - NOTIFY_CMC_ACTIVATE_USER_TEMPLATE=76aa8695-64e8-4afd-ae13-bc8385302b1f
+        - NOTIFY_CMC_SOLICITOR_ACTIVATE_USER_TEMPLATE=76aa8695-64e8-4afd-ae13-bc8385302b1f
+        - IDAM_SECRET=cmc_it_test_secret_key
+        - NOTIFY=true
+        - NOTIFY_CMC_WELCOME_USER_TEMPLATE=fake
+        - NOTIFY_DIVORCE_WELCOME_USER_TEMPLATE=fake
+        - NOTIFY_SSCS_WELCOME_USER_TEMPLATE=fake
+        - NOTIFY_RESET_PASSWORD_TEMPLATE=fake
+        - NOTIFY_PROBATE_ACTIVATE_USER_TEMPLATE=fake
+        - NOTIFY_DIVORCE_ACTIVATE_USER_TEMPLATE=fake
+        - NOTIFY_SSCS_ACTIVATE_USER_TEMPLATE=fake
+        - NOTIFY_CCD_ACTIVATE_USER_TEMPLATE=fake
+        - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CMC_CITIZEN=123456
+        - http_proxy
+        - https_proxy
+        - no_proxy
+      depends_on:
+        - idam-database
+    idam-database:
+      image: docker.artifactory.reform.hmcts.net/auth/idam-database
+    claim-store-api:
+      image: docker.artifactory.reform.hmcts.net/cmc/claim-store-api:${CLAIM_STORE_API_VERSION:-latest}
+      healthcheck:
+        retries: 40
+      environment:
+        - CLAIM_STORE_DB_HOST=claim-store-database
+        - CLAIM_STORE_DB_PORT=5432
+        - CLAIM_STORE_DB_USERNAME=claimstore
+        - CLAIM_STORE_DB_PASSWORD=claimstore
+        - IDAM_API_URL=http://idam-api:8080
+        - GOV_NOTIFY_API_KEY
+        - FRONTEND_BASE_URL=https://www-local.moneyclaim.reform.hmcts.net:3000
+        - CLAIM_STORE_TEST_SUPPORT_ENABLED=true
+        - STAFF_NOTIFICATIONS_SENDER=no-reply@example.com
+        - STAFF_NOTIFICATIONS_RECIPIENT=staff@example.com
+        - SPRING_MAIL_HOST=smtp-server
+        - SPRING_MAIL_PORT=1025
+        - PDF_SERVICE_URL=http://pdf-service-api:5500
+        - ROOT_APPENDER
+        - JSON_CONSOLE_PRETTY_PRINT
+        - ROOT_LOGGING_LEVEL
+        - REFORM_SERVICE_NAME
+        - REFORM_TEAM
+        - REFORM_ENVIRONMENT
+        - http_proxy
+        - https_proxy
+        - no_proxy=idam-api,pdf-service-api
+      depends_on:
+        claim-store-database:
+          condition: service_healthy
+        smtp-server:
+          condition: service_started
+        pdf-service-api:
+          condition: service_healthy
+    claim-store-database:
+      image: docker.artifactory.reform.hmcts.net/cmc/claim-store-database:${CLAIM_STORE_DATABASE_VERSION:-latest}
+      healthcheck:
+        retries: 40
+      environment:
+        - CLAIM_STORE_DB_USERNAME=claimstore
+        - CLAIM_STORE_DB_PASSWORD=claimstore
+    fees-api:
+      image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:33328e91ec54cbf4dbc9f52fe56f3712fe20a331
+      healthcheck:
+        retries: 40
+      environment:
+        - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080/
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
+        - SPRING_DATASOURCE_USERNAME=fees_register
+        - SPRING_DATASOURCE_PASSWORD=fees_register
+      depends_on:
+        fees-database:
+          condition: service_healthy
+    fees-database:
+      image: docker.artifactory.reform.hmcts.net/fees-register/fees-database:55b1a02c28e3fbe757afcb5515776e01381cbb51
+      healthcheck:
+        retries: 40
+      environment:
+        - FEES_REGISTER_DB_USERNAME=fees_register
+        - FEES_REGISTER_DB_PASSWORD=fees_register
+    draft-store-api:
+      image: docker.artifactory.reform.hmcts.net/reform/draft-store-api:${DRAFT_STORE_API_VERSION:-latest}
+      healthcheck:
+        retries: 40
+      environment:
+        - DRAFT_STORE_DB_HOST=draft-store-database
+        - DRAFT_STORE_DB_PASSWORD=draftstore
+        - IDAM_URL=http://idam-api:8080
+        - S2S_URL=http://service-auth-provider-api:8080
+      depends_on:
+        draft-store-database:
+          condition: service_healthy
+    draft-store-database:
+      image: docker.artifactory.reform.hmcts.net/reform/draft-store-database:${DRAFT_STORE_DATABASE_VERSION:-latest}
+      healthcheck:
+        retries: 40
+      environment:
+        - DRAFT_STORE_DB_PASSWORD=draftstore
+    pdf-service-api:
+      image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
+      environment:
+        - ROOT_APPENDER
+        - JSON_CONSOLE_PRETTY_PRINT
+        - ROOT_LOGGING_LEVEL
+        - REFORM_SERVICE_NAME
+        - REFORM_TEAM
+        - REFORM_ENVIRONMENT
+      healthcheck:
+        retries: 40
+    service-auth-provider-api:
+      image: docker.artifactory.reform.hmcts.net/auth/service-auth-provider-api:47e18b53aad48ae8124744041988565e07dfed50
+      environment:
+        - auth.provider.service.server.jwtKey=wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
+        - auth.provider.service.server.microserviceKeys.cmc=AAAAAAAAAAAAAAAA
+        - auth.provider.service.testing-support.enabled=true
+    payments-api:
+      image: docker.artifactory.reform.hmcts.net/common-components/payments-api:81c947e7ef478338d4aff8bd8536dd81d83e2104
+      healthcheck:
+        retries: 40
+      command: --wait-for-database 60
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://payments-database:5432/payment
+        - auth.provider.service.client.baseUrl=http://service-auth-provider-api:8080/
+        - auth.idam.client.baseUrl=http://idam-api:8080/
+        - GOV_PAY_AUTH_KEY_CMC
+        - http_proxy
+        - https_proxy
+        - no_proxy=idam-api,service-auth-provider-api,$no_proxy
+      depends_on:
+       - payments-database
+       - service-auth-provider-api
+       - idam-api
+    payments-database:
+      image: docker.artifactory.reform.hmcts.net/common-components/payments-database:81c947e7ef478338d4aff8bd8536dd81d83e2104
+    smtp-server:
+      image: mailhog/mailhog

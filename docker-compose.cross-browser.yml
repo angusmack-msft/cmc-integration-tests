@@ -1,0 +1,23 @@
+---
+version: '2.1'
+
+services:
+  integration-tests:
+    command: test-crossbrowser
+    environment:
+      - SAUCELABS_BROWSER
+      - SAUCELABS_TUNNEL_IDENTIFIER
+      - SAUCELABS_USERNAME
+      - SAUCELABS_ACCESS_KEY
+      - http_proxy
+      - https_proxy
+      - no_proxy=www-local.moneyclaim.reform.hmcts.net,authentication-web,idam-api,claim-store-api,saucelabs-connect
+    depends_on:
+      - saucelabs-connect
+  saucelabs-connect:
+    image: ustwo/sauce-connect:4.4
+    command: --user ${SAUCELABS_USERNAME} --api-key ${SAUCELABS_ACCESS_KEY} --proxy-tunnel --tunnel-identifier ${SAUCELABS_TUNNEL_IDENTIFIER} --logfile /dev/stdout
+    environment:
+      - http_proxy
+      - https_proxy
+      - no_proxy=www-local.moneyclaim.reform.hmcts.net,authentication-web,localhost
