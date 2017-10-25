@@ -1,5 +1,7 @@
 # CMC Integration tests
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hmcts/cmc-integration-tests.svg)](https://greenkeeper.io/)
+
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 This is the integration tests for CMC.
