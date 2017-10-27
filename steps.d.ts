@@ -1,5 +1,5 @@
 
-type ICodeceptCallback = (i: CodeceptJS.I) => void;
+type ICodeceptCallback = (i: CodeceptJS.I, ...steps: any) => void;
 
 declare const actor: () => CodeceptJS.I;
 declare const Feature: (string: string) => void;

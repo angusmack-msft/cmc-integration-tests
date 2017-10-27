@@ -1,7 +1,7 @@
-'use strict'
+import * as testData from 'data/test-data'
 
-const claimant = require('../../../test-data').claimant('civilmoneyclaims+notused@gmail.com')
-const defendant = require('../../../test-data').defendant('civilmoneyclaims+adefendant@gmail.com')
+const claimant = testData.claimant('civilmoneyclaims+notused@gmail.com')
+const defendant = testData.defendant('civilmoneyclaims+adefendant@gmail.com')
 const fee = 25  // fee is £25 for 80.50 claimamount
 
 let I,

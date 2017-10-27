@@ -1,7 +1,5 @@
-'use strict'
-const fs = require('fs')
-
-const request = require('request-promise-native')
+import * as fs from 'fs'
+import * as request from 'request-promise-native'
 
 const siteBaseURL = process.env.URL
 
@@ -51,7 +49,7 @@ module.exports = async function (done) {
     }
 
     const error = new Error(`Failed after ${maxTries} attempts`)
-    error.response = response
+    error.message = response
 
     return Promise.reject(error)
   }

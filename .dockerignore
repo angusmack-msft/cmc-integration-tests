@@ -1,15 +1,10 @@
 *
 
 !package.json
+!tsconfig.json
 !yarn.lock
+!*.d.ts
 
-!codecept.conf.js
-!saucelabs.conf.js
-!supported-browsers.js
-!page-definitions.js
-!bootstrap.js
-!proxy-settings.js
-!test-data.js
-!tests/**
-!helpers/*
+!src/**
+!*.conf.js
 !localhost.crt

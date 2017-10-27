@@ -1,10 +1,10 @@
-const ProxySettings = require('./proxy-settings')
-const pageDefinitions = require('./page-definitions')
+const ProxySettings = require('./src/config/proxy-settings')
+const pageDefinitions = require('./src/tests/citizen/page-definitions')
 
 exports.config = {
   name: 'integration-tests',
-  bootstrap: './bootstrap.js',
-  tests: './tests/**/*_test.js',
+  bootstrap: './src/bootstrap/bootstrap.ts',
+  tests: './src/tests/**/*_test.*',
   output: './output',
   timeout: 10000,
   helpers: {
@@ -19,7 +19,7 @@ exports.config = {
       }
     },
     IdamHelper: {
-      require: './helpers/idamHelper'
+      require: './src/helpers/idamHelper'
     }
   },
   include: pageDefinitions,

@@ -1,6 +1,6 @@
 const DEFAULT_PASSWORD = 'Password12'
 
-exports.claimant = function (email) {
+const claimant = function (email) {
   return {
     email: email,
     password: DEFAULT_PASSWORD,
@@ -34,7 +34,7 @@ exports.claimant = function (email) {
   }
 }
 
-exports.defendant = function (email) {
+const defendant = function (email) {
   return {
     email: email,
     password: DEFAULT_PASSWORD,
@@ -55,4 +55,9 @@ exports.defendant = function (email) {
       year: '1982'
     }
   }
+}
+
+export {
+  claimant,
+  defendant
 }

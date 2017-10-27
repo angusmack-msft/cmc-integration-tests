@@ -1,6 +1,4 @@
-'use strict'
-
-const claimant = require('../../../test-data').claimant
+import { claimant } from 'data/test-data'
 
 let loginPage, startClaimPage, taskListPage
 module.exports = {

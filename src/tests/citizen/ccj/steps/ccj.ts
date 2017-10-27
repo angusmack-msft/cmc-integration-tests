@@ -1,4 +1,4 @@
-'use strict'
+import { defendant as createDefendant } from 'data/test-data'
 
 let I
 let testingSupport
@@ -19,7 +19,7 @@ const ccjRepaymentPlan = {
   firstPaymentDate: { day: '1', month: '1', year: '2025' },
   frequency: 'everyWeek'}
 const paymentBySetDate = { day: '1', month: '1', year: '2025' }
-const defendant = require('../../../test-data').defendant('civilmoneyclaims+adefendant@gmail.com')
+const defendant = createDefendant('civilmoneyclaims+adefendant@gmail.com')
 const defendantPaidAmount = 35.50
 
 module.exports = {

@@ -1,5 +1,5 @@
-const pageDefinitions = require('./page-definitions')
-const supportedBrowsers = require('./supported-browsers')
+const pageDefinitions = require('../tests/citizen/page-definitions')
+const supportedBrowsers = require('./saucelabs/supported-browsers')
 
 const browser = requiredValue(process.env.SAUCELABS_BROWSER, 'SAUCELABS_BROWSER')
 const saucelabsTunnelIdentifier = requiredValue(process.env.SAUCELABS_TUNNEL_IDENTIFIER, 'SAUCELABS_TUNNEL_IDENTIFIER')
@@ -23,7 +23,7 @@ function setupDesiredCapabilitiesFor (browser, saucelabsTunnelName) {
 
 exports.config = {
   name: 'integration-tests',
-  bootstrap: './bootstrap.js',
+  bootstrap: './bootstrap.ts',
   tests: './tests/**/*_test.js',
   output: './output',
   timeout: 10000,

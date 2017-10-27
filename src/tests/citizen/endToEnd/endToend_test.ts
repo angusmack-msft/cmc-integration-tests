@@ -1,8 +1,6 @@
-'use strict'
+import { defendant } from 'data/test-data'
 
 Feature('E2E tests for Claim and Defence response')
-
-const defendant = require('../../test-data').defendant
 
 // Warning : Changing the text description of this scenario, could cause failure when running ZAP security test
 Scenario('I can as an Individual make a claim against an Individual Without a defendant email address and are able to pay on the Gov Pay page', function * (I, claimSteps, helperSteps, defenceSteps) {

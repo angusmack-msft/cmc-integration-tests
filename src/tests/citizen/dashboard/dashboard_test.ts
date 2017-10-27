@@ -1,8 +1,6 @@
-'use strict'
+import { defendant } from 'data/test-data'
 
-const defendant = require('../../test-data').defendant
-
-Scenario('Check newly created claim is in my account dashboard with correct claim amount', function * (I, helperSteps, claimSteps) {
+Scenario('Check newly created claim is in my account dashboard with correct claim amount', function * (I: CodeceptJS.I, helperSteps, claimSteps) {
   const email = yield I.createIdamUser()
   const claimRef = yield helperSteps.makeClaim(email)
   I.click('My account')

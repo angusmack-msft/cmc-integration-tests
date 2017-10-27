@@ -1,8 +1,6 @@
-'use strict'
+import { defendant } from 'data/test-data'
 
 Feature('Respond to claim')
-
-const defendant = require('../../test-data').defendant
 
 Scenario('I can complete the journey', function * (I, helperSteps, defenceSteps) {
   const claimantEmail = yield I.createIdamUser()
