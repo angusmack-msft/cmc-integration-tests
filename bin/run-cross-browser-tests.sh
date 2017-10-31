@@ -25,7 +25,7 @@ done
 TESTS_FAILURES="0"
 CWD=$(dirname "$0")
 
-SUPPORTED_BROWSERS=$(sed '/\/\//d' ${CWD}/../supported-browsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g")
+SUPPORTED_BROWSERS=$(sed '/\/\//d' ${CWD}/../src/config/saucelabs/supported-browsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g")
 SUPPORTED_BROWSERS_ARRAY=(${SUPPORTED_BROWSERS//$'\n'/ })
 
 echo "Following browsers will be tested:"
@@ -34,7 +34,7 @@ echo "$SUPPORTED_BROWSERS"
 for BROWSER in "${SUPPORTED_BROWSERS_ARRAY[@]}"
 do
     echo "Testing $BROWSER"
-    SAUCELABS_BROWSER="${BROWSER}" docker-compose ${COMPOSE_FILES} up --no-deps --no-color integration-tests
+    SAUCELABS_BROWSER="${BROWSER}" docker-compose ${COMPOSE_FILES} run --no-deps --rm integration-tests test-crossbrowser
     EXIT_CODE="$(docker-compose ${COMPOSE_FILES} ps -q integration-tests | xargs docker inspect -f '{{ .State.ExitCode }}')"
     if [[ "${EXIT_CODE}" -ne "0" ]]
     then

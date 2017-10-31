@@ -1,5 +1,6 @@
-const pageDefinitions = require('../tests/citizen/page-definitions')
-const supportedBrowsers = require('./saucelabs/supported-browsers')
+const citizenPageDefinitions = require('./src/tests/citizen/page-definitions')
+const legalPageDefinitions = require('./src/tests/legal/page-definitions')
+const supportedBrowsers = require('./src/config/saucelabs/supported-browsers')
 
 const browser = requiredValue(process.env.SAUCELABS_BROWSER, 'SAUCELABS_BROWSER')
 const saucelabsTunnelIdentifier = requiredValue(process.env.SAUCELABS_TUNNEL_IDENTIFIER, 'SAUCELABS_TUNNEL_IDENTIFIER')
@@ -23,8 +24,8 @@ function setupDesiredCapabilitiesFor (browser, saucelabsTunnelName) {
 
 exports.config = {
   name: 'integration-tests',
-  bootstrap: './bootstrap.ts',
-  tests: './tests/**/*_test.js',
+  bootstrap: './src/bootstrap/bootstrap.ts',
+  tests: './src/tests/**/*_test.*',
   output: './output',
   timeout: 10000,
   helpers: {
@@ -46,13 +47,19 @@ exports.config = {
       desiredCapabilities: setupDesiredCapabilitiesFor(browser, saucelabsTunnelIdentifier)
     },
     IdamHelper: {
-      require: './helpers/idamHelper'
+      require: './src/helpers/idamHelper'
+    },
+    PageHelper: {
+      require: './src/helpers/pageHelper'
+    },
+    DownloadPdfHelper: {
+      require: './src/helpers/downloadPdfHelper'
     },
     SaucelabsReporter: {
-      require: './helpers/saucelabsReporter.js'
+      require: './src/helpers/saucelabsReporter'
     }
   },
-  include: pageDefinitions,
+  include: Object.assign({ }, citizenPageDefinitions, legalPageDefinitions),
   mocha: {
     reporterOptions: {
       'codeceptjs-cli-reporter': {

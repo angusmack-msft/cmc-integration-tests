@@ -11,7 +11,7 @@ services:
       - SAUCELABS_ACCESS_KEY
       - http_proxy
       - https_proxy
-      - no_proxy=www-local.moneyclaim.reform.hmcts.net,authentication-web,idam-api,claim-store-api,saucelabs-connect
+      - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,authentication-web,idam-api,claim-store-api,saucelabs-connect
     depends_on:
       - saucelabs-connect
   saucelabs-connect:
@@ -20,4 +20,4 @@ services:
     environment:
       - http_proxy
       - https_proxy
-      - no_proxy=www-local.moneyclaim.reform.hmcts.net,authentication-web,localhost
+      - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,authentication-web,localhost

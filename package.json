@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "standard",
     "test": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config default.conf.js --reporter mocha-multi",
-    "test-crossbrowser": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run -c saucelabs.conf.js --grep 'I can prepare a claim with no interest' --reporter mocha-multi"
+    "test-crossbrowser": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config saucelabs.conf.js --grep @quick --reporter mocha-multi"
   },
   "dependencies": {
     "@types/node": "^8.0.47",
