@@ -10,7 +10,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/')
+    I.amOnCitizenAppPage('/')
   }
 
 }

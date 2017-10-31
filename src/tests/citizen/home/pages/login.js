@@ -18,7 +18,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/')
+    I.amOnCitizenAppPage('/')
   },
 
   login (email, password) {

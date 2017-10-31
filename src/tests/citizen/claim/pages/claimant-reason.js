@@ -18,7 +18,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage('/claim/reason')
+    I.amOnCitizenAppPage('/claim/reason')
   },
 
   enterReason (reason) {

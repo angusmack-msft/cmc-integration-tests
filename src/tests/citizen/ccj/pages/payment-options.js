@@ -21,7 +21,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/defendant-type')
+    I.amOnCitizenAppPage('/claim/defendant-type')
   },
 
   chooseImmediately () {

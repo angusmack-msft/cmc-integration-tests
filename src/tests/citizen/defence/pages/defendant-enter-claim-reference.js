@@ -17,7 +17,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/first-contact/claim-reference')
+    I.amOnCitizenAppPage('/first-contact/claim-reference')
   },
 
   enterClaimReference (claimReference) {

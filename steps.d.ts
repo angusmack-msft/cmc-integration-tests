@@ -10,8 +10,12 @@ declare const within: (selector: string, callback: Function) => void;
 
 declare namespace CodeceptJS {
   export interface I {
-    createIdamUser: () => string;
+    createCitizenUser: () => string;
+    createSolicitorUser: () => string;
     amOnPage: (url) => any;
+    amOnCitizenAppPage: (path) => any;
+    amOnLegalAppPage: (path) => any;
+    downloadPDF: (url, sessionId) => any;
     click: (locator) => any;
     click: (locator, context) => any;
     doubleClick: (locator, context) => any;

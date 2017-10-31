@@ -14,7 +14,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/first-contact/start')
+    I.amOnCitizenAppPage('/first-contact/start')
   },
 
   start () {

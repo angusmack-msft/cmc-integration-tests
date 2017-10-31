@@ -30,7 +30,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage(`/claim/${type}-individual-details`)
+    I.amOnCitizenAppPage(`/claim/${type}-individual-details`)
   },
 
   enterName (name) {

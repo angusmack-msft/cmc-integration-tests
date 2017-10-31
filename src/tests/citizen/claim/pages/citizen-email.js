@@ -18,7 +18,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage('/claim/defendant-email')
+    I.amOnCitizenAppPage('/claim/defendant-email')
   },
 
   enterEmail (emailAddress) {

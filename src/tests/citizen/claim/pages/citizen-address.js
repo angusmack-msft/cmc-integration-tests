@@ -22,7 +22,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage(`/claim/${type}-address`)
+    I.amOnCitizenAppPage(`/claim/${type}-address`)
   },
 
   enterAddress (address) {

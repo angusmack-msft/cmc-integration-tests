@@ -31,7 +31,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage(`/claim/${type}-individual-details`)
+    I.amOnCitizenAppPage(`/claim/${type}-individual-details`)
   },
   enterContactPerson (contactPerson) {
     I.fillField(this.fields.contactPerson, contactPerson)

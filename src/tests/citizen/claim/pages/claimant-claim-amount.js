@@ -24,7 +24,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/amount')
+    I.amOnCitizenAppPage('/claim/amount')
   },
 
   enterAmount (amount1, amount2, amount3) {

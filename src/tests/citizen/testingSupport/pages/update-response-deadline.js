@@ -19,7 +19,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/response/your-dob')
+    I.amOnCitizenAppPage('/response/your-dob')
   },
 
   updateDeadline (claimNumber, date) {

@@ -19,7 +19,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/before-you-start/cost')
+    I.amOnCitizenAppPage('/claim/before-you-start/cost')
   },
 
   getClaimFee () {

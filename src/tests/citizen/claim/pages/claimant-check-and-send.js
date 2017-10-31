@@ -19,7 +19,7 @@
    },
 
    open (type) {
-     I.amOnPage('/claim/check-and-send')
+     I.amOnCitizenAppPage('/claim/check-and-send')
    },
 
    signStatementOfTruthAndSubmit (signerName, signerRole) {

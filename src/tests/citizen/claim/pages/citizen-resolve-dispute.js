@@ -14,7 +14,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/resolving-this-dispute')
+    I.amOnCitizenAppPage('/claim/resolving-this-dispute')
   },
 
   confirmRead () {

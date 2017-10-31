@@ -3,5 +3,6 @@
 docker-compose down
 
 docker-compose up -d remote-webdriver \
-                     citizen-frontend
+                     citizen-frontend \
+                     legal-frontend
 

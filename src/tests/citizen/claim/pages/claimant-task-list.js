@@ -13,7 +13,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/task-list')
+    I.amOnCitizenAppPage('/claim/task-list')
   },
 
   selectTaskResolvingThisDispute () {

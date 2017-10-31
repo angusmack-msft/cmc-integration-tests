@@ -1,16 +1,19 @@
 import * as fs from 'fs'
 import * as request from 'request-promise-native'
 
-const siteBaseURL = process.env.URL
+const citizenAppURL = process.env.CITIZEN_APP_URL
+const legalAppURL = process.env.LEGAL_APP_URL
 
 class Client {
-  static checkHealth () {
+  static checkHealth (appURL) {
     return request.get({
-      uri: `${siteBaseURL}/health`,
+      uri: `${appURL}/health`,
       resolveWithFullResponse: true,
       rejectUnauthorized: false,
       ca: fs.readFileSync('localhost.crt'),
       json: true
+    }).catch((error) => {
+      return error
     })
   }
 }
@@ -23,46 +26,54 @@ function logStartupProblem (response) {
   }
 }
 
-module.exports = async function (done) {
-  async function waitTillHealthy () {
-    const maxTries = 15
-    const sleepInterval = 10
+function handleError (error) {
+  const errorBody = () => {
+    return error && error.response ? error.response.body : error
+  }
+  console.log('Error during bootstrap, exiting', errorBody())
+  process.exit(1)
+}
 
-    let response
-    for (let i = 0; i < maxTries; i++) {
-      response = await Client.checkHealth()
-        .catch((error) => {
-          return error
-        })
+function sleepFor (sleepDurationInSeconds) {
+  console.log(`Sleeping for ${sleepDurationInSeconds} seconds`)
+  return new Promise((resolve) => {
+    setTimeout(resolve, sleepDurationInSeconds * 1000)
+  })
+}
 
-      console.log('Status code: ', response.statusCode)
+async function waitTillHealthy (appURL) {
+  const maxTries = 15
+  const sleepInterval = 10
 
-      if (response.statusCode === 200) {
-        return Promise.resolve()
-      } else {
-        logStartupProblem(response)
-        // horrible hacky javascript sleep http://stackoverflow.com/a/37575602
-        const waitTill = new Date(new Date().getTime() + sleepInterval * 1000)
-        console.log('Sleeping for: ', sleepInterval)
-        while (waitTill > new Date()) {}
-      }
+  console.log(`Verifying health for ${appURL}`)
+
+  let response
+  for (let i = 0; i < maxTries; i++) {
+    response = await Client.checkHealth(appURL)
+
+    console.log(`Status code from ${appURL}: ${response.statusCode}`)
+
+    if (response.statusCode === 200) {
+      return Promise.resolve()
+    } else {
+      logStartupProblem(response)
+      await sleepFor(sleepInterval)
     }
-
-    const error = new Error(`Failed after ${maxTries} attempts`)
-    error.message = response
-
-    return Promise.reject(error)
   }
 
-  await
-    waitTillHealthy()
-      .catch((error) => {
-        const errorBody = () => {
-          return error && error.response ? error.response.body : error
-        }
+  const error = new Error(`Failed to successfully contact ${appURL} after ${maxTries} attempts`)
+  error.message = response
+  return Promise.reject(error)
+}
 
-        console.log('Error during bootstrap, exiting', errorBody())
-        process.exit(1)
-      })
+module.exports = async function (done) {
+  try {
+    await Promise.all([
+      waitTillHealthy(citizenAppURL),
+      waitTillHealthy(legalAppURL)
+    ])
+  } catch (error) {
+    handleError(error)
+  }
   done()
 }

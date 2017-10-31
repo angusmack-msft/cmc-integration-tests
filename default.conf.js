@@ -1,5 +1,6 @@
 const ProxySettings = require('./src/config/proxy-settings')
-const pageDefinitions = require('./src/tests/citizen/page-definitions')
+const citizenPageDefinitions = require('./src/tests/citizen/page-definitions')
+const legalPageDefinitions = require('./src/tests/legal/page-definitions')
 
 exports.config = {
   name: 'integration-tests',
@@ -12,7 +13,7 @@ exports.config = {
       host: process.env.WEB_DRIVER_HOST || 'localhost',
       port: process.env.WEB_DRIVER_PORT || '4444',
       browser: process.env.BROWSER || 'chrome',
-      url: process.env.URL || 'https://localhost:3000',
+      url: process.env.CITIZEN_APP_URL || 'https://localhost:3000',
       waitForTimeout: 15000,
       desiredCapabilities: {
         proxy: new ProxySettings()
@@ -20,9 +21,15 @@ exports.config = {
     },
     IdamHelper: {
       require: './src/helpers/idamHelper'
+    },
+    PageHelper: {
+      require: './src/helpers/pageHelper'
+    },
+    DownloadPdfHelper: {
+      require: './src/helpers/downloadPdfHelper'
     }
   },
-  include: pageDefinitions,
+  include: Object.assign({ }, citizenPageDefinitions, legalPageDefinitions),
   mocha: {
     reporterOptions: {
       'codeceptjs-cli-reporter': {

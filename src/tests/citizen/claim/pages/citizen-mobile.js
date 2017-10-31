@@ -18,7 +18,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage(`/claim/${type}-mobile`)
+    I.amOnCitizenAppPage(`/claim/${type}-mobile`)
   },
 
   enterMobile (mobileNumber) {

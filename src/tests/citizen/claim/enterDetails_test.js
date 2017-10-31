@@ -2,8 +2,8 @@
 
 Feature('Claimant Enter details of claim')
 
-Scenario('I can prepare a claim with default interest', function * (I, userSteps, claimSteps, defenceSteps, interestSteps) {
-  const email = yield I.createIdamUser()
+Scenario('I can prepare a claim with default interest @citizen', function * (I, userSteps, claimSteps, defenceSteps, interestSteps) {
+  const email = yield I.createCitizenUser()
   userSteps.login(email)
   userSteps.startClaim()
   userSteps.selectClaimAmount()
@@ -20,8 +20,8 @@ Scenario('I can prepare a claim with default interest', function * (I, userSteps
   I.see('Prepare your claim')
 })
 
-Scenario('I can prepare a claim with no interest', function * (I, userSteps, claimSteps, defenceSteps, interestSteps) {
-  const email = yield I.createIdamUser()
+Scenario('I can prepare a claim with no interest @citizen', function * (I, userSteps, claimSteps, defenceSteps, interestSteps) {
+  const email = yield I.createCitizenUser()
   userSteps.login(email)
 
   userSteps.startClaim()
@@ -39,8 +39,8 @@ Scenario('I can prepare a claim with no interest', function * (I, userSteps, cla
   I.see('Prepare your claim')
 })
 
-Scenario('I can prepare a claim with different interest rate and date', function * (I, userSteps, claimSteps, interestSteps) {
-  const email = yield I.createIdamUser()
+Scenario('I can prepare a claim with different interest rate and date @citizen', function * (I, userSteps, claimSteps, interestSteps) {
+  const email = yield I.createCitizenUser()
   userSteps.login(email)
 
   userSteps.startClaim()
@@ -57,8 +57,8 @@ Scenario('I can prepare a claim with different interest rate and date', function
   I.see('Prepare your claim')
 })
 
-Scenario('I can see the Claim amount page calculates properly and shows the correct fees table', function * (I, userSteps, claimantClaimAmountPage, interestSteps) {
-  const email = yield I.createIdamUser()
+Scenario('I can see the Claim amount page calculates properly and shows the correct fees table @citizen', function * (I, userSteps, claimantClaimAmountPage, interestSteps) {
+  const email = yield I.createCitizenUser()
   userSteps.login(email)
 
   userSteps.startClaim()

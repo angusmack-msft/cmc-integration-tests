@@ -28,7 +28,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/claim/pay')
+    I.amOnCitizenAppPage('/claim/pay')
   },
 
   enterPaymentDetails (cardDetails, billingDetails, email) {

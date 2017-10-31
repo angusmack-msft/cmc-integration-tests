@@ -18,7 +18,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage('/claim/total')
+    I.amOnCitizenAppPage('/claim/total')
   },
 
   // to be used in the future.

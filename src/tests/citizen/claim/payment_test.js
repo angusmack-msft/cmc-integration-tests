@@ -2,8 +2,8 @@
 
 Feature('Test pay issue fee with card cancel / declined')
 
-Scenario('I can enter details on the Gov Pay page and cancel / decline payment', function * (I, claimSteps, defenceSteps, paymentSteps) {
-  const email = yield I.createIdamUser()
+Scenario('I can enter details on the Gov Pay page and cancel / decline payment @citizen', function * (I, claimSteps, defenceSteps, paymentSteps) {
+  const email = yield I.createCitizenUser()
 
   claimSteps.makeAClaimAndSubmitStatementOfTruth(
     email,

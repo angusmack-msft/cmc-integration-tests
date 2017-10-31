@@ -19,7 +19,7 @@ module.exports = {
   },
 
   open (type) {
-    I.amOnPage(`/claim/${type}-dob`)
+    I.amOnCitizenAppPage(`/claim/${type}-dob`)
   },
 
   enterDOB (dob) {

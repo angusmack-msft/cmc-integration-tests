@@ -20,6 +20,9 @@ services:
     citizen-frontend:
       ports:
         - 3000:3000
+    legal-frontend:
+      ports:
+        - 4000:4000
     idam-database:
       ports:
         - 5431:5432

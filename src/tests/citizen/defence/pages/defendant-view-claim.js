@@ -14,7 +14,7 @@ module.exports = {
   },
 
   open () {
-    I.amOnPage('/first-contact/claim-summary')
+    I.amOnCitizenAppPage('/first-contact/claim-summary')
   },
 
   clickRespondToClaim () {
