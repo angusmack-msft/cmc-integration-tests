@@ -31,5 +31,10 @@ module.exports = {
 
   selectTaskCheckAndSendYourResponse () {
     I.click('Check and submit your response')
+  },
+
+  selectTaskFreeMediation () {
+    I.click('Free mediation')
   }
+
 }

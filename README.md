@@ -33,14 +33,14 @@ You can try re-running the command in that case, but if those messages persist t
 After that you can run the tests:
 
 ```bash
-$ ./bin/run-integration-local-tests.sh
+$ ./bin/run-local-tests.sh
 ```
 
-To run a single test you need to pass some arguments to the run script:
+To run specific tests you can pass an argument to the run script:
 ```bash
-$ ./bin/run-integration-local-tests.sh test -- --steps --grep 'CCJ'
+$ ./bin/run-local-tests.sh 'CCJ'
 ```
-You can use anything in the 'Scenario' or 'Feature' functions to target which tests to run
+You can use anything in the 'Scenario' or 'Feature' functions to target which tests to run.
 
 If you want to shut down the environment use:
 
@@ -98,13 +98,13 @@ $ ./bin/stop-local-environment.sh -v
 In order to run tests against different browsers in [Saucelabs](https://saucelabs.com/) you'll need a slightly modified environment:
 
 ```bash
-$ ./bin/start-cross-browser-environment.sh
+$ ./bin/cross-browser/start-environment.sh
 ```   
 
 Then to run tests:
 
 ```bash
-$ ./bin/run-cross-browser-tests.sh
+$ ./bin/cross-browser/run-tests.sh
 ```
 
 You'll need additional environment variables to be able to access Saucelabs, please refer to [`docker-compose.cross-browser.yml`](docker-compose.cross-browser.yml) file for details.
@@ -113,30 +113,12 @@ You'll need additional environment variables to be able to access Saucelabs, ple
 
 ### Code style
 
-We use [StandardJS](http://standardjs.com/index.html)
+We use [TSLint](https://palantir.github.io/tslint/) and [StandardJS](http://standardjs.com/index.html).
 
-StandardJS installation:
-
-```bash
-$ yarn global add standard
-```
-
-Running the tests:
+Running the checks:
 
 ```bash
 $ yarn lint
-```
-
-or
-
-```bash
-$ standard
-```
-
-Standard can automatically fix the easy problems like the wrong quotes, spaces or semi-colons
-
-```bash
-$ standard --fix
 ```
 
 ## Versioning

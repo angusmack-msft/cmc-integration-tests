@@ -4,26 +4,26 @@ const claimant = testData.claimant('civilmoneyclaims+notused@gmail.com')
 const defendant = testData.defendant('civilmoneyclaims+adefendant@gmail.com')
 const fee = 25  // fee is £25 for 80.50 claimamount
 
-let I,
-  citizenResolveDisputePage,
-  citizenCompletingClaimInfoPage,
-  partyTypePage,
-  companyDetailsPage,
-  individualDetailsPage,
-  organisationDetailsPage,
-  citizenDOBPage,
-  citizenMobilePage,
-  citizenEmailPage,
-  claimantClaimAmountPage,
-  claimantFeesToPayPage,
-  claimantReasonPage,
-  claimantCheckAndSendPage,
-  claimantClaimConfirmedPage,
-  userSteps,
-  interestSteps,
-  paymentSteps,
-  defenceSteps,
-  totalClaimAmount
+let I
+let citizenResolveDisputePage
+let citizenCompletingClaimInfoPage
+let partyTypePage
+let companyDetailsPage
+let individualDetailsPage
+let organisationDetailsPage
+let citizenDOBPage
+let citizenMobilePage
+let citizenEmailPage
+let claimantClaimAmountPage
+let claimantFeesToPayPage
+let claimantReasonPage
+let claimantCheckAndSendPage
+let claimantClaimConfirmedPage
+let userSteps
+let interestSteps
+let paymentSteps
+let defenceSteps
+let totalClaimAmount
 
 module.exports = {
 

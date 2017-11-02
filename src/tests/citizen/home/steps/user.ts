@@ -1,6 +1,9 @@
 import { claimant } from 'data/test-data'
 
-let loginPage, startClaimPage, taskListPage
+let loginPage
+let startClaimPage
+let taskListPage
+
 module.exports = {
 
   _init () {

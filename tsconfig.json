@@ -18,9 +18,6 @@
       "config/*": [
         "config/*"
       ],
-      "test-profiles/*": [
-        "test-profiles/*"
-      ],
       "tests/*": [
         "tests/*"
       ],

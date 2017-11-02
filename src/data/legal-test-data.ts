@@ -6,6 +6,6 @@ const verifyPageData = {
   maxFeePaid: '£10,000'
 }
 
-export  {
+export {
   verifyPageData
 }

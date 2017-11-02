@@ -133,6 +133,7 @@ module.exports = {
   fullDefence () {
     defendantSteps.selectTaskYourDefence()
     defendantYourDefencePage.enterYourDefence('I am not guilty!')
+    defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
 
