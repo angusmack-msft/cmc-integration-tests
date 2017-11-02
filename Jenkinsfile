@@ -9,7 +9,7 @@ properties(
    ])]
 )
 
-@Library(['Reform', 'CMC@feature/ROC-2432-Open-sourcing-related-changes'])
+@Library(['Reform', 'CMC'])
 import uk.gov.hmcts.cmc.integrationtests.IntegrationTests
 
 IntegrationTests integrationTests = new IntegrationTests(env, this)
