@@ -26,5 +26,10 @@ module.exports = {
 
   selectCheckAndSubmitYourDefence () {
     defendantTaskListPage.selectTaskCheckAndSendYourResponse()
+  },
+
+  selectTaskFreeMediation () {
+    defendantTaskListPage.selectTaskFreeMediation()
   }
+
 }
