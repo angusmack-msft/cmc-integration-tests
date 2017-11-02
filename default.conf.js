@@ -43,6 +43,15 @@ exports.config = {
         options: {
           mochaFile: './output/integration-result.xml'
         }
+      },
+      'mochawesome': {
+        stdout: `./output/mochawesome-stdout.log`,
+        options: {
+          reportDir: 'output',
+          reportFilename: `e2e-result`,
+          inlineAssets: true,
+          reportTitle: `E2E tests result`
+        }
       }
     }
   }
