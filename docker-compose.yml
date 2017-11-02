@@ -147,7 +147,7 @@ services:
         - FRONTEND_BASE_URL=https://www-citizen.moneyclaim.reform.hmcts.net:3000
         - CLAIM_STORE_TEST_SUPPORT_ENABLED=true
         - STAFF_NOTIFICATIONS_SENDER=no-reply@example.com
-        - STAFF_NOTIFICATIONS_RECIPIENT=staff@example.com
+        - STAFF_NOTIFICATIONS_RECIPIENT=civilmoneyclaims+staff-int-tests@gmail.com
         - SPRING_MAIL_HOST=smtp-server
         - SPRING_MAIL_PORT=1025
         - PDF_SERVICE_URL=http://pdf-service-api:5500
