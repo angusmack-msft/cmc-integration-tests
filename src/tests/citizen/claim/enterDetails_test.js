@@ -6,6 +6,7 @@ Scenario('I can prepare a claim with default interest @citizen', function * (I, 
   const email = yield I.createCitizenUser()
   userSteps.login(email)
   userSteps.startClaim()
+  claimSteps.completeEligibility()
   userSteps.selectClaimAmount()
   I.see('Claim amount')
   claimSteps.enterClaimAmount('10', '20.50', '50')
@@ -25,6 +26,7 @@ Scenario('I can prepare a claim with no interest @citizen', function * (I, userS
   userSteps.login(email)
 
   userSteps.startClaim()
+  claimSteps.completeEligibility()
   userSteps.selectClaimAmount()
   I.see('Claim amount')
   claimSteps.enterClaimAmount('10', '20.50', '50')
@@ -44,6 +46,7 @@ Scenario('I can prepare a claim with different interest rate and date @citizen',
   userSteps.login(email)
 
   userSteps.startClaim()
+  claimSteps.completeEligibility()
   userSteps.selectClaimAmount()
   claimSteps.enterClaimAmount('10', '20.50', '50')
   I.see('£80.50')
@@ -57,11 +60,12 @@ Scenario('I can prepare a claim with different interest rate and date @citizen',
   I.see('Prepare your claim')
 })
 
-Scenario('I can see the Claim amount page calculates properly and shows the correct fees table @citizen', function * (I, userSteps, claimantClaimAmountPage, interestSteps) {
+Scenario('I can see the Claim amount page calculates properly and shows the correct fees table @citizen', function * (I, userSteps, claimSteps, claimantClaimAmountPage, interestSteps) {
   const email = yield I.createCitizenUser()
   userSteps.login(email)
 
   userSteps.startClaim()
+  claimSteps.completeEligibility()
   userSteps.selectClaimAmount()
   I.see('Claim amount')
   claimantClaimAmountPage.enterAmount('11', '20.50', '32.25')

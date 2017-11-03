@@ -59,6 +59,7 @@ module.exports = {
 
   userSteps: './src/tests/citizen/home/steps/user',
   claimSteps: './src/tests/citizen/claim/steps/claim',
+  eligibilitySteps: './src/tests/citizen/claim/steps/eligibility',
   interestSteps: './src/tests/citizen/claim/steps/interest',
   paymentSteps: './src/tests/citizen/claim/steps/payment',
   defenceSteps: './src/tests/citizen/defence/steps/defence',

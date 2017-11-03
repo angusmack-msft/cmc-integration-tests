@@ -37,11 +37,13 @@ timestamps {
       }
 
       stage('Run integration tests') {
-        def composeFileBranch = env.CHANGE_BRANCH != null ? env.CHANGE_BRANCH : 'master'
+        String composeFileBranch = env.CHANGE_BRANCH != null ? env.CHANGE_BRANCH : 'master'
 
         integrationTests.execute([
           'INTEGRATION_TESTS_VERSION': integrationTestsVersion,
-          'INTEGRATION_TESTS_BRANCH': composeFileBranch
+          'INTEGRATION_TESTS_BRANCH': composeFileBranch,
+          'CITIZEN_FRONTEND_VERSION': '5434923263249f85f38831d03ac71b6550e455fa',
+          'TESTS_TAG'               : '@citizen'
         ])
       }
     } finally {

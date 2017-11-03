@@ -24,6 +24,7 @@ let interestSteps
 let paymentSteps
 let defenceSteps
 let totalClaimAmount
+let eligibilitySteps
 
 module.exports = {
 
@@ -47,6 +48,7 @@ module.exports = {
     interestSteps = require('../steps/interest')
     paymentSteps = require('../steps/payment')
     defenceSteps = require('../../defence/steps/defence')
+    eligibilitySteps = require('../steps/eligibility')
   },
 
   claimantType: {
@@ -179,6 +181,7 @@ module.exports = {
   makeAClaimAndSubmitStatementOfTruth (email, claimantType, defendantType, enterDefendantEmail = true) {
     userSteps.login(email)
     userSteps.startClaim()
+    this.completeEligibility()
     userSteps.selectResolvingThisDispute()
     this.resolveDispute()
     userSteps.selectCompletingYourClaim()
@@ -205,5 +208,9 @@ module.exports = {
     paymentSteps.payWithWorkingCard()
     I.waitForText('Claim submitted')
     return claimantClaimConfirmedPage.getClaimReference()
+  },
+  completeEligibility () {
+    eligibilitySteps.complete()
   }
+
 }
