@@ -41,9 +41,7 @@ timestamps {
 
         integrationTests.execute([
           'INTEGRATION_TESTS_VERSION': integrationTestsVersion,
-          'INTEGRATION_TESTS_BRANCH': composeFileBranch,
-          'CITIZEN_FRONTEND_VERSION': '5434923263249f85f38831d03ac71b6550e455fa',
-          'TESTS_TAG'               : '@citizen'
+          'INTEGRATION_TESTS_BRANCH': composeFileBranch
         ])
       }
     } finally {
