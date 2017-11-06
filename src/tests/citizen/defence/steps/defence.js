@@ -20,6 +20,9 @@ let I,
   defendantYourDefencePage,
   defendantFreeMediationPage,
   defendantCheckAndSendPage,
+  defendantHowMuchYouBelieveYouOwePage,
+  defendantHowMuchHaveYouPaidTheClaimant,
+  defendantRejectPartOfClaimPage,
   loginPage,
   defendantSteps
 
@@ -63,8 +66,11 @@ module.exports = {
     defendantYourDefencePage = require('../pages/defendant-your-defence')
     defendantFreeMediationPage = require('../pages/defendant-free-mediation')
     defendantCheckAndSendPage = require('../pages/defendant-check-and-send')
-    loginPage = require('../../home/pages/login')
+    defendantHowMuchYouBelieveYouOwePage = require('../pages/defendant-how-much-you-owe')
+    defendantHowMuchHaveYouPaidTheClaimant = require('../pages/defendant-how-much-have-you-paid')
+    defendantRejectPartOfClaimPage = require('../pages/defendant-reject-part-of-claim')
 
+    loginPage = require('../../home/pages/login')
     defendantSteps = require('../../home/steps/defendant')
   },
 
@@ -73,6 +79,19 @@ module.exports = {
     soleTrader: 'soleTrader',
     company: 'company',
     organisation: 'organisation'
+  },
+
+  defenceType: {
+    admitAllOfTheClaim: 'admitAllOfTheClaim',
+    rejectPartOfTheClaim: {
+      claimAmountTooMuch: 'claimAmountTooMuch',
+      iPaidWhatIBelieveIOwe: 'iPaidWhatIBelieveIOwe'
+    },
+    rejectAllOfTheClaim: {
+      alreadyPaidInFull: 'alreadyPaidInFull',
+      disputeTheClaim: 'disputeTheClaim',
+      defendNowAndCounterclaim: 'defendNowAndCounterclaim'
+    }
   },
 
   async getClaimPin (claimRef) {
@@ -128,6 +147,36 @@ module.exports = {
     defendantRejectAllOfClaimPage.disputeTheClaim()
   },
 
+  rejectPartOfTheClaim_PaidWhatIBelieveIOwe () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+    defendantRejectPartOfClaimPage.rejectClaimPaidWhatIBelieveIOwe()
+    I.see('Respond to a money claim')
+    defendantSteps.selectTaskHowMuchPaidToClaiment()
+    defendantHowMuchHaveYouPaidTheClaimant.enterAmountPaidWithDateAndExplaination('30', {day: '1', month: '1', year: '2016'}, "I don't owe full amount to claimant")
+    I.see('Add your timeline of events')
+    I.click('Save and continue')
+    I.see('List your evidence')
+    I.click('Save and continue')
+    defendantSteps.selectTaskFreeMediation()
+    defendantFreeMediationPage.chooseYes()
+  },
+
+  rejectPartOfTheClaimTooMuch () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+    defendantRejectPartOfClaimPage.rejectClaimTooMuch()
+    I.see('Respond to a money claim')
+    defendantSteps.selectTaskHowMuchMoneyBelieveYouOwe()
+    defendantHowMuchYouBelieveYouOwePage.enterAmountOwedAndExplaination('30', "I don't believe I owe the full amount")
+    I.see('Add your timeline of events')
+    I.click('Save and continue')
+    I.see('List your evidence')
+    I.click('Save and continue')
+    defendantSteps.selectTaskFreeMediation()
+    defendantFreeMediationPage.chooseYes()
+  },
+
   fullDefence () {
     defendantSteps.selectTaskYourDefence()
     defendantYourDefencePage.enterYourDefence('I am not guilty!')
@@ -135,8 +184,15 @@ module.exports = {
     defendantFreeMediationPage.chooseYes()
   },
 
+  verifyCheckAndSendPageCorrespondsTo (defenceType) {
+    if (defenceType === this.defenceType.rejectPartOfTheClaim.claimAmountTooMuch) {
+      defendantCheckAndSendPage.verifyFactsPartialResponseClaimAmountTooMuch()
+    } else {
+      defendantCheckAndSendPage.verifyFactsPartialResponseIBelieveIPaidWhatIOwe()
+    }
+  },
+
   checkAndSendAndSubmit (defendantType) {
-    defendantSteps.selectCheckAndSubmitYourDefence()
     if (defendantType === this.defendantType.company || defendantType === this.defendantType.organisation) {
       defendantCheckAndSendPage.signStatementOfTruthAndSubmit('Jonny', 'Director')
     } else {
@@ -144,7 +200,7 @@ module.exports = {
     }
   },
 
-  async makeDefenceAndSubmit (defendantType, defendant) {
+  async makeDefenceAndSubmit (defendantType, defendant, defenceType = this.defenceType.rejectAllOfTheClaim.disputeTheClaim) {
     this.loginAsDefendant(defendant)
     I.see('Confirm your details')
     I.see('More time needed to respond')
@@ -157,12 +213,36 @@ module.exports = {
 
     this.requestMoreTimeToRespond()
 
-    this.rejectAllOfClaim()
-    I.see('Your defence')
+    const claimAmountTooMuch = this.defenceType.rejectPartOfTheClaim.claimAmountTooMuch
+    const iPaidWhatIBelieveIOwe = this.defenceType.rejectPartOfTheClaim.iPaidWhatIBelieveIOwe
+    const disputeTheClaim = this.defenceType.rejectAllOfTheClaim.disputeTheClaim
 
-    this.fullDefence()
+    switch (defenceType) {
+      case disputeTheClaim:
+        this.rejectAllOfClaim()
+        I.see('Your defence')
+        this.fullDefence()
+        defendantSteps.selectCheckAndSubmitYourDefence()
+        break
+
+      case claimAmountTooMuch:
+        this.rejectPartOfTheClaimTooMuch()
+        defendantSteps.selectCheckAndSubmitYourDefence()
+        this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        break
+
+      case iPaidWhatIBelieveIOwe:
+        this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe()
+        defendantSteps.selectCheckAndSubmitYourDefence()
+        this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        break
+    }
 
     this.checkAndSendAndSubmit(defendantType)
-    I.see('Defence submitted')
+    if (defenceType === disputeTheClaim) {
+      I.see('Defence submitted')
+    } else {
+      I.see('Next steps')
+    }
   }
 }

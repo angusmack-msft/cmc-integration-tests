@@ -25,6 +25,14 @@ module.exports = {
     I.click('Do you owe the money claimed')
   },
 
+  selectTaskHowMuchPaidToClaiment () {
+    I.click('How much have you paid the claimant?')
+  },
+
+  selectTaskHowMuchMoneyBelieveYouOwe () {
+    I.click('How much money do you believe you owe?')
+  },
+
   selectTaskYourDefence () {
     I.click('Your defence')
   },

@@ -18,9 +18,9 @@ module.exports = {
     I.waitForText('Please enter your security code to continue')
     defenceSteps.enterClaimPin(claimRef)
   },
-  finishResponse (typeofDefendant, defendant) {
+  finishResponse (typeofDefendant, defendant, defenceType = defenceSteps.defenceType.rejectAllOfTheClaim.disputeTheClaim) {
     I.waitForText('View the claim')
     defenceSteps.respondToClaim()
-    defenceSteps.makeDefenceAndSubmit(typeofDefendant, defendant)
+    defenceSteps.makeDefenceAndSubmit(typeofDefendant, defendant, defenceType)
   }
 }

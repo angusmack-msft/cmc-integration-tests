@@ -16,5 +16,11 @@ module.exports = {
   rejectMoneyClaim () {
     I.checkOption('I reject all of the claim')
     I.click(this.buttons.submit)
+  },
+
+  rejectPartOfMoneyClaim () {
+    I.checkOption('I reject part of the claim')
+    I.click(this.buttons.submit)
   }
+
 }
