@@ -10,7 +10,6 @@ module.exports = {
   },
 
   fields: {
-    title: 'h1.heading-xlarge',
     claimFee: 'table > tbody > tr:nth-child(0) > td:nth-child(0).numeric'
   },
 

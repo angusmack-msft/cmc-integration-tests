@@ -96,8 +96,6 @@ module.exports = {
   },
 
   respondToClaim () {
-    I.see('View the claim', 'h1.heading-xlarge')
-    I.see('Claim details', 'h2.heading-medium')
     I.see('Number')
     I.see('Amount')
     I.see('Reason for claim')
