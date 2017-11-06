@@ -20,7 +20,6 @@ module.exports = {
   },
 
   enterBriefDescriptionOfTheClaim () {
-    I.see('Briefly describe the claim')
     I.fillField(this.fields.summariseClaimTextArea, 'I would like to test this with codeceptjs')
     I.click(this.buttons.saveAndContinue)
   },

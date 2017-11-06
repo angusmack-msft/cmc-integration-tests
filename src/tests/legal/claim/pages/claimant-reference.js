@@ -23,7 +23,6 @@ module.exports = {
   },
 
   enterYourReferenceForClaim () {
-    I.see('Your reference for this claim')
     I.fillField(this.fields.referenceNumber, verifyPageData.organizationRefNumber)
     I.click(this.buttons.saveAndContinue)
   }

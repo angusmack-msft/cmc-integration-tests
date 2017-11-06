@@ -21,7 +21,6 @@ module.exports = {
   },
 
   enterStatementOfTruthSignerNameAndRole () {
-    I.see('Statement of truth')
     I.fillField(this.fields.signerName, 'vivred')
     I.fillField(this.fields.signerRole, 'QA')
     I.see('Abc Organisation')
