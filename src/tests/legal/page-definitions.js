@@ -28,8 +28,11 @@ module.exports = {
   legalStatementOfTruthPage: './src/tests/legal/amountClaim/pages/statement-of-truth',
   legalPayByAccountPage: './src/tests/legal/amountClaim/pages/pay-by-account',
   legalSubmittedPage: './src/tests/legal/amountClaim/pages/submitted',
+  legalDashboardSearch: './src/tests/legal/dashboard/pages/claimSearch',
+  legalDashboardClaimDetails: './src/tests/legal/dashboard/pages/claim-details',
 
   legalUserSteps: './src/tests/legal/home/steps/user.js',
   legalDefendantSteps: './src/tests/legal/home/steps/defendant.js',
-  legalAmountClaimSteps: './src/tests/legal/home/steps/amountClaims.js'
+  legalAmountClaimSteps: './src/tests/legal/home/steps/amountClaims.js',
+  legalDashboardSteps: './src/tests/legal/home/steps/dashboard.js'
 }

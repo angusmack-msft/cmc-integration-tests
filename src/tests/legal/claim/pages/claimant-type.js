@@ -1,5 +1,6 @@
 'use strict'
 /* global actor */
+const verifyPageData = require('../../../../data/legal-test-data').verifyPageData
 
 let I
 
@@ -60,7 +61,7 @@ module.exports = {
   },
   enterClaimantTypeOrganisation () {
     I.checkOption(this.fields.organisationType)
-    I.fillField(this.fields.organisationName, 'Abc corporation')
+    I.fillField(this.fields.organisationName, verifyPageData.claimantOrganization)
     I.fillField(this.fields.companyHouseNumber, '12345')
     I.click(this.buttons.saveAndContinue)
   },

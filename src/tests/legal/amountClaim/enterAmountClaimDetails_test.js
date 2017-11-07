@@ -1,15 +1,17 @@
+const verifyPageData = require('../../../data/legal-test-data').verifyPageData
+
 Feature('Enter claim amount and submit claim')
 
-Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps) {
+Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
   legalUserSteps.enterClaimantTypeOrganisation()
-  I.see('Claimant: Abc corporation')
+  I.see('Claimant: ' + verifyPageData.claimantOrganization)
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()
   legalDefendantSteps.enterDefendantTypeOrganisation()
-  I.see('Defendant: Def corporation')
+  I.see('Defendant: ' + verifyPageData.defendantOrganization)
   legalDefendantSteps.enterDefendantAddress()
   legalDefendantSteps.enterDefendantRepsCompanyName()
   I.see("Defendant's legal representative: Defendant Rep Ltd")
@@ -18,6 +20,8 @@ Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amou
   legalAmountClaimSteps.addRangeDetailsAndVerifyOrganisationDetails()
   let dateCheck = yield I.grabTextFrom('div.confirmation-detail')
   legalAmountClaimSteps.verifySubmittedPage(userEmail, dateCheck)
+  let legalClaimNumberText = yield I.grabTextFrom('h2.bold-medium.reference-number')
+  legalDashboardSteps.searchAndVerifyClaimDetails(legalClaimNumberText)
 })
 
 Scenario('I can fill in individual details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps) {
@@ -47,11 +51,11 @@ Scenario('I can fill in Organisation details for Claimant, Defendant and no Clai
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
   legalUserSteps.enterClaimantTypeOrganisation()
-  I.see('Claimant: Abc corporation')
+  I.see('Claimant: ' + verifyPageData.claimantOrganization)
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()
   legalDefendantSteps.enterDefendantTypeOrganisation()
-  I.see('Defendant: Def corporation')
+  I.see('Defendant: ' + verifyPageData.defendantOrganization)
   legalDefendantSteps.enterDefendantAddress()
   legalDefendantSteps.enterDefendantRepsCompanyName()
   I.see("Defendant's legal representative: Defendant Rep Ltd")

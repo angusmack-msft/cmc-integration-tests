@@ -43,7 +43,7 @@ module.exports = {
   claimantDetails () {
     I.see('Claimant details')
     I.see('Organisation name')
-    I.see('Abc corporation')
+    I.see(verifyPageData.claimantOrganization)
     I.see('Address')
     I.see('CMC T2')
     I.see('WESTMINSTER')
@@ -54,7 +54,7 @@ module.exports = {
   multipleClaimantsDetails () {
     I.see('Claimant 1 details')
     I.see('Organisation name')
-    I.see('Abc corporation')
+    I.see(verifyPageData.claimantOrganization)
     I.see('Address')
     I.see('CMC T2')
     I.see('WESTMINSTER')
@@ -72,7 +72,7 @@ module.exports = {
   defendantDetails () {
     I.see('Defendant details')
     I.see('Organisation name')
-    I.see('Def corporation')
+    I.see(verifyPageData.defendantOrganization)
     I.see('Companies House number')
     I.see('678910')
     I.see('Address')

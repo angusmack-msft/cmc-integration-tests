@@ -1,6 +1,6 @@
 'use strict'
 /* global actor */
-
+const verifyPageData = require('../../../../data/legal-test-data').verifyPageData
 let I
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
     saveAndContinue: 'input.button'
   },
   data: {
-    defendantOneOrganisationNameText: 'Def corporation',
+    defendantOneOrganisationNameText: verifyPageData.defendantOrganization,
     defendantTwoOrganisationNameText: 'Ghi corporation',
     individualTitleText: 'Mr',
     individualFullNameText: 'Pret',
@@ -45,7 +45,7 @@ module.exports = {
 
   enterDefendantTypeOrganisation () {
     I.checkOption(this.fields.organisationType)
-    I.fillField(this.fields.organisationName, this.data.defendantOneOrganisationNameText)
+    I.fillField(this.fields.organisationName, verifyPageData.defendantOrganization)
     I.fillField(this.fields.companyHouseNumber, '678910')
     I.click(this.buttons.saveAndContinue)
   },
@@ -66,7 +66,7 @@ module.exports = {
 
   verifyDefendantOrganisationDetails () {
     I.see('Defendant')
-    I.see(this.data.defendantOneOrganisationNameText)
+    I.see(verifyPageData.defendantOrganization)
     I.see('Mrs Orange')
     I.see(this.data.defendantTwoOrganisationNameText)
     I.see(this.data.removeButtonText)
