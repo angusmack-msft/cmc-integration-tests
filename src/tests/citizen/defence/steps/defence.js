@@ -23,6 +23,7 @@ let I,
   defendantHowMuchYouBelieveYouOwePage,
   defendantHowMuchHaveYouPaidTheClaimant,
   defendantRejectPartOfClaimPage,
+  defendantTimelineOfEventsPage,
   loginPage,
   defendantSteps
 
@@ -69,6 +70,7 @@ module.exports = {
     defendantHowMuchYouBelieveYouOwePage = require('../pages/defendant-how-much-you-owe')
     defendantHowMuchHaveYouPaidTheClaimant = require('../pages/defendant-how-much-have-you-paid')
     defendantRejectPartOfClaimPage = require('../pages/defendant-reject-part-of-claim')
+    defendantTimelineOfEventsPage = require('../pages/defendant-timeline-events')
 
     loginPage = require('../../home/pages/login')
     defendantSteps = require('../../home/steps/defendant')
@@ -126,13 +128,13 @@ module.exports = {
     loginPage.login(defendant.email, defendant.password)
   },
 
-  confirmYourDetails (defendantType) {
+  confirmYourDetails (defendant, defendantType) {
     defendantSteps.selectTaskConfirmYourDetails()
     defendantNameAndAddressPage.enterAddress(updatedAddress)
     if (defendantType === this.defendantType.individual) {
-      defendantDobPage.enterDOB({day: '1', month: '1', year: '1990'})
+      defendantDobPage.enterDOB(defendant.dateOfBirth)
     }
-    defendantMobilePage.enterMobile('07873737575')
+    defendantMobilePage.enterMobile(defendant.mobile)
   },
 
   requestMoreTimeToRespond () {
@@ -147,30 +149,42 @@ module.exports = {
     defendantRejectAllOfClaimPage.disputeTheClaim()
   },
 
-  rejectPartOfTheClaim_PaidWhatIBelieveIOwe () {
+  addTimeLineOfEvents (defendant) {
+    I.see('Add your timeline of events')
+    defendantTimelineOfEventsPage.enterTimelineEvent('0', defendant.defence.partialRejection.timeline.event1.date,
+      defendant.defence.partialRejection.timeline.event1.description)
+    defendantTimelineOfEventsPage.enterTimelineEvent('1', defendant.defence.partialRejection.timeline.event2.date,
+      defendant.defence.partialRejection.timeline.event2.description)
+    defendantTimelineOfEventsPage.submitForm()
+  },
+
+  rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defendant) {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimPaidWhatIBelieveIOwe()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchPaidToClaiment()
-    defendantHowMuchHaveYouPaidTheClaimant.enterAmountPaidWithDateAndExplaination('30', {day: '1', month: '1', year: '2016'}, "I don't owe full amount to claimant")
-    I.see('Add your timeline of events')
-    I.click('Save and continue')
+    defendantHowMuchHaveYouPaidTheClaimant.enterAmountPaidWithDateAndExplaination(
+      defendant.defence.partialRejection.paidWhatIBelieveIOwe.howMuchAlreadyPaid,
+      defendant.defence.partialRejection.paidWhatIBelieveIOwe.paidDate,
+      defendant.defence.partialRejection.paidWhatIBelieveIOwe.explaination)
+    this.addTimeLineOfEvents(defendant)
     I.see('List your evidence')
     I.click('Save and continue')
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
 
-  rejectPartOfTheClaimTooMuch () {
+  rejectPartOfTheClaimTooMuch (defendant) {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimTooMuch()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchMoneyBelieveYouOwe()
-    defendantHowMuchYouBelieveYouOwePage.enterAmountOwedAndExplaination('30', "I don't believe I owe the full amount")
-    I.see('Add your timeline of events')
-    I.click('Save and continue')
+    defendantHowMuchYouBelieveYouOwePage.enterAmountOwedAndExplaination(
+      defendant.defence.partialRejection.claimAmountIsTooMuch.howMuchIbelieveIOwe,
+      defendant.defence.partialRejection.claimAmountIsTooMuch.explaination)
+    this.addTimeLineOfEvents(defendant)
     I.see('List your evidence')
     I.click('Save and continue')
     defendantSteps.selectTaskFreeMediation()
@@ -208,7 +222,7 @@ module.exports = {
     I.dontSee('Your defence')
     I.dontSee('COMPLETE')
 
-    this.confirmYourDetails(defendantType)
+    this.confirmYourDetails(defendant, defendantType)
     I.see('COMPLETE')
 
     this.requestMoreTimeToRespond()
@@ -226,13 +240,13 @@ module.exports = {
         break
 
       case claimAmountTooMuch:
-        this.rejectPartOfTheClaimTooMuch()
+        this.rejectPartOfTheClaimTooMuch(defendant)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
         break
 
       case iPaidWhatIBelieveIOwe:
-        this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe()
+        this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe(defendant)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
         break

@@ -10,15 +10,22 @@ module.exports = {
   },
 
   fields: {
-    date: 'input[id="rows[0][date]"]',
-    description: 'input[id="rows[0][description]"]'
+    date: 'input[id="rows[x][date]"]',
+    description: 'textarea[id="rows[y][description]"]'
   },
   buttons: {
     submit: 'input[type=submit]'
   },
 
-  enterAmount (date, description) {
-    I.fillField(this.fields.date, 'May 2 2016')
-    I.fillField(this.fields.description, 'Something happened')
+  enterTimelineEvent (eventNum, date, description) {
+    var fieldDate = this.fields.date.replace('x', eventNum)
+    var fieldDescription = this.fields.description.replace('y', eventNum)
+    I.fillField(fieldDate, date)
+    I.fillField(fieldDescription, description)
+  },
+
+  submitForm () {
+    I.click('Save and continue')
   }
+
 }

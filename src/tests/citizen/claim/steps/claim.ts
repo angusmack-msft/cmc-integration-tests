@@ -165,7 +165,7 @@ module.exports = {
   },
 
   enterClaimReason () {
-    claimantReasonPage.enterReason('My reasons for the claim are that I am owed this money for a variety of reason, these being...')
+    claimantReasonPage.enterReason(claimant.claimReason)
   },
 
   checkClaimFactsAreTrueAndSubmit (claimantType) {

@@ -30,7 +30,8 @@ const claimant = function (email) {
       amount1: '10',
       amount2: '20.50',
       amount3: '50'
-    }
+    },
+    claimReason: 'My reasons for the claim are that I am owed this money for a variety of reason, these being...'
   }
 }
 
@@ -53,6 +54,24 @@ const defendant = function (email) {
       day: '26',
       month: '07',
       year: '1982'
+    },
+    mobile : '07873737575',
+    defence: {
+      partialRejection: {
+        paidWhatIBelieveIOwe: {
+          howMuchAlreadyPaid: '30',
+          paidDate: { day: '1', month: '1', year: '2016' },
+          explaination: 'I dont claimant full amount because'
+        },
+        claimAmountIsTooMuch: {
+          howMuchIbelieveIOwe: '30',
+          explaination: 'I owe this amount and not full amount because I...'
+        },
+        timeline: {
+          event1: { date: 'Early Spring', description: 'Claimant accuses me of owing...' },
+          event2: { date: 'Mid Spring', description: 'I asked the claimant for a reason and evidence why they are doing this.' }
+        }
+      }
     }
   }
 }
