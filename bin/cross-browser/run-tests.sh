@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -u
 
 COMPOSE_FILES="-f docker-compose.yml -f docker-compose.cross-browser.yml"
 
@@ -35,8 +35,7 @@ for BROWSER in "${SUPPORTED_BROWSERS_ARRAY[@]}"
 do
     echo "Testing $BROWSER"
     SAUCELABS_BROWSER="${BROWSER}" docker-compose ${COMPOSE_FILES} run --no-deps --rm integration-tests test-crossbrowser
-    EXIT_CODE="$(docker-compose ${COMPOSE_FILES} ps -q integration-tests | xargs docker inspect -f '{{ .State.ExitCode }}')"
-    if [[ "${EXIT_CODE}" -ne "0" ]]
+    if [[ "${?}" -ne "0" ]]
     then
       echo "E2E tests failed on ${BROWSER}"
       TESTS_FAILURES="1"
