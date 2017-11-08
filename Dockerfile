@@ -1,10 +1,10 @@
-FROM node:7.8.0
+FROM node:8.9.0-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json yarn.lock /usr/src/app/
-RUN yarn install
+RUN yarn install && yarn cache clean
 
 COPY . /usr/src/app
 

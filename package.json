@@ -1,11 +1,14 @@
 {
-  "name": "integration-tests",
-  "version": "0.0.1",
+  "name": "cmc-integration-tests",
+  "version": "1.0.0",
   "description": "Integration tests for CMC",
-  "main": "index.js",
-  "repository": "git@git.reform.hmcts.net:cmc/integration-tests.git",
-  "author": "MoJ Reform",
+  "repository": "git@github.com:hmcts/cmc-integration-tests.git",
+  "author": "HMCTS Reform",
   "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "lint": "tslint --project tsconfig.json && standard",
     "test": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config default.conf.js --reporter mocha-multi",

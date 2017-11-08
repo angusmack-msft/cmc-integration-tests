@@ -25,6 +25,8 @@ services:
           condition: service_started
         legal-frontend:
           condition: service_started
+        idam-api:
+          condition: service_started
       volumes:
         - ./output:/usr/src/app/output
     remote-webdriver:
@@ -46,17 +48,19 @@ services:
       depends_on:
         idam-api:
           condition: service_started
+        service-auth-provider-api:
+          condition: service_started
         authentication-web:
           condition: service_started
         claim-store-api:
-          condition: service_healthy
-        fees-api:
-          condition: service_healthy
+          condition: service_started
         draft-store-api:
-          condition: service_healthy
-        pdf-service-api:
-          condition: service_healthy
+          condition: service_started
+        fees-api:
+          condition: service_started
         payments-api:
+          condition: service_started
+        pdf-service-api:
           condition: service_started
       networks:
         default:
@@ -82,18 +86,18 @@ services:
       depends_on:
         idam-api:
           condition: service_started
+        service-auth-provider-api:
+          condition: service_started
         authentication-web:
           condition: service_started
         claim-store-api:
-          condition: service_healthy
-        fees-api:
-          condition: service_healthy
+          condition: service_started
         draft-store-api:
-          condition: service_healthy
-        service-auth-provider-api:
+          condition: service_started
+        fees-api:
           condition: service_started
         pdf-service-api:
-          condition: service_healthy
+          condition: service_started
       networks:
         default:
           aliases:
@@ -103,13 +107,14 @@ services:
       environment:
         - IDAM_API_URL=http://idam-api:8080
       depends_on:
-        - idam-api
+        idam-api:
+          condition: service_started
     idam-api:
       image: docker.artifactory.reform.hmcts.net/auth/idam-api:386ea4e56789cdd0db35f3a532722b5a8de15f18
       command: --wait-for-database 60
       environment:
         - IDAM_SUPERUSER_EMAIL=cmc-int-test@cmc.reform.hmcts.net
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://idam-database:5432/idam
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/idam
         - IDAM_TESTING_SUPPORT_ENABLED=true
         - NOTIFY_API_KEY=${GOV_NOTIFY_API_KEY}
         - NOTIFY_CMC_ACTIVATE_USER_TEMPLATE=76aa8695-64e8-4afd-ae13-bc8385302b1f
@@ -130,15 +135,14 @@ services:
         - https_proxy
         - no_proxy
       depends_on:
-        - idam-database
-    idam-database:
-      image: docker.artifactory.reform.hmcts.net/auth/idam-database
+        shared-database:
+          condition: service_healthy
     claim-store-api:
       image: docker.artifactory.reform.hmcts.net/cmc/claim-store-api:${CLAIM_STORE_API_VERSION:-latest}
       healthcheck:
         retries: 40
       environment:
-        - CLAIM_STORE_DB_HOST=claim-store-database
+        - CLAIM_STORE_DB_HOST=shared-database
         - CLAIM_STORE_DB_PORT=5432
         - CLAIM_STORE_DB_USERNAME=claimstore
         - CLAIM_STORE_DB_PASSWORD=claimstore
@@ -161,56 +165,44 @@ services:
         - https_proxy
         - no_proxy=idam-api,pdf-service-api
       depends_on:
-        claim-store-database:
+        shared-database:
           condition: service_healthy
+        idam-api:
+          condition: service_started
         smtp-server:
           condition: service_started
         pdf-service-api:
-          condition: service_healthy
-    claim-store-database:
-      image: docker.artifactory.reform.hmcts.net/cmc/claim-store-database:${CLAIM_STORE_DATABASE_VERSION:-latest}
-      healthcheck:
-        retries: 40
-      environment:
-        - CLAIM_STORE_DB_USERNAME=claimstore
-        - CLAIM_STORE_DB_PASSWORD=claimstore
+          condition: service_started
     fees-api:
       image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:33328e91ec54cbf4dbc9f52fe56f3712fe20a331
       healthcheck:
         retries: 40
       environment:
         - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080/
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
-        - SPRING_DATASOURCE_USERNAME=fees_register
-        - SPRING_DATASOURCE_PASSWORD=fees_register
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fee
+        - SPRING_DATASOURCE_USERNAME=fee
+        - SPRING_DATASOURCE_PASSWORD=fee
       depends_on:
-        fees-database:
+        shared-database:
           condition: service_healthy
-    fees-database:
-      image: docker.artifactory.reform.hmcts.net/fees-register/fees-database:55b1a02c28e3fbe757afcb5515776e01381cbb51
-      healthcheck:
-        retries: 40
-      environment:
-        - FEES_REGISTER_DB_USERNAME=fees_register
-        - FEES_REGISTER_DB_PASSWORD=fees_register
+        idam-api:
+          condition: service_started
     draft-store-api:
       image: docker.artifactory.reform.hmcts.net/reform/draft-store-api:${DRAFT_STORE_API_VERSION:-latest}
       healthcheck:
         retries: 40
       environment:
-        - DRAFT_STORE_DB_HOST=draft-store-database
+        - DRAFT_STORE_DB_HOST=shared-database
         - DRAFT_STORE_DB_PASSWORD=draftstore
         - IDAM_URL=http://idam-api:8080
         - S2S_URL=http://service-auth-provider-api:8080
       depends_on:
-        draft-store-database:
+        shared-database:
           condition: service_healthy
-    draft-store-database:
-      image: docker.artifactory.reform.hmcts.net/reform/draft-store-database:${DRAFT_STORE_DATABASE_VERSION:-latest}
-      healthcheck:
-        retries: 40
-      environment:
-        - DRAFT_STORE_DB_PASSWORD=draftstore
+        idam-api:
+          condition: service_started
+        service-auth-provider-api:
+          condition: service_started
     pdf-service-api:
       image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
       environment:
@@ -235,7 +227,7 @@ services:
         retries: 40
       command: --wait-for-database 60
       environment:
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://payments-database:5432/payment
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/payment
         - auth.provider.service.client.baseUrl=http://service-auth-provider-api:8080/
         - auth.idam.client.baseUrl=http://idam-api:8080/
         - GOV_PAY_AUTH_KEY_CMC
@@ -243,10 +235,18 @@ services:
         - https_proxy
         - no_proxy=idam-api,service-auth-provider-api,$no_proxy
       depends_on:
-       - payments-database
-       - service-auth-provider-api
-       - idam-api
-    payments-database:
-      image: docker.artifactory.reform.hmcts.net/common-components/payments-database:81c947e7ef478338d4aff8bd8536dd81d83e2104
+        shared-database:
+          condition: service_healthy
+        idam-api:
+          condition: service_started
+        service-auth-provider-api:
+          condition: service_started
+    shared-database:
+      image: postgres:9.6-alpine
+      volumes:
+        - ./docker/database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      healthcheck:
+        test: psql -c 'select 1' -d postgres -U postgres
+        retries: 40
     smtp-server:
       image: mailhog/mailhog

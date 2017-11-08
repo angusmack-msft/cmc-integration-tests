@@ -8,7 +8,7 @@ This is the integration tests for CMC.
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org/) >= v7.8.0
+* [Node.js](https://nodejs.org/) >= v8.0.0
 * [yarn](https://yarnpkg.com/)
 * [codeceptjs](http://codecept.io/)
 

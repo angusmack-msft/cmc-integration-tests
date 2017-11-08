@@ -42,7 +42,7 @@ function sleepFor (sleepDurationInSeconds) {
 }
 
 async function waitTillHealthy (appURL) {
-  const maxTries = 15
+  const maxTries = 36
   const sleepInterval = 10
 
   console.log(`Verifying health for ${appURL}`)
@@ -50,10 +50,10 @@ async function waitTillHealthy (appURL) {
   let response
   for (let i = 0; i < maxTries; i++) {
     response = await Client.checkHealth(appURL)
-
-    console.log(`Status code from ${appURL}: ${response.statusCode}`)
+    console.log(`Attempt ${i + 1} - received status code ${response.statusCode} from ${appURL}/health`)
 
     if (response.statusCode === 200) {
+      console.log(`Service ${appURL} became ready after ${sleepInterval * i} seconds`)
       return Promise.resolve()
     } else {
       logStartupProblem(response)
