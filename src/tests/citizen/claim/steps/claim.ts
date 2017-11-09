@@ -58,6 +58,11 @@ module.exports = {
     organisation: 'organisation'
   },
 
+  reloadPage () {
+    I.executeScript(function () {
+      document.location.reload(true)
+    })
+  },
   getTotalClaimAmount () {
     totalClaimAmount = parseFloat(claimant.claimAmount.amount1) + parseFloat(claimant.claimAmount.amount2) + parseFloat(claimant.claimAmount.amount3)
     totalClaimAmount = totalClaimAmount + fee
@@ -206,6 +211,8 @@ module.exports = {
   makeAClaimAndSubmit (email, claimantType, defendantType, enterDefendantEmail = true) {
     this.makeAClaimAndSubmitStatementOfTruth(email, claimantType, defendantType, enterDefendantEmail)
     paymentSteps.payWithWorkingCard()
+    this.reloadPage() // reload gets over the ESOCKETTIMEDOUT Error
+    this.reloadPage() // reload gets over the 409 Duplicate Key value violates unique constraint Error
     I.waitForText('Claim submitted')
     return claimantClaimConfirmedPage.getClaimReference()
   },
