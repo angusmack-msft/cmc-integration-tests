@@ -31,6 +31,10 @@ services:
         - ./output:/usr/src/app/output
     remote-webdriver:
       image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.5.2
+      environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
+      mem_limit: 768m
+      memswap_limit: 0
     citizen-frontend:
       image: docker.artifactory.reform.hmcts.net/cmc/citizen-frontend:${CITIZEN_FRONTEND_VERSION:-latest}
       environment:
@@ -45,6 +49,8 @@ services:
         - DRAFT_STORE_URL=http://draft-store-api:8800
         - LOG_LEVEL=DEBUG
         - UV_THREADPOOL_SIZE=64
+      mem_limit: 256m
+      memswap_limit: 0
       depends_on:
         idam-api:
           condition: service_started
@@ -83,6 +89,8 @@ services:
         - http_proxy=
         - https_proxy=
         - no_proxy=
+      mem_limit: 256m
+      memswap_limit: 0
       depends_on:
         idam-api:
           condition: service_started
@@ -106,6 +114,8 @@ services:
       image: docker.artifactory.reform.hmcts.net/auth/authentication-web:65e9cbfeeee1c6f238e7ef25e7159ae066058c8f
       environment:
         - IDAM_API_URL=http://idam-api:8080
+      mem_limit: 256m
+      memswap_limit: 0
       depends_on:
         idam-api:
           condition: service_started
@@ -113,6 +123,7 @@ services:
       image: docker.artifactory.reform.hmcts.net/auth/idam-api:386ea4e56789cdd0db35f3a532722b5a8de15f18
       command: --wait-for-database 60
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - IDAM_SUPERUSER_EMAIL=cmc-int-test@cmc.reform.hmcts.net
         - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/idam
         - IDAM_TESTING_SUPPORT_ENABLED=true
@@ -134,6 +145,8 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
+      mem_limit: 512m
+      memswap_limit: 0
       depends_on:
         shared-database:
           condition: service_healthy
@@ -142,6 +155,7 @@ services:
       healthcheck:
         retries: 40
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - CLAIM_STORE_DB_HOST=shared-database
         - CLAIM_STORE_DB_PORT=5432
         - CLAIM_STORE_DB_USERNAME=claimstore
@@ -164,6 +178,8 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy=idam-api,pdf-service-api
+      mem_limit: 512m
+      memswap_limit: 0
       depends_on:
         shared-database:
           condition: service_healthy
@@ -178,10 +194,13 @@ services:
       healthcheck:
         retries: 40
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080/
         - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fee
         - SPRING_DATASOURCE_USERNAME=fee
         - SPRING_DATASOURCE_PASSWORD=fee
+      mem_limit: 512m
+      memswap_limit: 0
       depends_on:
         shared-database:
           condition: service_healthy
@@ -192,10 +211,13 @@ services:
       healthcheck:
         retries: 40
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - DRAFT_STORE_DB_HOST=shared-database
         - DRAFT_STORE_DB_PASSWORD=draftstore
         - IDAM_URL=http://idam-api:8080
         - S2S_URL=http://service-auth-provider-api:8080
+      mem_limit: 512m
+      memswap_limit: 0
       depends_on:
         shared-database:
           condition: service_healthy
@@ -206,6 +228,7 @@ services:
     pdf-service-api:
       image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
@@ -214,19 +237,25 @@ services:
         - REFORM_ENVIRONMENT
       healthcheck:
         retries: 40
+      mem_limit: 512m
+      memswap_limit: 0
     service-auth-provider-api:
       image: docker.artifactory.reform.hmcts.net/auth/service-auth-provider-api:47e18b53aad48ae8124744041988565e07dfed50
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - auth.provider.service.server.jwtKey=wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
         - auth.provider.service.server.microserviceKeys.cmc=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.cmc_legal_frontend=AAAAAAAAAAAAAAAA
         - auth.provider.service.testing-support.enabled=true
+      mem_limit: 512m
+      memswap_limit: 0
     payments-api:
       image: docker.artifactory.reform.hmcts.net/common-components/payments-api:81c947e7ef478338d4aff8bd8536dd81d83e2104
       healthcheck:
         retries: 40
       command: --wait-for-database 60
       environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
         - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/payment
         - auth.provider.service.client.baseUrl=http://service-auth-provider-api:8080/
         - auth.idam.client.baseUrl=http://idam-api:8080/
@@ -234,6 +263,8 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy=idam-api,service-auth-provider-api,$no_proxy
+      mem_limit: 512m
+      memswap_limit: 0
       depends_on:
         shared-database:
           condition: service_healthy
@@ -248,5 +279,9 @@ services:
       healthcheck:
         test: psql -c 'select 1' -d postgres -U postgres
         retries: 40
+      mem_limit: 160m
+      memswap_limit: 0
     smtp-server:
       image: mailhog/mailhog
+      mem_limit: 32m
+      memswap_limit: 0
