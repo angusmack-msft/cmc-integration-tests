@@ -15,7 +15,7 @@ class DownloadPdfHelper extends Helper {
 
     const j = request.jar()
     const cookie = request.cookie('T2_SESSION_ID=' + sessionId)
-    j.setCookie(cookie, 'https://www-local.moneyclaim.reform.hmcts.net:4000')
+    j.setCookie(cookie, 'https://www-legal.moneyclaim.reform.hmcts.net:4000')
 
     return request.get({
       uri: url,
