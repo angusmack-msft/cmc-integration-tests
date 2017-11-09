@@ -44,7 +44,7 @@
      I.see('I’ve paid what I believe I owe')
      I.see('How much have you paid the claimant?')
      I.see('When did you pay this amount?')
-     I.see("Explain why you don't owe the full amount")
+     I.see("Explain why you don’t owe the full amount")
      I.see('Your timeline of events (optional)')
      I.see('Your evidence (optional)')
      I.see('Free mediation')
