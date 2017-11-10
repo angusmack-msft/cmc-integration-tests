@@ -45,6 +45,7 @@ module.exports = {
   defendantHowMuchHaveYouPaidPage: './src/tests/citizen/defence/pages/defendant-how-much-have-you-paid',
   defendantHowMuchYouOwePage: './src/tests/citizen/defence/pages/defendant-how-much-you-owe',
   defendantTimelineOfEventsPage: './src/tests/citizen/defence/pages/defendant-timeline-events',
+  defendantImpactOfDisputePage: './src/tests/citizen/defence/pages/defendant-impact-of-dispute',
   defendantYourDefencePage: './src/tests/citizen/defence/pages/defendant-your-defence',
   defendantFreeMediationPage: './src/tests/citizen/defence/pages/defendant-free-mediation',
   defendantCheckAndSendPage: './src/tests/citizen/defence/pages/defendant-check-and-send',

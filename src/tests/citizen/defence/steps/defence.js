@@ -24,6 +24,7 @@ let I,
   defendantHowMuchHaveYouPaidTheClaimant,
   defendantRejectPartOfClaimPage,
   defendantTimelineOfEventsPage,
+  defendantImpactOfDisputePage,
   loginPage,
   defendantSteps
 
@@ -71,6 +72,7 @@ module.exports = {
     defendantHowMuchHaveYouPaidTheClaimant = require('../pages/defendant-how-much-have-you-paid')
     defendantRejectPartOfClaimPage = require('../pages/defendant-reject-part-of-claim')
     defendantTimelineOfEventsPage = require('../pages/defendant-timeline-events')
+    defendantImpactOfDisputePage = require('../pages/defendant-impact-of-dispute')
 
     loginPage = require('../../home/pages/login')
     defendantSteps = require('../../home/steps/defendant')
@@ -158,6 +160,12 @@ module.exports = {
     defendantTimelineOfEventsPage.submitForm()
   },
 
+  explainImpactOfDispute (defendant) {
+    I.see('How this dispute has affected you?')
+    defendantImpactOfDisputePage.enterImpactOfDispute(defendant.defence.partialRejection.impactOfDispute.explanation)
+    defendantImpactOfDisputePage.submitForm()
+  },
+
   rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defendant) {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectPartOfMoneyClaim()
@@ -171,6 +179,7 @@ module.exports = {
     this.addTimeLineOfEvents(defendant)
     I.see('List your evidence')
     I.click('Save and continue')
+    this.explainImpactOfDispute(defendant)
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
@@ -187,6 +196,7 @@ module.exports = {
     this.addTimeLineOfEvents(defendant)
     I.see('List your evidence')
     I.click('Save and continue')
+    this.explainImpactOfDispute(defendant)
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
@@ -204,6 +214,10 @@ module.exports = {
     } else {
       defendantCheckAndSendPage.verifyFactsPartialResponseIBelieveIPaidWhatIOwe()
     }
+  },
+
+  verifyImpactOfDisputeIsVisible (defendant) {
+    I.see(defendant.defence.partialRejection.impactOfDispute.explanation)
   },
 
   checkAndSendAndSubmit (defendantType) {
@@ -243,12 +257,14 @@ module.exports = {
         this.rejectPartOfTheClaimTooMuch(defendant)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        this.verifyImpactOfDisputeIsVisible(defendant)
         break
 
       case iPaidWhatIBelieveIOwe:
         this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe(defendant)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        this.verifyImpactOfDisputeIsVisible(defendant)
         break
     }
 

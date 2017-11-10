@@ -70,6 +70,9 @@ const defendant = function (email) {
         timeline: {
           event1: { date: 'Early Spring', description: 'Claimant accuses me of owing...' },
           event2: { date: 'Mid Spring', description: 'I asked the claimant for a reason and evidence why they are doing this.' }
+        },
+        impactOfDispute: {
+          explanation: 'This dispute has affected me badly'
         }
       }
     }
