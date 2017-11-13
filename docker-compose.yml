@@ -281,7 +281,6 @@ services:
         retries: 40
       mem_limit: 160m
       memswap_limit: 0
-      user: '1049'
     smtp-server:
       image: mailhog/mailhog
       mem_limit: 32m
