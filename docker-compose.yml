@@ -274,8 +274,6 @@ services:
           condition: service_started
     shared-database:
       image: postgres:9.6-alpine
-      environment:
-        - UID
       volumes:
         - ./docker/database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       healthcheck:
@@ -283,7 +281,7 @@ services:
         retries: 40
       mem_limit: 160m
       memswap_limit: 0
-      user: $UID
+      user: 1049
     smtp-server:
       image: mailhog/mailhog
       mem_limit: 32m
