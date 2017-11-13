@@ -2,8 +2,6 @@
 
 set -e
 
-chown 1049 -R ../../
-
 for service in idam claimstore draftstore fee payment; do
 psql -v ON_ERROR_STOP=1 --username postgres --set USERNAME=$service --set PASSWORD=$service --set DATABASE=$service <<-EOSQL
   CREATE USER :USERNAME WITH PASSWORD ':PASSWORD';
