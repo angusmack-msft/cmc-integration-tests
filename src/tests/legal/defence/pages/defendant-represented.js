@@ -32,23 +32,5 @@ module.exports = {
   noDefendantCompanyName () {
     I.checkOption(this.fields.defendantRepresentedNo)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose yes if defendant is represented')
-  },
-
-  checkMandatoryErrorMessageForDefendantCompanyName () {
-    I.checkOption(this.fields.defendantRepresentedYes)
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter defendant representative organisation name')
-  },
-
-  checkForBlankErrorMessageForDefendantCompanyName () {
-    I.checkOption(this.fields.defendantRepresentedYes)
-    I.fillField(this.fields.companyName, ' ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter defendant representative organisation name')
   }
 }

@@ -30,10 +30,5 @@ module.exports = {
   chooseNoAdditionalClaimant () {
     I.checkOption(this.fields.isAddClaimantNo)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessageForChooseClaimant () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose yes if need to add another claimant')
   }
 }

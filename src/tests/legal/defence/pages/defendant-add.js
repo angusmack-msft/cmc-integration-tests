@@ -30,10 +30,5 @@ module.exports = {
   noAnotherDefendant () {
     I.checkOption(this.fields.defendantAddNo)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose yes if need to add another defendant')
   }
 }

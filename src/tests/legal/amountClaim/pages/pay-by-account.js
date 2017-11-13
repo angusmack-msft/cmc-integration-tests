@@ -26,17 +26,6 @@ module.exports = {
     I.click(this.buttons.saveAndContinue)
   },
 
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter your Fee Account number')
-  },
-
-  checkForBlankErrorMessage () {
-    I.fillField(this.fields.feeAccountReference, ' ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter your Fee Account number')
-  },
-
   checkForInvalidReference () {
     I.fillField(this.fields.feeAccountReference, 'PBA12345675 ')
     I.click(this.buttons.saveAndContinue)

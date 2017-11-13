@@ -48,39 +48,14 @@ Scenario('I can fill in Claimant individual and Defendant individual details @le
   legalDefendantSteps.noAnotherDefendant()
 })
 
-Scenario('Check Error Messages in Enter your defendant type Page @legal', function * (I, legalUserSteps, legalDefendantType) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantType.checkMandatoryErrorMessageForChooseDefendant()
-  legalDefendantType.checkMandatoryErrorMessageForOrganisationName()
-  legalDefendantType.checkForBlankErrorMessageForOrganisationName()
-  legalDefendantType.checkMandatoryErrorMessageForIndividualName()
-  legalDefendantType.checkForBlankErrorMessageForIndividualName()
-})
-
 Scenario('Check Error Messages in Enter your defendant address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantAddress) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalDefendantType.open()
   legalDefendantSteps.enterDefendantTypeOrganisation()
   I.see('Defendant: ' + verifyPageData.defendantOrganization)
-  legalDefendantAddress.checkMandatoryErrorMessage()
-  legalDefendantAddress.checkForBlankErrorMessage()
-  legalDefendantAddress.checkForIndividualMessage()
   legalDefendantAddress.checkForAddressLineLength()
   legalDefendantAddress.checkForPostCodeLengthMessage()
-})
-
-Scenario('Check Error Messages in Enter your defendant representative Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantRepresentative) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantSteps.enterDefendantTypeOrganisation()
-  legalDefendantSteps.enterDefendantAddress()
-  legalDefendantRepresentative.checkMandatoryErrorMessage()
-  legalDefendantRepresentative.checkMandatoryErrorMessageForDefendantCompanyName()
-  legalDefendantRepresentative.checkForBlankErrorMessageForDefendantCompanyName()
 })
 
 Scenario('Check Error Messages in Enter your defendant representative address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantRepresentativeAddress) {
@@ -90,23 +65,8 @@ Scenario('Check Error Messages in Enter your defendant representative address Pa
   legalDefendantSteps.enterDefendantTypeOrganisation()
   legalDefendantSteps.enterDefendantAddress()
   legalDefendantSteps.enterDefendantRepsCompanyName()
-  legalDefendantRepresentativeAddress.checkMandatoryErrorMessage()
-  legalDefendantRepresentativeAddress.checkForBlankErrorMessage()
-  legalDefendantRepresentativeAddress.checkForIndividualMessage()
   legalDefendantRepresentativeAddress.checkForAddressLineLength()
   legalDefendantRepresentativeAddress.checkForPostCodeLengthMessage()
-})
-
-Scenario('Check Error Messages in Enter another defendant add Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantAddAnotherDefendant) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantSteps.enterDefendantTypeOrganisation()
-  legalDefendantSteps.enterDefendantAddress()
-  legalDefendantSteps.enterDefendantRepsCompanyName()
-  I.see("Defendant's legal representative: Defendant Rep Ltd")
-  legalDefendantSteps.enterDefendantRepsAddress()
-  legalDefendantAddAnotherDefendant.checkMandatoryErrorMessage()
 })
 
 Scenario('Check Error Messages on defendant service address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantAddServiceAddress) {
@@ -116,9 +76,6 @@ Scenario('Check Error Messages on defendant service address Page @legal', functi
   legalDefendantSteps.enterDefendantTypeOrganisation()
   legalDefendantSteps.enterDefendantAddress()
   legalDefendantSteps.noDefendantCompanyName()
-  legalDefendantAddServiceAddress.checkMandatoryErrorMessageForAddressForService()
-  legalDefendantAddServiceAddress.checkForBlankErrorMessage()
-  legalDefendantAddServiceAddress.checkForIndividualMessage()
   legalDefendantAddServiceAddress.checkForPostCodeLengthMessage()
   legalDefendantAddServiceAddress.checkForAddressLineLength()
 })

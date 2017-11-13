@@ -22,16 +22,5 @@ module.exports = {
   enterBriefDescriptionOfTheClaim () {
     I.fillField(this.fields.summariseClaimTextArea, 'I would like to test this with codeceptjs')
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a brief description of the claim')
-  },
-
-  checkForBlankErrorMessage () {
-    I.fillField(this.fields.summariseClaimTextArea, ' ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a brief description of the claim')
   }
 }

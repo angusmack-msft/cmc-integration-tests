@@ -82,37 +82,5 @@ module.exports = {
     I.click(this.buttons.saveAndContinue)
     I.click(this.buttons.saveAndContinue)
     I.see(this.data.updatedNameText)
-  },
-
-  checkMandatoryErrorMessageForChooseDefendant () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose a type of defendant')
-  },
-
-  checkMandatoryErrorMessageForOrganisationName () {
-    I.checkOption(this.fields.organisationType)
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter an organisation name')
-  },
-
-  checkForBlankErrorMessageForOrganisationName () {
-    I.checkOption(this.fields.organisationType)
-    I.fillField(this.fields.organisationName, ' ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter an organisation name')
-  },
-
-  checkMandatoryErrorMessageForIndividualName () {
-    I.checkOption(this.fields.individualType)
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a full name')
-  },
-
-  checkForBlankErrorMessageForIndividualName () {
-    I.checkOption(this.fields.individualType)
-    I.fillField(this.fields.individualFullName, ' ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a full name')
   }
-
 }

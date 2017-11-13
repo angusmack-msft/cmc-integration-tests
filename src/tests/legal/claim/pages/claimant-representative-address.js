@@ -45,44 +45,5 @@ module.exports = {
     I.seeInField(this.fields.cityName, this.data.verifyCityNameText)
     I.seeInField(this.fields.postcode, this.data.postcodeText)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.see('Enter a postcode')
-  },
-
-  checkForBlankErrorMessage () {
-    I.fillField(this.fields.addressLine1, '')
-    I.fillField(this.fields.postcode, '')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.see('Enter a town or city')
-    I.see('Enter a postcode')
-  },
-
-  checkForIndividualMessage () {
-    I.fillField(this.fields.addressLine1, '')
-    I.fillField(this.fields.postcode, 'SW1H 9AJ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.fillField(this.fields.addressLine1, 'MOJ')
-    I.fillField(this.fields.postcode, '')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a postcode')
-  },
-
-  checkForPostCodeLengthMessage () {
-    I.fillField(this.fields.addressLine1, 'MOJ')
-    I.fillField(this.fields.postcode, 'SW1H 9AJ1')
-    I.click(this.buttons.saveAndContinue)
-    I.see('You’ve entered too many characters')
-  },
-  checkForAddressLineLength () {
-    I.fillField(this.fields.addressLine1, 'a123456789a123456789a123456789a123456789a123456789a123456789a123456789a123456789a123456789a123456789a123456789')
-    I.fillField(this.fields.postcode, 'SW1H 9AJ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('You’ve entered too many characters')
   }
 }

@@ -37,17 +37,6 @@ module.exports = {
   noPersonalInjury () {
     I.checkOption(this.fields.personalInjuryNo)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose yes if it’s a personal injury claim')
-  },
-
-  checkMandatoryErrorMessageForAmount () {
-    I.checkOption(this.fields.personalInjuryYes)
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose an amount')
   }
 
 }

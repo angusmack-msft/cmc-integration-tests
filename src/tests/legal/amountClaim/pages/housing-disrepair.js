@@ -58,17 +58,5 @@ module.exports = {
   noHousingDisrepair () {
     I.checkOption(this.fields.housingDisrepairNo)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose yes if the claim is for housing disrepair')
-  },
-
-  checkMandatoryErrorMessageForAmounts () {
-    I.checkOption(this.fields.housingDisrepairYes)
-    I.click(this.buttons.saveAndContinue)
-    I.see('Choose an amount for general damages')
-    I.see('Choose an amount for other damages')
   }
 }

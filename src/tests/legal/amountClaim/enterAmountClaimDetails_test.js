@@ -92,58 +92,12 @@ Scenario('Check higher value in amount claim Page @legal', function * (I, legalU
   I.seeInCurrentUrl('total')
 })
 
-Scenario('Check Error Messages in personal claim page @legal', function * (I, legalUserSteps, legalPersonalInjuryPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalPersonalInjuryPage.open()
-  legalPersonalInjuryPage.checkMandatoryErrorMessage()
-  legalPersonalInjuryPage.checkMandatoryErrorMessageForAmount()
-})
-
-Scenario('Check Error Messages in housing disrepair page @legal', function * (I, legalUserSteps, legalHousingDisrepairPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalHousingDisrepairPage.open()
-  legalHousingDisrepairPage.checkMandatoryErrorMessage()
-  legalHousingDisrepairPage.checkMandatoryErrorMessageForAmounts()
-})
-
-Scenario('Check Error Messages in summarise the claim page @legal', function * (I, legalUserSteps, legalSummariseTheClaimPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalSummariseTheClaimPage.open()
-  legalSummariseTheClaimPage.checkMandatoryErrorMessage()
-  legalSummariseTheClaimPage.checkForBlankErrorMessage()
-})
-
 Scenario('Check Error Messages in amount claim page @legal', function * (I, legalUserSteps, legalAmountPage) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalAmountPage.open()
-  legalAmountPage.checkMandatoryErrorMessage()
   legalAmountPage.checkForBlankErrorMessage()
   legalAmountPage.checkErrorMessageForLowerValueOnly()
   legalAmountPage.checkErrorMessageForSelectingBothHigherAndCanNotCheckbox()
 })
 
-Scenario('Check Error Messages in statement of truth page @legal', function * (I, legalUserSteps, legalStatementOfTruthPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalUserSteps.enterYourOrganisationNamePage()
-  legalStatementOfTruthPage.open()
-  legalStatementOfTruthPage.checkMandatoryErrorMessage()
-  legalStatementOfTruthPage.checkForBlankErrorMessage()
-  legalStatementOfTruthPage.checkForIndividualMessage()
-})
-
-Scenario('Check Error Messages in pay by account page @legal', function * (I, legalUserSteps, legalAmountClaimSteps, legalAmountPage, legalPayByAccountPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalUserSteps.enterYourOrganisationNamePage()
-  legalAmountPage.open()
-  legalAmountClaimSteps.enterRangeOfTheClaim()
-  legalPayByAccountPage.open()
-  legalPayByAccountPage.checkMandatoryErrorMessage()
-  legalPayByAccountPage.checkForBlankErrorMessage()
-  legalPayByAccountPage.checkForInvalidReference()
-})

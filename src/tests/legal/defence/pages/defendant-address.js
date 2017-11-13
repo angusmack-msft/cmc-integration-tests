@@ -30,31 +30,6 @@ module.exports = {
     I.click(this.buttons.saveAndContinue)
   },
 
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.see('Enter a postcode')
-  },
-
-  checkForBlankErrorMessage () {
-    I.fillField(this.fields.addressLine1, '')
-    I.fillField(this.fields.postcode, '')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.see('Enter a postcode')
-  },
-
-  checkForIndividualMessage () {
-    I.fillField(this.fields.addressLine1, '')
-    I.fillField(this.fields.postcode, 'SW1H 9AJ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter address line 1')
-    I.fillField(this.fields.addressLine1, 'MOJ')
-    I.fillField(this.fields.postcode, '')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a postcode')
-  },
-
   checkForPostCodeLengthMessage () {
     I.fillField(this.fields.addressLine1, 'MOJ')
     I.fillField(this.fields.postcode, 'SW1H 9AJ1')

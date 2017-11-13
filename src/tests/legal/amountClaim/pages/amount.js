@@ -37,11 +37,6 @@ module.exports = {
     I.click(this.buttons.saveAndContinue)
   },
 
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a higher value or choose ‘I can’t or don’t want to state the value’')
-  },
-
   checkForBlankErrorMessage () {
     I.fillField(this.fields.higherValue, ' ')
     I.click(this.buttons.saveAndContinue)
