@@ -274,6 +274,8 @@ services:
           condition: service_started
     shared-database:
       image: postgres:9.6-alpine
+      environment:
+        - UID
       volumes:
         - ./docker/database/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       healthcheck:
