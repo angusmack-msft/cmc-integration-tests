@@ -25,6 +25,9 @@ module.exports = {
   enterYourReferenceForClaim () {
     I.fillField(this.fields.referenceNumber, verifyPageData.organizationRefNumber)
     I.click(this.buttons.saveAndContinue)
+  },
+  submitOnlyMandatoryData () {
+    I.click(this.buttons.saveAndContinue)
   }
 
 }

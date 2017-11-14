@@ -24,6 +24,21 @@ Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amou
   legalDashboardSteps.searchAndVerifyClaimDetails(legalClaimNumberText)
 })
 
+Scenario('I can fill only mandatory fields and submit the claim @legal', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
+  const userEmail = yield I.createSolicitorUser()
+  legalUserSteps.loginAndStartClaim(userEmail)
+  legalUserSteps.enterMandatoryClaimantServiceDetails()
+  legalUserSteps.enterMandatoryClaimantAddressDetails()
+  legalUserSteps.noAdditionalClaimant()
+  legalDefendantSteps.enterMandatoryDefendantDetails()
+  legalDefendantSteps.enterDefendantRepsCompanyName()
+  legalDefendantSteps.enterDefendantRepsAddress()
+  legalDefendantSteps.noAnotherDefendant()
+  legalAmountClaimSteps.addMandatoryClaimDataAndSubmitClaim()
+  let dateCheck = yield I.grabTextFrom('div.confirmation-detail')
+  legalAmountClaimSteps.verifySubmittedPage(userEmail, dateCheck)
+})
+
 Scenario('I can fill in individual details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)

@@ -38,6 +38,9 @@ module.exports = {
     I.seeInField(this.fields.phoneNumber, this.data.phoneNumberText)
     I.seeInField(this.fields.email, this.data.emailText)
     I.seeInField(this.fields.dxAddress, this.data.dxAddressText)
+  },
+  submitOnlyMandatoryData () {
+    I.click(this.buttons.saveAndContinue)
   }
 
 }

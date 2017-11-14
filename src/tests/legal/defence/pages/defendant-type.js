@@ -50,6 +50,12 @@ module.exports = {
     I.click(this.buttons.saveAndContinue)
   },
 
+  enterOnlyMandatoryDefendantTypeDetails () {
+    I.checkOption(this.fields.organisationType)
+    I.fillField(this.fields.organisationName, verifyPageData.defendantOrganization)
+    I.click(this.buttons.saveAndContinue)
+  },
+
   enterAnotherDefendantTypeIndividual () {
     I.checkOption(this.fields.individualType)
     I.fillField(this.fields.individualTitle, 'Mrs')

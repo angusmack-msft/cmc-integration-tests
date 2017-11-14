@@ -53,6 +53,17 @@ module.exports = {
     yourReferencePage.enterYourReferenceForClaim()
     yourCountyCourtPage.enterYourPreferredCountyCourt()
   },
+  enterMandatoryClaimantServiceDetails () {
+    yourOrganisationNamePage.enterYourOrganisationName()
+    yourOrganisationAddressPage.enterOnlyMandatoryOrganisationAddress()
+    yourContactDetailsPage.submitOnlyMandatoryData()
+    yourReferencePage.submitOnlyMandatoryData()
+    yourCountyCourtPage.submitOnlyMandatoryData()
+    claimantTypePage.enterOnlyMandatoryClaimantTypeData()
+  },
+  enterMandatoryClaimantAddressDetails () {
+    claimantAddressPage.enterMandatoryClaimantOrganisationAddress()
+  },
   enterClaimantTypeIndividual () {
     claimantTypePage.enterClaimantTypeIndividual()
   },

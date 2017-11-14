@@ -108,6 +108,17 @@ module.exports = {
     this.addPayByAccountFeeNumber()
   },
 
+  addMandatoryClaimDataAndSubmitClaim () {
+    this.personalInjuryLessThan1000()
+    this.housingDisrepairLessThan1000()
+    this.summariseTheClaim()
+    this.enterRangeOfTheClaim()
+    this.feeCheckForRangeTotal()
+    detailsSummaryPage.selectSubmitButton()
+    this.addStatementOfTruthSignerNameAndRole()
+    this.addPayByAccountFeeNumber()
+  },
+
   addNoClaimDataAndVerifyData () {
     this.noPersonalInjuryClaim()
     this.noHousingDisrepairClaim()

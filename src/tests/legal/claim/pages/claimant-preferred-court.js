@@ -24,6 +24,9 @@ module.exports = {
   enterYourPreferredCountyCourt () {
     I.fillField(this.fields.courtName, 'Dartford County Court')
     I.click(this.buttons.saveAndContinue)
+  },
+  submitOnlyMandatoryData () {
+    I.click(this.buttons.saveAndContinue)
   }
 
 }

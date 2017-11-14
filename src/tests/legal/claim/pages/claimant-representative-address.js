@@ -45,5 +45,12 @@ module.exports = {
     I.seeInField(this.fields.cityName, this.data.verifyCityNameText)
     I.seeInField(this.fields.postcode, this.data.postcodeText)
     I.click(this.buttons.saveAndContinue)
+  },
+
+  enterOnlyMandatoryOrganisationAddress () {
+    I.fillField(this.fields.addressLine1, this.data.addressLine1Text)
+    I.fillField(this.fields.cityName, this.data.cityNameText)
+    I.fillField(this.fields.postcode, this.data.postcodeText)
+    I.click(this.buttons.saveAndContinue)
   }
 }

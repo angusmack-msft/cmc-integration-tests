@@ -28,5 +28,11 @@ module.exports = {
     I.fillField(this.fields.cityName, 'London')
     I.fillField(this.fields.postcode, 'SW1H 9BJ')
     I.click(this.buttons.saveAndContinue)
+  },
+  enterOnlyMandatoryDefendantOrganisationAddress () {
+    I.fillField(this.fields.addressLine1, 'CMC T2 Defendant')
+    I.fillField(this.fields.cityName, 'London')
+    I.fillField(this.fields.postcode, 'SW1H 9BJ')
+    I.click(this.buttons.saveAndContinue)
   }
 }

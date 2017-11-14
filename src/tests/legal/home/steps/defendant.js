@@ -20,6 +20,11 @@ module.exports = {
     defendantTypePage.enterDefendantTypeOrganisation()
   },
 
+  enterMandatoryDefendantDetails () {
+    defendantTypePage.enterOnlyMandatoryDefendantTypeDetails()
+    defendantAddressPage.enterOnlyMandatoryDefendantOrganisationAddress()
+  },
+
   enterAnotherDefendantTypeIndividual () {
     defendantTypePage.enterAnotherDefendantTypeIndividual()
   },

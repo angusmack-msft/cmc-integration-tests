@@ -64,5 +64,10 @@ module.exports = {
     I.fillField(this.fields.organisationName, verifyPageData.claimantOrganization)
     I.fillField(this.fields.companyHouseNumber, '12345')
     I.click(this.buttons.saveAndContinue)
+  },
+  enterOnlyMandatoryClaimantTypeData () {
+    I.checkOption(this.fields.organisationType)
+    I.fillField(this.fields.organisationName, verifyPageData.claimantOrganization)
+    I.click(this.buttons.saveAndContinue)
   }
 }

@@ -28,5 +28,11 @@ module.exports = {
     I.fillField(this.fields.cityName, 'London')
     I.fillField(this.fields.postcode, 'SW1H 9AJ')
     I.click(this.buttons.saveAndContinue)
+  },
+  enterMandatoryClaimantOrganisationAddress () {
+    I.fillField(this.fields.addressLine1, 'CMC T2')
+    I.fillField(this.fields.cityName, 'London')
+    I.fillField(this.fields.postcode, 'SW1H 9AJ')
+    I.click(this.buttons.saveAndContinue)
   }
 }
