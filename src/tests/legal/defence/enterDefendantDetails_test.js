@@ -47,35 +47,3 @@ Scenario('I can fill in Claimant individual and Defendant individual details @le
   legalDefendantSteps.defendantAddressAsServiceAddress()
   legalDefendantSteps.noAnotherDefendant()
 })
-
-Scenario('Check Error Messages in Enter your defendant address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantAddress) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantSteps.enterDefendantTypeOrganisation()
-  I.see('Defendant: ' + verifyPageData.defendantOrganization)
-  legalDefendantAddress.checkForAddressLineLength()
-  legalDefendantAddress.checkForPostCodeLengthMessage()
-})
-
-Scenario('Check Error Messages in Enter your defendant representative address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantRepresentativeAddress) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantSteps.enterDefendantTypeOrganisation()
-  legalDefendantSteps.enterDefendantAddress()
-  legalDefendantSteps.enterDefendantRepsCompanyName()
-  legalDefendantRepresentativeAddress.checkForAddressLineLength()
-  legalDefendantRepresentativeAddress.checkForPostCodeLengthMessage()
-})
-
-Scenario('Check Error Messages on defendant service address Page @legal', function * (I, legalUserSteps, legalDefendantType, legalDefendantSteps, legalDefendantAddServiceAddress) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalDefendantType.open()
-  legalDefendantSteps.enterDefendantTypeOrganisation()
-  legalDefendantSteps.enterDefendantAddress()
-  legalDefendantSteps.noDefendantCompanyName()
-  legalDefendantAddServiceAddress.checkForPostCodeLengthMessage()
-  legalDefendantAddServiceAddress.checkForAddressLineLength()
-})

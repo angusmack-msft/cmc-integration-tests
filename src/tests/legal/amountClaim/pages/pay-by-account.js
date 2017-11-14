@@ -24,11 +24,5 @@ module.exports = {
     I.see(verifyPageData.feesPaid)
     I.fillField(this.fields.feeAccountReference, verifyPageData.feeAccountNumber)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkForInvalidReference () {
-    I.fillField(this.fields.feeAccountReference, 'PBA12345675 ')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter a valid Fee Account number')
   }
 }
