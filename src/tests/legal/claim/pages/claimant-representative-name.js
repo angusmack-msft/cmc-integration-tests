@@ -32,17 +32,6 @@ module.exports = {
   verifyOrganizationName () {
     I.seeInField(this.fields.organisationName, this.data.organisationNameText)
     I.click(this.buttons.saveAndContinue)
-  },
-
-  checkMandatoryErrorMessage () {
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter your organisation name')
-  },
-
-  checkForBlankErrorMessage () {
-    I.fillField(this.fields.organisationName, '')
-    I.click(this.buttons.saveAndContinue)
-    I.see('Enter your organisation name')
   }
 
 }

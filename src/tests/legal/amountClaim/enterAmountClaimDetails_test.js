@@ -92,12 +92,3 @@ Scenario('Check higher value in amount claim Page @legal', function * (I, legalU
   I.seeInCurrentUrl('total')
 })
 
-Scenario('Check Error Messages in amount claim page @legal', function * (I, legalUserSteps, legalAmountPage) {
-  const userEmail = yield I.createSolicitorUser()
-  legalUserSteps.loginAndStartClaim(userEmail)
-  legalAmountPage.open()
-  legalAmountPage.checkForBlankErrorMessage()
-  legalAmountPage.checkErrorMessageForLowerValueOnly()
-  legalAmountPage.checkErrorMessageForSelectingBothHigherAndCanNotCheckbox()
-})
-
