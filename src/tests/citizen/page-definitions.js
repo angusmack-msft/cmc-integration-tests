@@ -49,6 +49,7 @@ module.exports = {
   defendantYourDefencePage: './src/tests/citizen/defence/pages/defendant-your-defence',
   defendantFreeMediationPage: './src/tests/citizen/defence/pages/defendant-free-mediation',
   defendantCheckAndSendPage: './src/tests/citizen/defence/pages/defendant-check-and-send',
+  defendantOfferPage: './src/tests/citizen/offers/pages/defendant-offer',
 
   dashboardPage: './src/tests/citizen/dashboard/pages/dashboard',
   dashboardClaimantPage: './src/tests/citizen/dashboard/pages/claimant',
@@ -72,5 +73,6 @@ module.exports = {
   helperSteps: './src/tests/citizen/endToEnd/steps/helper',
   dashboardSteps: './src/tests/citizen/dashboard/steps/dashboard',
   testingSupport: './src/tests/citizen/testingSupport/steps/testingSupport',
-  ccjSteps: './src/tests/citizen/ccj/steps/ccj'
+  ccjSteps: './src/tests/citizen/ccj/steps/ccj',
+  offerSteps: './src/tests/citizen/offers/steps/offer.ts'
 }

@@ -75,6 +75,10 @@ const defendant = function (email) {
           explanation: 'This dispute has affected me badly'
         }
       }
+    },
+    offer: {
+      offerText: 'My Offer is that I can only afford, x, y, z and so will only pay £X amount',
+      dateOfcompletionDate: { day: '01', month: '01',year: '2020' }
     }
   }
 }
