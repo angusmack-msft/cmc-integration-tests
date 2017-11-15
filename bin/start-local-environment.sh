@@ -7,4 +7,6 @@ docker-compose ${COMPOSE_FILES} up ${@} -d claim-store-api \
                                            fees-api \
                                            draft-store-api \
                                            payments-api \
-                                           pdf-service-api
+                                           pdf-service-api \
+                                           document-management-api-gateway-web \
+                                           document-management-api

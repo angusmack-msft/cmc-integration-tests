@@ -106,6 +106,8 @@ services:
           condition: service_started
         pdf-service-api:
           condition: service_started
+        document-management-api-gateway-web:
+          condition: service_started
       networks:
         default:
           aliases:
@@ -114,6 +116,7 @@ services:
       image: docker.artifactory.reform.hmcts.net/auth/authentication-web:65e9cbfeeee1c6f238e7ef25e7159ae066058c8f
       environment:
         - IDAM_API_URL=http://idam-api:8080
+        - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CMC_LEGAL=123456
       mem_limit: 256m
       memswap_limit: 0
       depends_on:
@@ -169,6 +172,7 @@ services:
         - SPRING_MAIL_HOST=smtp-server
         - SPRING_MAIL_PORT=1025
         - PDF_SERVICE_URL=http://pdf-service-api:5500
+        - DOCUMENT_MANAGEMENT_API_GATEWAY_URL=http://document-management-api-gateway-web:8080
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
@@ -177,7 +181,7 @@ services:
         - REFORM_ENVIRONMENT
         - http_proxy
         - https_proxy
-        - no_proxy=idam-api,pdf-service-api
+        - no_proxy=idam-api,pdf-service-api,document-management-api-gateway-web
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
@@ -188,6 +192,8 @@ services:
         smtp-server:
           condition: service_started
         pdf-service-api:
+          condition: service_started
+        document-management-api-gateway-web:
           condition: service_started
     fees-api:
       image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:33328e91ec54cbf4dbc9f52fe56f3712fe20a331
@@ -246,6 +252,7 @@ services:
         - auth.provider.service.server.jwtKey=wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
         - auth.provider.service.server.microserviceKeys.cmc=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.cmc_legal_frontend=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.em_gw=AAAAAAAAAAAAAAAA
         - auth.provider.service.testing-support.enabled=true
       mem_limit: 512m
       memswap_limit: 0
@@ -285,3 +292,68 @@ services:
       image: mailhog/mailhog
       mem_limit: 32m
       memswap_limit: 0
+    document-management-api-gateway-web:
+      image: docker.artifactory.reform.hmcts.net/evidence/em-api-gateway-web:aec3b03a1f824881d4f09597ce29851b2be5b5cb
+      environment:
+        - NODE_ENV=development
+        - PORT=8080
+        - EM_API_URL=http://document-management-api:8080
+        - IDAM_BASE_URL=http://idam-api:8080
+        - IDAM_S2S_URL=http://service-auth-provider-api:8080
+        - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
+        - IDAM_SERVICE_NAME=em_gw
+        - CORS_ORIGIN_METHODS=GET,POST,PUT,DELETE,OPTIONS
+        - CORS_ORIGIN_WHITELIST=http://document-management-api:8080
+        #      logging env vars
+        - ROOT_APPENDER
+        - REFORM_SERVICE_TYPE=node
+        - REFORM_SERVICE_NAME=document-management-api-gateway-web
+        - REFORM_TEAM=cc
+        - REFORM_ENVIRONMENT=docker
+        - XFWD=true
+        - LOG_LEVEL=DEBUG
+      mem_limit: 256m
+      memswap_limit: 0
+      depends_on:
+        document-management-api:
+          condition: service_started
+        idam-api:
+          condition: service_started
+        service-auth-provider-api:
+          condition: service_started
+    document-management-api:
+      image: docker.artifactory.reform.hmcts.net/evidence/document-management-store:1f97d3d40f70dbb241a891d55dcc3b7531da7127
+      command: --wait-for-database 60
+      environment:
+        - SERVER_PORT=8080
+        - JAVA_OPTS=-Xms8m -Xmx256m
+        - IDAM_SUPERUSER_EMAIL
+        - IDAM_SECRET_KEY
+        - GOV_NOTIFY_API_KEY
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/evidence
+        - SPRING_DATASOURCE_USERNAME=evidence
+        - SPRING_DATASOURCE_PASSWORD=evidence
+        - SPRING_PROFILES_ACTIVE=dev
+        - IDAM_TESTING_SUPPORT_ENABLED=true
+        - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM=DEBUG
+        - IDAM_CLIENT_URL=http://idam-api:8080
+        - PROVIDER_SERVICE_CLIENT_URL=http://service-auth-provider-api:8080
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
+  #      logging env vars
+        - ROOT_APPENDER
+        - REFORM_SERVICE_TYPE=java
+        - REFORM_SERVICE_NAME=document-management-api
+        - REFORM_TEAM=cc
+        - REFORM_ENVIRONMENT=docker
+        - LOGGING_LEVEL_ROOT=DEBUG
+      mem_limit: 512m
+      memswap_limit: 0
+      depends_on:
+        shared-database:
+          condition: service_healthy
+        idam-api:
+          condition: service_started
+        service-auth-provider-api:
+          condition: service_started
