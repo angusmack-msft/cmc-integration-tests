@@ -145,10 +145,16 @@ module.exports = {
     defendantMoreTimeConfirmationPage.confirm()
   },
 
-  rejectAllOfClaim () {
+  rejectAllOfClaimAsDisputeClaim () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectMoneyClaim()
     defendantRejectAllOfClaimPage.disputeTheClaim()
+  },
+
+  rejectAllOfClaimAsAlreadyPaid () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectMoneyClaim()
+    defendantRejectAllOfClaimPage.alreadyPaid()
   },
 
   addTimeLineOfEvents (defendant) {
@@ -201,9 +207,12 @@ module.exports = {
     defendantFreeMediationPage.chooseYes()
   },
 
-  fullDefence () {
+  submitDefenceText (text) {
     defendantSteps.selectTaskYourDefence()
-    defendantYourDefencePage.enterYourDefence('I am not guilty!')
+    defendantYourDefencePage.enterYourDefence(text)
+  },
+
+  askforMediation () {
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
@@ -244,12 +253,21 @@ module.exports = {
     const claimAmountTooMuch = this.defenceType.rejectPartOfTheClaim.claimAmountTooMuch
     const iPaidWhatIBelieveIOwe = this.defenceType.rejectPartOfTheClaim.iPaidWhatIBelieveIOwe
     const disputeTheClaim = this.defenceType.rejectAllOfTheClaim.disputeTheClaim
+    const alreadyPaidInFull = this.defenceType.rejectAllOfTheClaim.alreadyPaidInFull
 
     switch (defenceType) {
       case disputeTheClaim:
-        this.rejectAllOfClaim()
+        this.rejectAllOfClaimAsDisputeClaim()
         I.see('Your defence')
-        this.fullDefence()
+        this.submitDefenceText('I fully dispute this claim')
+        this.askforMediation()
+        defendantSteps.selectCheckAndSubmitYourDefence()
+        break
+
+      case alreadyPaidInFull:
+        this.rejectAllOfClaimAsAlreadyPaid()
+        I.see('Your defence')
+        this.submitDefenceText('I have already paid')
         defendantSteps.selectCheckAndSubmitYourDefence()
         break
 
@@ -269,7 +287,7 @@ module.exports = {
     }
 
     this.checkAndSendAndSubmit(defendantType)
-    if (defenceType === disputeTheClaim) {
+    if (defenceType === disputeTheClaim || defenceType === alreadyPaidInFull) {
       I.see('Defence submitted')
     } else {
       I.see('Next steps')

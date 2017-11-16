@@ -22,5 +22,10 @@ module.exports = {
   disputeTheClaim () {
     I.checkOption(this.fields.dispute)
     I.click(this.buttons.submit)
+  },
+
+  alreadyPaid () {
+    I.checkOption(this.fields.alreadyPaid)
+    I.click(this.buttons.submit)
   }
 }
