@@ -23,6 +23,9 @@ let userSteps
 let interestSteps
 let paymentSteps
 let defenceSteps
+let claimAmountLocator
+let totalClaimAmountLocator
+let claimAmount
 let totalClaimAmount
 let eligibilitySteps
 
@@ -49,6 +52,8 @@ module.exports = {
     paymentSteps = require('../steps/payment')
     defenceSteps = require('../../defence/steps/defence')
     eligibilitySteps = require('../steps/eligibility')
+    claimAmountLocator = 'table.table-form > tbody > tr:nth-of-type(1) >td.numeric.last > span'
+    totalClaimAmountLocator = 'table.table-form > tfoot > tr > td.numeric.last > span'
   },
 
   claimantType: {
@@ -63,9 +68,15 @@ module.exports = {
       document.location.reload(true)
     })
   },
+
+  getClaimAmount () {
+    claimAmount = parseFloat(claimant.claimAmount.amount1) + parseFloat(claimant.claimAmount.amount2) + parseFloat(claimant.claimAmount.amount3)
+    claimAmount = claimAmount.toFixed(2)
+    return claimAmount
+  },
+
   getTotalClaimAmount () {
-    totalClaimAmount = parseFloat(claimant.claimAmount.amount1) + parseFloat(claimant.claimAmount.amount2) + parseFloat(claimant.claimAmount.amount3)
-    totalClaimAmount = totalClaimAmount + fee
+    totalClaimAmount = parseFloat(this.getClaimAmount()) + fee
     totalClaimAmount = totalClaimAmount.toFixed(2)
     return totalClaimAmount
   },
@@ -201,6 +212,8 @@ module.exports = {
     interestSteps.enterDefaultInterest()
     this.readFeesPage()
     I.see('Total amount you’re claiming')
+    I.see(this.getClaimAmount().toString(), claimAmountLocator)
+    I.see(this.getTotalClaimAmount().toString(), totalClaimAmountLocator)
     interestSteps.skipClaimantInterestTotalPage()
     userSteps.selectClaimDetails()
     this.enterClaimReason()
