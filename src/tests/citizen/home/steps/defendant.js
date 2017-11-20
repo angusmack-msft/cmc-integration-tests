@@ -24,6 +24,10 @@ module.exports = {
     defendantTaskListPage.selectTaskHowMuchMoneyBelieveYouOwe()
   },
 
+  selectTaskWhenWillYouPay () {
+    defendantTaskListPage.selectTaskWhenWillYouPay()
+  },
+
   selectTaskHowMuchPaidToClaiment () {
     defendantTaskListPage.selectTaskHowMuchPaidToClaiment()
   },

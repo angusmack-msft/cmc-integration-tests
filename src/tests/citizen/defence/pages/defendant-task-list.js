@@ -33,6 +33,10 @@ module.exports = {
     I.click('How much money do you believe you owe?')
   },
 
+  selectTaskWhenWillYouPay () {
+    I.click('When will you pay?')
+  },
+
   selectTaskYourDefence () {
     I.click('Your defence')
   },

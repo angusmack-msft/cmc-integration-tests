@@ -50,6 +50,8 @@ module.exports = {
   defendantFreeMediationPage: './src/tests/citizen/defence/pages/defendant-free-mediation',
   defendantCheckAndSendPage: './src/tests/citizen/defence/pages/defendant-check-and-send',
   defendantOfferPage: './src/tests/citizen/offers/pages/defendant-offer',
+  defendantPaymentPlanPage: './src/tests/citizen/defence/pages/defendant-payment-plan',
+  defendantWhenWillYouPage: './src/tests/citizen/defence/pages/defendant-when-will-you-pay',
 
   dashboardPage: './src/tests/citizen/dashboard/pages/dashboard',
   dashboardClaimantPage: './src/tests/citizen/dashboard/pages/claimant',

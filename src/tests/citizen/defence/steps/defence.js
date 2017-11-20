@@ -26,6 +26,8 @@ let I,
   defendantTimelineOfEventsPage,
   defendantImpactOfDisputePage,
   loginPage,
+  defendantPaymentPlanPage,
+  defendantWhenWillYouPage,
   defendantSteps
 
 class Helper {
@@ -47,6 +49,14 @@ class Helper {
 }
 
 const updatedAddress = {line1: 'ABC Street', line2: 'A cool place', city: 'Bristol', postcode: 'AAA BCC'}
+
+const defendantRepaymentPlan = {
+  firstPayment: '50',
+  equalInstallment: '20',
+  firstPaymentDate: { day: '1', month: '1', year: '2025' },
+  frequency: 'everyWeek',
+  text: 'I owe nothing'
+}
 
 module.exports = {
 
@@ -73,6 +83,8 @@ module.exports = {
     defendantRejectPartOfClaimPage = require('../pages/defendant-reject-part-of-claim')
     defendantTimelineOfEventsPage = require('../pages/defendant-timeline-events')
     defendantImpactOfDisputePage = require('../pages/defendant-impact-of-dispute')
+    defendantPaymentPlanPage = require('../pages/defendant-payment-plan')
+    defendantWhenWillYouPage = require('../pages/defendant-when-will-you-pay')
 
     loginPage = require('../../home/pages/login')
     defendantSteps = require('../../home/steps/defendant')
@@ -203,6 +215,10 @@ module.exports = {
     I.see('List your evidence')
     I.click('Save and continue')
     this.explainImpactOfDispute(defendant)
+    defendantSteps.selectTaskWhenWillYouPay()
+    defendantWhenWillYouPage.chooseInstalments()
+    defendantPaymentPlanPage.enterRepaymentPlan(defendantRepaymentPlan)
+    I.see('Respond to a money claim')
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   },
