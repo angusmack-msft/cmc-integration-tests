@@ -2,7 +2,6 @@ import * as testData from 'data/test-data'
 
 const claimant = testData.claimant('civilmoneyclaims+notused@gmail.com')
 const defendant = testData.defendant('civilmoneyclaims+adefendant@gmail.com')
-const fee = 25  // fee is £25 for 80.50 claimamount
 
 let I
 let citizenResolveDisputePage
@@ -26,6 +25,7 @@ let defenceSteps
 let claimAmountLocator
 let totalClaimAmountLocator
 let claimAmount
+let claimFee
 let totalClaimAmount
 let eligibilitySteps
 
@@ -75,8 +75,14 @@ module.exports = {
     return claimAmount
   },
 
+  getClaimFee () {
+    claimFee = parseFloat(claimant.claimAmount.claimFee)
+    claimFee = claimFee.toFixed(2)
+    return claimFee
+  },
+
   getTotalClaimAmount () {
-    totalClaimAmount = parseFloat(this.getClaimAmount()) + fee
+    totalClaimAmount = parseFloat(this.getClaimAmount()) + parseFloat(claimant.claimAmount.claimFee)
     totalClaimAmount = totalClaimAmount.toFixed(2)
     return totalClaimAmount
   },
@@ -106,7 +112,7 @@ module.exports = {
         break
       case this.claimantType.soleTrader:
         partyTypePage.selectSoleTrader()
-        individualDetailsPage.enterName(claimant.name)
+        individualDetailsPage.enterName(claimant.soleTraderName)
         individualDetailsPage.enterAddresses(claimant.address, claimant.correspondenceAddress)
         individualDetailsPage.submit()
         break
@@ -184,8 +190,8 @@ module.exports = {
     claimantReasonPage.enterReason(claimant.claimReason)
   },
 
-  checkClaimFactsAreTrueAndSubmit (claimantType) {
-    claimantCheckAndSendPage.verifyCheckAndSendAnswers(claimant)
+  checkClaimFactsAreTrueAndSubmit (claimantType, defendantType, enterDefendantEmail = true) {
+    claimantCheckAndSendPage.verifyCheckAndSendAnswers(claimant, claimantType, defendant, defendantType, enterDefendantEmail)
 
     if (claimantType === this.claimantType.company || claimantType === this.claimantType.organisation) {
       claimantCheckAndSendPage.signStatementOfTruthAndSubmit('Jonny', 'Director')
@@ -218,7 +224,7 @@ module.exports = {
     userSteps.selectClaimDetails()
     this.enterClaimReason()
     userSteps.selectCheckAndSubmitYourClaim()
-    this.checkClaimFactsAreTrueAndSubmit(claimantType)
+    this.checkClaimFactsAreTrueAndSubmit(claimantType, defendantType, enterDefendantEmail)
   },
 
   makeAClaimAndSubmit (email, claimantType, defendantType, enterDefendantEmail = true) {

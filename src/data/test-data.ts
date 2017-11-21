@@ -29,7 +29,8 @@ const claimant = function (email) {
     claimAmount: {
       amount1: '10',
       amount2: '20.50',
-      amount3: '50'
+      amount3: '50',
+      claimFee: '25'
     },
     claimReason: 'My reasons for the claim are that I am owed this money for a variety of reason, these being...'
   }
