@@ -52,7 +52,7 @@ const updatedAddress = {line1: 'ABC Street', line2: 'A cool place', city: 'Brist
 
 const defendantRepaymentPlan = {
   firstPayment: '50',
-  equalInstallment: '20',
+  equalInstalment: '20',
   firstPaymentDate: { day: '1', month: '1', year: '2025' },
   frequency: 'everyWeek',
   text: 'I owe nothing'

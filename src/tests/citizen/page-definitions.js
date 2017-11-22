@@ -61,7 +61,7 @@ module.exports = {
   ccjDefendantPaidAnyMoneyPage: './src/tests/citizen/ccj/pages/defendant-paid-any-money',
   ccjPaidAmountSummary: './src/tests/citizen/ccj/pages/paid-amount-summary',
   ccjPaymentOptionsPage: './src/tests/citizen/ccj/pages/payment-options',
-  ccjDefendantPaidByInstallmentsPage: './src/tests/citizen/ccj/pages/defendant-pay-by-installments',
+  ccjDefendantPaidByInstalmentsPage: './src/tests/citizen/ccj/pages/defendant-pay-by-instalments',
   ccjDefendantPayBySetDatePage: './src/tests/citizen/ccj/pages/defendant-pay-by-set-date',
   ccjCheckAndSendPage: './src/tests/citizen/ccj/pages/ccj-check-and-send',
 

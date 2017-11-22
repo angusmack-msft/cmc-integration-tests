@@ -9,13 +9,13 @@ let ccjDateOfBirthPage
 let ccjDefendantPaidAnyMoneyPage
 let ccjPaidAmountSummary
 let ccjPaymentOptionsPage
-let ccjDefendantPaidByInstallmentsPage
+let ccjDefendantPaidByInstalmentsPage
 let ccjDefendantPayBySetDatePage
 let ccjCheckAndSendPage
 
 const ccjRepaymentPlan = {
   firstPayment: '50',
-  equalInstallment: '20',
+  equalInstalment: '20',
   firstPaymentDate: { day: '1', month: '1', year: '2025' },
   frequency: 'everyWeek'}
 const paymentBySetDate = { day: '1', month: '1', year: '2025' }
@@ -30,7 +30,7 @@ module.exports = {
     ccjDefendantPaidAnyMoneyPage = require('../pages/defendant-paid-any-money')
     ccjPaidAmountSummary = require('../pages/paid-amount-summary')
     ccjPaymentOptionsPage = require('../pages/payment-options')
-    ccjDefendantPaidByInstallmentsPage = require('../pages/defendant-pay-by-installments')
+    ccjDefendantPaidByInstalmentsPage = require('../pages/defendant-pay-by-instalments')
     ccjDefendantPayBySetDatePage = require('../pages/defendant-pay-by-set-date')
     ccjCheckAndSendPage = require('../pages/ccj-check-and-send')
     testingSupport = require('../../testingSupport/steps/testingSupport')
@@ -53,10 +53,10 @@ module.exports = {
     ccjPaidAmountSummary.continue()
   },
 
-  ccjDefendantToPayByInstallments () {
+  ccjDefendantToPayByInstalments () {
     ccjPaymentOptionsPage.chooseInstalments()
-    ccjDefendantPaidByInstallmentsPage.checkOutstandingAmount(defendantPaidAmount)
-    ccjDefendantPaidByInstallmentsPage.enterRepaymentPlan(ccjRepaymentPlan)
+    ccjDefendantPaidByInstalmentsPage.checkOutstandingAmount(defendantPaidAmount)
+    ccjDefendantPaidByInstalmentsPage.enterRepaymentPlan(ccjRepaymentPlan)
   },
 
   ccjDefendantToPayBySetDate () {

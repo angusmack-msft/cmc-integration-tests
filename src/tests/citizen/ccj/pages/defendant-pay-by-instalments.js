@@ -14,7 +14,7 @@ module.exports = {
   fields: {
     repayment: {
       firstPayment: 'input[id=firstPayment]',
-      equalInstalments: 'input[id=installmentAmount]',
+      equalInstalments: 'input[id=instalmentAmount]',
       firstPaymentDate: {
         day: "input[id='firstPaymentDate[day]']",
         month: "input[id='firstPaymentDate[month]']",
@@ -40,7 +40,7 @@ module.exports = {
 
   enterRepaymentPlan (plan) {
     I.fillField(this.fields.repayment.firstPayment, plan.firstPayment)
-    I.fillField(this.fields.repayment.equalInstalments, plan.equalInstallment)
+    I.fillField(this.fields.repayment.equalInstalments, plan.equalInstalment)
     I.fillField(this.fields.repayment.firstPaymentDate.day, plan.firstPaymentDate.day)
     I.fillField(this.fields.repayment.firstPaymentDate.month, plan.firstPaymentDate.month)
     I.fillField(this.fields.repayment.firstPaymentDate.year, plan.firstPaymentDate.year)

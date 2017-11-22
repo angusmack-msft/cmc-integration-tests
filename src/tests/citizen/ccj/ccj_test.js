@@ -1,13 +1,13 @@
 Feature('CCJ')
 
-Scenario('Request judgment as an individual with no defendant email and pay by installments @citizen @quick', function * (I, claimSteps, defenceSteps, ccjSteps) {
+Scenario('Request judgment as an individual with no defendant email and pay by instalments @citizen @quick', function * (I, claimSteps, defenceSteps, ccjSteps) {
   const email = yield I.createCitizenUser()
   const hasDefendantEmail = false
   const claimantType = claimSteps.claimantType.individual
   const defendantType = defenceSteps.defendantType.individual
   const claimRef = yield claimSteps.makeAClaimAndSubmit(email, claimantType, defendantType, hasDefendantEmail)
   ccjSteps.requestCCJ(claimRef, defendantType)
-  ccjSteps.ccjDefendantToPayByInstallments()
+  ccjSteps.ccjDefendantToPayByInstalments()
   ccjSteps.checkCCJFactsAreTrueAndSubmit(claimantType, defendantType)
   I.see('County Court Judgment requested', 'h1.bold-large')
 })
