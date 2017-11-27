@@ -76,5 +76,13 @@ module.exports = {
   dashboardSteps: './src/tests/citizen/dashboard/steps/dashboard',
   testingSupport: './src/tests/citizen/testingSupport/steps/testingSupport',
   ccjSteps: './src/tests/citizen/ccj/steps/ccj',
-  offerSteps: './src/tests/citizen/offers/steps/offer.ts'
+  offerSteps: './src/tests/citizen/offers/steps/offer.ts',
+
+  statementOfMeansSteps: './src/tests/citizen/defence/steps/statementOfMeans',
+  somStartPage: './src/tests/citizen/defence/pages/statement-of-means/start',
+  somWhatYouNeedPage: './src/tests/citizen/defence/pages/statement-of-means/what-you-need',
+  somResidencePage: './src/tests/citizen/defence/pages/statement-of-means/residence',
+  somDependantsPage: './src/tests/citizen/defence/pages/statement-of-means/dependants',
+  somMaintenancePage: './src/tests/citizen/defence/pages/statement-of-means/maintenance',
+  somEmploymentPage: './src/tests/citizen/defence/pages/statement-of-means/employment'
 }

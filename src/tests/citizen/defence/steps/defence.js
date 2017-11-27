@@ -28,7 +28,8 @@ let I,
   loginPage,
   defendantPaymentPlanPage,
   defendantWhenWillYouPage,
-  defendantSteps
+  defendantSteps,
+  statementOfMeansSteps
 
 class Helper {
   static getLetterHolderId (claimRef) {
@@ -88,6 +89,7 @@ module.exports = {
 
     loginPage = require('../../home/pages/login')
     defendantSteps = require('../../home/steps/defendant')
+    statementOfMeansSteps = require('../steps/statementOfMeans')
   },
 
   defendantType: {
@@ -218,6 +220,7 @@ module.exports = {
     defendantSteps.selectTaskWhenWillYouPay()
     defendantWhenWillYouPage.chooseInstalments()
     defendantPaymentPlanPage.enterRepaymentPlan(defendantRepaymentPlan)
+    statementOfMeansSteps.fillStatementOfMeansData()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
