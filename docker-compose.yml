@@ -85,7 +85,7 @@ services:
         - DRAFT_STORE_URL=http://draft-store-api:8800
         - CLAIM_STORE_URL=http://claim-store-api:4400
         - PDF_SERVICE_URL=http://pdf-service-api:5500
-        - DOCUMENT_MANAGEMENT_URL=http://document-management-api-gateway-web:8080
+        - DOCUMENTMANAGEMENT_URL=http://document-management-api-gateway-web:8080
         - LOG_LEVEL=DEBUG
         - http_proxy=
         - https_proxy=
