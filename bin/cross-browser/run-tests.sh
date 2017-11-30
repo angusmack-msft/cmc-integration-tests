@@ -25,7 +25,7 @@ done
 TESTS_FAILURES="0"
 CWD=$(dirname "$0")
 
-SUPPORTED_BROWSERS=$(sed '/\/\//d' ${CWD}/../../src/config/saucelabs/supported-browsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g")
+SUPPORTED_BROWSERS=$(sed '/\/\//d' ${CWD}/../../src/config/saucelabs/supported-browsers.ts | sed '/: {/!d' | sed "s/[\'\:\{ ]//g")
 SUPPORTED_BROWSERS_ARRAY=(${SUPPORTED_BROWSERS//$'\n'/ })
 
 echo "Following browsers will be tested:"

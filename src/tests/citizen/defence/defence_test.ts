@@ -1,38 +1,44 @@
+import { PartyType } from 'data/party-type'
 import { defendant } from 'data/test-data'
+import { Helper } from 'tests/citizen/endToEnd/steps/helper'
+import I = CodeceptJS.I
+import { DefenceType } from 'data/defence-type'
+
+const helperSteps: Helper = new Helper()
 
 Feature('Respond to claim')
 
-Scenario('I can complete the journey when I fully reject the claim as I dispute the claim @citizen', function * (I, helperSteps, defenceSteps) {
-  const claimantEmail = yield I.createCitizenUser()
-  const defendantEmail = yield I.createCitizenUser()
-  const claimRef = yield helperSteps.makeClaim(claimantEmail)
+Scenario('I can complete the journey when I fully reject the claim as I dispute the claim @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const claimRef: string = yield helperSteps.makeClaim(claimantEmail)
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(defenceSteps.defendantType.individual, defendant(defendantEmail))
+  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail))
 })
 
-Scenario('I can complete the journey when I fully reject the claim as I have already paid @citizen', function * (I, helperSteps, defenceSteps) {
-  const claimantEmail = yield I.createCitizenUser()
-  const defendantEmail = yield I.createCitizenUser()
-  const claimRef = yield helperSteps.makeClaim(claimantEmail)
+Scenario('I can complete the journey when I fully reject the claim as I have already paid @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const claimRef: string = yield helperSteps.makeClaim(claimantEmail)
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(defenceSteps.defendantType.individual, defendant(defendantEmail),
-  defenceSteps.defenceType.rejectAllOfTheClaim.alreadyPaidInFull)
+  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail),
+    DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID)
 })
 
-Scenario('I can complete the journey when I reject part of the claim as I’ve paid what I believe I owe @citizen', function * (I, helperSteps, defenceSteps) {
-  const claimantEmail = yield I.createCitizenUser()
-  const defendantEmail = yield I.createCitizenUser()
-  const claimRef = yield helperSteps.makeClaim(claimantEmail)
+Scenario('I can complete the journey when I reject part of the claim as I’ve paid what I believe I owe @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const claimRef: string = yield helperSteps.makeClaim(claimantEmail)
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(defenceSteps.defendantType.individual, defendant(defendantEmail),
-  defenceSteps.defenceType.rejectPartOfTheClaim.iPaidWhatIBelieveIOwe)
+  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail),
+    DefenceType.PART_ADMISSION_BECAUSE_BELIEVED_AMOUNT_IS_PAID)
 })
 
-Scenario('I can complete the journey when I reject part of the claim as claim amount is too much @citizen', function * (I, helperSteps, defenceSteps) {
-  const claimantEmail = yield I.createCitizenUser()
-  const defendantEmail = yield I.createCitizenUser()
-  const claimRef = yield helperSteps.makeClaim(claimantEmail)
+Scenario('I can complete the journey when I reject part of the claim as claim amount is too much @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const claimRef: string = yield helperSteps.makeClaim(claimantEmail)
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(defenceSteps.defendantType.individual, defendant(defendantEmail),
-  defenceSteps.defenceType.rejectPartOfTheClaim.claimAmountTooMuch)
+  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail),
+    DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH)
 })

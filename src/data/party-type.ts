@@ -1,0 +1,6 @@
+export enum PartyType {
+  INDIVIDUAL,
+  SOLE_TRADER,
+  COMPANY,
+  ORGANISATION
+}

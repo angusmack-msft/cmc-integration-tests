@@ -1,51 +1,49 @@
 import { claimant } from 'data/test-data'
+import { ClaimantStartClaimPage } from 'tests/citizen/claim/pages/claimant-start-claim'
+import { ClaimantTaskListPage } from 'tests/citizen/claim/pages/claimant-task-list'
+import { LoginPage } from 'tests/citizen/home/pages/login'
 
-let loginPage
-let startClaimPage
-let taskListPage
+const loginPage: LoginPage = new LoginPage()
+const startClaimPage: ClaimantStartClaimPage = new ClaimantStartClaimPage()
+const taskListPage: ClaimantTaskListPage = new ClaimantTaskListPage()
 
-module.exports = {
+export class UserSteps {
 
-  _init () {
-    loginPage = require('../pages/login')
-    startClaimPage = require('../../claim/pages/claimant-start-claim')
-    taskListPage = require('../../claim/pages/claimant-task-list')
-  },
-
-  login (username) {
+  login (username): void {
     loginPage.open()
     loginPage.login(username, claimant(username).password)
-  },
-  startClaim () {
+  }
+
+  startClaim (): void {
     startClaimPage.open()
     startClaimPage.startClaim()
-  },
+  }
 
-  selectResolvingThisDispute () {
+  selectResolvingThisDispute (): void {
     taskListPage.selectTaskResolvingThisDispute()
-  },
+  }
 
-  selectCompletingYourClaim () {
+  selectCompletingYourClaim (): void {
     taskListPage.selectTaskCompletingYourClaim()
-  },
+  }
 
-  selectYourDetails () {
+  selectYourDetails (): void {
     taskListPage.selectTaskYourDetails()
-  },
+  }
 
-  selectTheirDetails () {
+  selectTheirDetails (): void {
     taskListPage.selectTaskTheirDetails()
-  },
+  }
 
-  selectClaimAmount () {
+  selectClaimAmount (): void {
     taskListPage.selectTaskClaimAmount()
-  },
+  }
 
-  selectClaimDetails () {
+  selectClaimDetails (): void {
     taskListPage.selectTaskClaimDetails()
-  },
+  }
 
-  selectCheckAndSubmitYourClaim () {
+  selectCheckAndSubmitYourClaim (): void {
     taskListPage.selectTaskCheckAndSubmitYourClaim()
   }
 }

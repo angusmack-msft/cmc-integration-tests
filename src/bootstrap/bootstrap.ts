@@ -1,11 +1,14 @@
+/* tslint:disable:no-console */
+
 import * as fs from 'fs'
 import * as request from 'request-promise-native'
+import { RequestResponse } from 'request'
 
 const citizenAppURL = process.env.CITIZEN_APP_URL
 const legalAppURL = process.env.LEGAL_APP_URL
 
 class Client {
-  static checkHealth (appURL) {
+  static checkHealth (appURL: string): Promise<RequestResponse> {
     return request.get({
       uri: `${appURL}/health`,
       resolveWithFullResponse: true,
@@ -17,7 +20,7 @@ class Client {
     })
   }
 }
-
+// TS:no-
 function logStartupProblem (response) {
   if (response.body) {
     console.log(response.body)
@@ -34,20 +37,20 @@ function handleError (error) {
   process.exit(1)
 }
 
-function sleepFor (sleepDurationInSeconds) {
+function sleepFor (sleepDurationInSeconds: number) {
   console.log(`Sleeping for ${sleepDurationInSeconds} seconds`)
   return new Promise((resolve) => {
     setTimeout(resolve, sleepDurationInSeconds * 1000)
   })
 }
 
-async function waitTillHealthy (appURL) {
+async function waitTillHealthy (appURL: string) {
   const maxTries = 36
   const sleepInterval = 10
 
   console.log(`Verifying health for ${appURL}`)
 
-  let response
+  let response: RequestResponse
   for (let i = 0; i < maxTries; i++) {
     response = await Client.checkHealth(appURL)
     console.log(`Attempt ${i + 1} - received status code ${response.statusCode} from ${appURL}/health`)
@@ -62,11 +65,11 @@ async function waitTillHealthy (appURL) {
   }
 
   const error = new Error(`Failed to successfully contact ${appURL} after ${maxTries} attempts`)
-  error.message = response
+  error.message = '' + response
   return Promise.reject(error)
 }
 
-module.exports = async function (done) {
+module.exports = async function (done: () => void) {
   try {
     await Promise.all([
       waitTillHealthy(citizenAppURL),

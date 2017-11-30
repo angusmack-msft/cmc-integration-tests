@@ -1,22 +1,19 @@
 import * as testData from 'data/test-data'
+import { DefendantOfferPage } from 'tests/citizen/offers/pages/defendant-offer'
+import I = CodeceptJS.I
+
+const I: I = actor()
+const defendantOfferPage: DefendantOfferPage = new DefendantOfferPage()
+
 const defendant = testData.defendant('civilmoneyclaims+notused@gmail.com')
 
-let I
-let defendantOfferPage
+export class OfferSteps {
 
-module.exports = {
-
-  _init () {
-    I = actor()
-
-    defendantOfferPage = require('../pages/defendant-offer')
-  },
-
-  makeOffer () {
+  makeOffer (): void {
     defendantOfferPage.enterOffer(defendant.offer.offerText, defendant.offer.dateOfcompletionDate)
-  },
+  }
 
-  makeOfferFromDashboard (claimRef) {
+  makeOfferFromDashboard (claimRef: string): void {
     I.click('My account')
     I.see('Your money claims account')
     I.click(claimRef)

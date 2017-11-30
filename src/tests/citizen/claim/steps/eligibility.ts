@@ -1,17 +1,15 @@
-let I
+import I = CodeceptJS.I
+
+const I: I = actor()
 
 function completeEligibilityPage (optionSelector: string) {
   I.checkOption(optionSelector)
   I.click('input[type=submit]')
 }
 
-module.exports = {
+export class EligibilitySteps {
 
-  _init () {
-    I = actor()
-  },
-
-  complete () {
+  complete (): void {
     I.see('Check eligibility')
     I.click('Continue to questions')
 

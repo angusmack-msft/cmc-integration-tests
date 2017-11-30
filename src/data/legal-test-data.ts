@@ -1,4 +1,4 @@
-const verifyPageData = {
+export const verifyPageData = {
   organizationRefNumber: 'PBA1234567',
   claimantOrganization: 'Abc corporation',
   defendantOrganization: 'Def corporation',
@@ -6,8 +6,4 @@ const verifyPageData = {
   feeAccountNumber: 'PBA0000000',
   feesPaid: '£455',
   maxFeePaid: '£10,000'
-}
-
-export {
-  verifyPageData
 }

@@ -1,6 +1,5 @@
-const citizenPageDefinitions = require('./src/tests/citizen/page-definitions')
 const legalPageDefinitions = require('./src/tests/legal/page-definitions')
-const supportedBrowsers = require('./src/config/saucelabs/supported-browsers')
+const supportedBrowsers = require('./src/config/saucelabs/supported-browsers').supportedBrowsers
 
 const browser = requiredValue(process.env.SAUCELABS_BROWSER, 'SAUCELABS_BROWSER')
 const saucelabsTunnelIdentifier = requiredValue(process.env.SAUCELABS_TUNNEL_IDENTIFIER, 'SAUCELABS_TUNNEL_IDENTIFIER')
@@ -59,7 +58,7 @@ exports.config = {
       require: './src/helpers/saucelabsReporter'
     }
   },
-  include: Object.assign({ }, citizenPageDefinitions, legalPageDefinitions),
+  include: Object.assign({ }, legalPageDefinitions),
   mocha: {
     reporterOptions: {
       'codeceptjs-cli-reporter': {
