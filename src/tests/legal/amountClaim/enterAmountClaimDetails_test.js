@@ -2,7 +2,7 @@ const verifyPageData = require('../../../data/legal-test-data').verifyPageData
 
 Feature('Enter claim amount and submit claim')
 
-Scenario.only('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
+Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
