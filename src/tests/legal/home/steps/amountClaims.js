@@ -152,7 +152,7 @@ module.exports = {
   },
   verifyIndividualSummaryDetails () {
     detailsSummaryPage.verifyOrganizationDetails()
-    detailsSummaryPage.individualClaimDetails()
+    detailsSummaryPage.individualClaimantDetails()
     detailsSummaryPage.individualDefendantDetails()
     detailsSummaryPage.aboutThisClaim()
     detailsSummaryPage.selectSubmitButton()

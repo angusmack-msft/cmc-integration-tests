@@ -3,7 +3,7 @@
 const claimant = require('../../../../data/test-data').claimant
 
 let loginPage, startClaimPage, yourOrganisationNamePage, yourOrganisationAddressPage, yourContactDetailsPage,
-  yourReferencePage, yourCountyCourtPage, claimantTypePage, claimantAddressPage, claimantAddPage
+  yourReferencePage, yourCountyCourtPage, claimantNamePage, claimantAddressPage, claimantAddPage
 
 module.exports = {
 
@@ -15,7 +15,7 @@ module.exports = {
     yourContactDetailsPage = require('../../claim/pages/claimant-representative-contacts')
     yourReferencePage = require('../../claim/pages/claimant-reference')
     yourCountyCourtPage = require('../../claim/pages/claimant-preferred-court')
-    claimantTypePage = require('../../claim/pages/claimant-type')
+    claimantNamePage = require('../../claim/pages/claimant-name')
     claimantAddressPage = require('../../claim/pages/claimant-address')
     claimantAddPage = require('../../claim/pages/claimant-add')
   },
@@ -59,16 +59,13 @@ module.exports = {
     yourContactDetailsPage.submitOnlyMandatoryData()
     yourReferencePage.submitOnlyMandatoryData()
     yourCountyCourtPage.submitOnlyMandatoryData()
-    claimantTypePage.enterOnlyMandatoryClaimantTypeData()
+    claimantNamePage.enterOnlyMandatoryClaimantTypeData()
   },
   enterMandatoryClaimantAddressDetails () {
     claimantAddressPage.enterMandatoryClaimantOrganisationAddress()
   },
-  enterClaimantTypeIndividual () {
-    claimantTypePage.enterClaimantTypeIndividual()
-  },
-  enterClaimantTypeOrganisation () {
-    claimantTypePage.enterClaimantTypeOrganisation()
+  enterClaimantName () {
+    claimantNamePage.enterClaimantName()
   },
   enterClaimantAddress () {
     claimantAddressPage.enterYourOrganisationAddress()
@@ -85,7 +82,7 @@ module.exports = {
     yourContactDetailsPage.verifyContactDetails()
   },
   verifyAndChangeClaimantDetails () {
-    claimantTypePage.verifyClaimantIndividualDetails()
-    claimantTypePage.changeRemoveIndividualClaimantDetails()
+    claimantNamePage.verifyClaimantIndividualDetails()
+    claimantNamePage.changeRemoveIndividualClaimantDetails()
   }
 }

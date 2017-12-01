@@ -2,12 +2,12 @@ const verifyPageData = require('../../../data/legal-test-data').verifyPageData
 
 Feature('Enter claim amount and submit claim')
 
-Scenario('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
+Scenario.only('I can fill in Organisation details for Claimant, Defendant, Claim amount and Submit the claim @legal @quick', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps, legalDashboardSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
-  legalUserSteps.enterClaimantTypeOrganisation()
-  I.see('Claimant: ' + verifyPageData.claimantOrganization)
+  legalUserSteps.enterClaimantName()
+  I.see('Claimant: ' + verifyPageData.claimantName)
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()
   legalDefendantSteps.enterDefendantTypeOrganisation()
@@ -61,12 +61,12 @@ Scenario('I can fill in individual details for Claimant, Defendant, Claim amount
   yield I.downloadPDF(pdfUrl, sessionCookie.value)
 })
 
-Scenario('I can fill in Organisation details for Claimant, Defendant and no Claim amount details @legal', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps) {
+Scenario('I can fill in details for Claimant, Defendant and no Claim amount details @legal', function * (I, legalUserSteps, legalDefendantSteps, legalAmountClaimSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
-  legalUserSteps.enterClaimantTypeOrganisation()
-  I.see('Claimant: ' + verifyPageData.claimantOrganization)
+  legalUserSteps.enterClaimantName()
+  I.see('Claimant: ' + verifyPageData.claimantName)
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()
   legalDefendantSteps.enterDefendantTypeOrganisation()

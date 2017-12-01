@@ -2,12 +2,12 @@ const verifyPageData = require('../../../data/legal-test-data').verifyPageData
 
 Feature('Defendants Enter details of claim')
 
-Scenario('I can fill in Claimant organization, more Defendant details and update their details @legal', function * (I, legalUserSteps, legalDefendantSteps) {
+Scenario('I can fill in Claimant, more Defendant details and update their details @legal', function * (I, legalUserSteps, legalDefendantSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
-  legalUserSteps.enterClaimantTypeOrganisation()
-  I.see('Claimant: ' + verifyPageData.claimantOrganization)
+  legalUserSteps.enterClaimantName()
+  I.see('Claimant: ' + verifyPageData.claimantName)
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()
   legalDefendantSteps.enterDefendantTypeOrganisation()
@@ -32,11 +32,11 @@ Scenario('I can fill in Claimant organization, more Defendant details and update
   legalDefendantSteps.verifyAndChangeDefendantDetails()
 })
 
-Scenario('I can fill in Claimant individual and Defendant individual details @legal', function * (I, legalUserSteps, legalDefendantSteps) {
+Scenario('I can fill in Claimant and Defendant individual details @legal', function * (I, legalUserSteps, legalDefendantSteps) {
   const userEmail = yield I.createSolicitorUser()
   legalUserSteps.loginAndStartClaim(userEmail)
   legalUserSteps.enterClaimantServiceDetails()
-  legalUserSteps.enterClaimantTypeIndividual()
+  legalUserSteps.enterClaimantName()
   I.see('Claimant: Mr Benugo')
   legalUserSteps.enterClaimantAddress()
   legalUserSteps.noAdditionalClaimant()

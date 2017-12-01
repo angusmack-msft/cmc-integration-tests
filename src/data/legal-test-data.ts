@@ -1,6 +1,6 @@
 export const verifyPageData = {
   organizationRefNumber: 'PBA1234567',
-  claimantOrganization: 'Abc corporation',
+  claimantName: 'Mrs Jan Clark',
   defendantOrganization: 'Def corporation',
   emailConfirmation: 'We\'ve emailed confirmation to: ',
   feeAccountNumber: 'PBA0000000',

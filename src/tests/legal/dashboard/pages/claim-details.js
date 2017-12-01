@@ -18,7 +18,7 @@ module.exports = {
   },
   verifyClaimDetails (legalClaimNumber) {
     I.see(legalClaimNumber)
-    I.see(verifyPageData.claimantOrganization)
+    I.see(verifyPageData.claimantName)
     I.see(verifyPageData.defendantOrganization)
     I.see(verifyPageData.organizationRefNumber)
   }

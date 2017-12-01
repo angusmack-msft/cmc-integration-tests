@@ -8,7 +8,7 @@ module.exports = {
   legalEnterYourOrganisationContactDetails: './src/tests/legal/claim/pages/claimant-representative-contacts',
   legalReferencePage: './src/tests/legal/claim/pages/claimant-reference',
   legalPreferredCountyCourtPage: './src/tests/legal/claim/pages/claimant-preferred-court',
-  legalClaimantType: './src/tests/legal/claim/pages/claimant-type',
+  legalClaimantName: './src/tests/legal/claim/pages/claimant-name',
   legalClaimantAddress: './src/tests/legal/claim/pages/claimant-address',
   legalClaimantAdd: './src/tests/legal/claim/pages/claimant-add',
 
