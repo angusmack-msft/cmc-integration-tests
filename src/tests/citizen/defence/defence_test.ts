@@ -39,6 +39,9 @@ Scenario('I can complete the journey when I reject part of the claim as claim am
   const defendantEmail: string = yield I.createCitizenUser()
   const claimRef: string = yield helperSteps.makeClaim(claimantEmail)
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail),
-    DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH)
+  helperSteps.finishResponse(
+    PartyType.INDIVIDUAL,
+    defendant(defendantEmail),
+    DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH
+  )
 })
