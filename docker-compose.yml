@@ -114,7 +114,7 @@ services:
           aliases:
             - www-legal.moneyclaim.reform.hmcts.net
     authentication-web:
-      image: docker.artifactory.reform.hmcts.net/auth/authentication-web:65e9cbfeeee1c6f238e7ef25e7159ae066058c8f
+      image: docker.artifactory.reform.hmcts.net/auth/authentication-web:a8c60dd19a4e4518b1145e41a15e99d2d5ff21a8
       environment:
         - IDAM_API_URL=http://idam-api:8080
         - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CMC_LEGAL=123456
@@ -124,7 +124,7 @@ services:
         idam-api:
           condition: service_started
     idam-api:
-      image: docker.artifactory.reform.hmcts.net/auth/idam-api:386ea4e56789cdd0db35f3a532722b5a8de15f18
+      image: docker.artifactory.reform.hmcts.net/auth/idam-api:e1fe0c3cb8da83e80ccf939a32ee288cbae20c5a
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
