@@ -10,7 +10,7 @@ module.exports = {
   },
   buttons: {
     particularsOfClaim: 'input[name=particularsOfClaim]',
-    particularsOfClaimFile: 'input[name=files]',
+    particularsOfClaimFile: 'input[id="files[label]"]',
     uploadFileButton: 'input.button'
   },
 
