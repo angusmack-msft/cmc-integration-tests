@@ -7,6 +7,7 @@ import { WhatYouNeedPage } from 'tests/citizen/defence/pages/statement-of-means/
 import { BankAccountsPage } from 'tests/citizen/defence/pages/statement-of-means/bankAccounts'
 import { SupportedByYouPage } from 'tests/citizen/defence/pages/statement-of-means/supportedByYou'
 import { UnemployedPage } from 'tests/citizen/defence/pages/statement-of-means/unemployed'
+import { DebtsPage } from 'tests/citizen/defence/pages/statement-of-means/debts'
 
 const somStartPage: StartPage = new StartPage()
 const somWhatYouNeedPage: WhatYouNeedPage = new WhatYouNeedPage()
@@ -17,6 +18,7 @@ const somEmploymentPage: EmploymentPage = new EmploymentPage()
 const somBankAccountsPage: BankAccountsPage = new BankAccountsPage()
 const somSupportedByYouPage: SupportedByYouPage = new SupportedByYouPage()
 const somUnemployedPage: UnemployedPage = new UnemployedPage()
+const somDebtsPage: DebtsPage = new DebtsPage()
 
 export class StatementOfMeansSteps {
 
@@ -30,5 +32,6 @@ export class StatementOfMeansSteps {
     somEmploymentPage.selectNotWorkingCurrently()
     somUnemployedPage.selectRetired()
     somBankAccountsPage.clickContinue()
+    somDebtsPage.selectDontHaveDebts()
   }
 }
