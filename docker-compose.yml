@@ -258,15 +258,15 @@ services:
       mem_limit: 512m
       memswap_limit: 0
     payments-api:
-      image: docker.artifactory.reform.hmcts.net/common-components/payments-api:81c947e7ef478338d4aff8bd8536dd81d83e2104
+      image: docker.artifactory.reform.hmcts.net/common-components/payments-api:3672f2cb0658ea7fcbbc9039ae24eb0b66e9528f
       healthcheck:
         retries: 40
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
         - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/payment
-        - auth.provider.service.client.baseUrl=http://service-auth-provider-api:8080/
-        - auth.idam.client.baseUrl=http://idam-api:8080/
+        - AUTH_PROVIDER_SERVICE_CLIENT_BASEURL=http://service-auth-provider-api:8080/
+        - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080/
         - GOV_PAY_AUTH_KEY_CMC
         - http_proxy
         - https_proxy
