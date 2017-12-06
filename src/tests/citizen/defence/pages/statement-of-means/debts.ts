@@ -7,7 +7,7 @@ const fields = {
 }
 
 const buttons = {
-  submit: 'input[value="Save and continue"]'
+  submit: 'input[id="saveAndContinue"]'
 }
 
 export class DebtsPage {
