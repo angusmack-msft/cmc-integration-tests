@@ -15,7 +15,7 @@ const buttons = {
 
 export class DefendantAddressPage {
 
-  enterAddress (address): void {
+  enterAddress (address: Address): void {
     I.fillField(fields.addressLine1, address.line1)
     I.fillField(fields.addressLine2, address.line2)
     I.fillField(fields.addressCity, address.city)

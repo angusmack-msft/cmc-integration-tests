@@ -1,4 +1,5 @@
 import I = CodeceptJS.I
+import { DateParser } from 'utils/date-parser'
 
 const I: I = actor()
 
@@ -19,12 +20,13 @@ export class UpdateResponseDeadlinePage {
     I.amOnCitizenAppPage('/response/your-dob')
   }
 
-  updateDeadline (claimNumber: string, date): void {
+  updateDeadline (claimNumber: string, date: string): void {
     I.fillField(fields.claimNumber, claimNumber)
 
-    I.fillField(fields.day, date.day)
-    I.fillField(fields.month, date.month)
-    I.fillField(fields.year, date.year)
+    const [ year, month, day ] = DateParser.parse(date)
+    I.fillField(fields.day, day)
+    I.fillField(fields.month, month)
+    I.fillField(fields.year, year)
 
     I.click(buttons.submit)
 

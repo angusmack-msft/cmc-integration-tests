@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json && standard",
     "test": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config default.conf.js --reporter mocha-multi",
-    "test-crossbrowser": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config saucelabs.conf.js --grep @quick --reporter mocha-multi"
+    "test-crossbrowser": "ts-node --require tsconfig-paths/register ./node_modules/.bin/codeceptjs run --config saucelabs.conf.js --grep @quick --reporter mocha-multi",
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "@types/node": "^8.0.47",
@@ -27,6 +28,7 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "codeceptjs": "^1.0.3",
+    "husky": "^0.14.3",
     "mocha-junit-reporter": "^1.15.0",
     "mocha-multi": "^0.11.1",
     "mochawesome": "^2.3.1",

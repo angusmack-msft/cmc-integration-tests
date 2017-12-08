@@ -1,5 +1,5 @@
 import { PartyType } from 'data/party-type'
-import { defendant as createDefendant } from 'data/test-data'
+import { createDefendant } from 'data/test-data'
 import { CountyCourtJudgementCheckAndSendPage } from 'tests/citizen/ccj/pages/ccj-check-and-send'
 import { DefendantPaidAnyMoneyPage } from 'tests/citizen/ccj/pages/defendant-paid-any-money'
 import { DefendantPayByInstalmentsPage } from 'tests/citizen/ccj/pages/defendant-pay-by-instalments'
@@ -22,22 +22,15 @@ const ccjDefendantPaidByInstalmentsPage: DefendantPayByInstalmentsPage = new Def
 const ccjDefendantPayBySetDatePage: DefendantPayBySetDatePage = new DefendantPayBySetDatePage()
 const ccjCheckAndSendPage: CountyCourtJudgementCheckAndSendPage = new CountyCourtJudgementCheckAndSendPage()
 
-const ccjRepaymentPlan = {
+const ccjRepaymentPlan: PaymentPlan = {
   firstPayment: 50.00,
   equalInstalment: 20.00,
-  firstPaymentDate: {
-    day: '1',
-    month: '1',
-    year: '2025'
-  },
+  firstPaymentDate: '2025-01-01',
   frequency: 'everyWeek'
 }
-const paymentBySetDate = {
-  day: '1',
-  month: '1',
-  year: '2025'
-}
-const defendant = createDefendant('civilmoneyclaims+adefendant@gmail.com')
+
+const paymentBySetDate = '2025-01-01'
+const defendant: Party = createDefendant(PartyType.INDIVIDUAL)
 const defendantPaidAmount = 35.50
 
 export class CountyCourtJudgementSteps {

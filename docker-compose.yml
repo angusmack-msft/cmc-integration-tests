@@ -15,6 +15,7 @@ services:
         - CITIZEN_APP_URL=https://www-citizen.moneyclaim.reform.hmcts.net:3000
         - LEGAL_APP_URL=https://www-legal.moneyclaim.reform.hmcts.net:4000/legal
         - IDAM_URL=http://idam-api:8080
+        - CLAIM_STORE_URL=http://claim-store-api:4400
         - http_proxy
         - https_proxy
         - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,idam-api,remote-webdriver,authentication-web,claim-store-api

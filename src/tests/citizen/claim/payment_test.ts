@@ -6,26 +6,26 @@ import { PaymentSteps } from 'tests/citizen/claim/steps/payment'
 const claimSteps: ClaimSteps = new ClaimSteps()
 const paymentSteps: PaymentSteps = new PaymentSteps()
 
-Feature('Test pay issue fee with card cancel / declined')
+Feature('Claim issue')
 
-Scenario('I can enter details on the Gov Pay page and cancel / decline payment @citizen', function* (I: I) {
+Scenario('I can cancel payment, attempt payment with declined card and finally issue claim using working card @citizen @quick', function* (I: I) {
   const email: string = yield I.createCitizenUser()
 
-  claimSteps.makeAClaimAndSubmitStatementOfTruth(
-    email,
-    PartyType.INDIVIDUAL,
-    PartyType.INDIVIDUAL
-  )
+  claimSteps.makeAClaimAndSubmitStatementOfTruth(email, PartyType.INDIVIDUAL, PartyType.INDIVIDUAL, true)
+
   paymentSteps.enterWorkingCard()
   paymentSteps.cancelPaymentFromConfirmationPage()
   I.waitForText('Your payment has been cancelled')
   paymentSteps.goBackToServiceFromConfirmationPage()
 
-  I.waitForText('Check your answers before submitting your claim')
-
   claimSteps.checkClaimFactsAreTrueAndSubmit(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
   paymentSteps.payWithDeclinedCard()
   I.waitForText('Your payment has been declined')
   paymentSteps.goBackToServiceFromConfirmationPage()
-  I.waitForText('Check your answers before submitting your claim')
+
+  claimSteps.checkClaimFactsAreTrueAndSubmit(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  paymentSteps.payWithWorkingCard()
+  claimSteps.reloadPage() // reload gets over the ESOCKETTIMEDOUT Error
+  claimSteps.reloadPage() // reload gets over the 409 Duplicate Key value violates unique constraint Error
+  I.waitForText('Claim submitted')
 })

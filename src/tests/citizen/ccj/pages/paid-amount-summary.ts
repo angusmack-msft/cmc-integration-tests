@@ -1,4 +1,4 @@
-import { claimant } from 'data/test-data'
+import { claimAmount } from 'data/test-data'
 import I = CodeceptJS.I
 
 const I: I = actor()
@@ -13,7 +13,7 @@ export class PaidAmountSummaryPage {
   checkAmounts (defendantPaidAmount: number): void {
     I.see('Amount to be paid by defendant')
     I.see('Minus amount already paid £' + defendantPaidAmount.toFixed(2))
-    const amountOutstanding: number = claimant().claimAmount.getTotal() - defendantPaidAmount
+    const amountOutstanding: number = claimAmount.getTotal() - defendantPaidAmount
     I.see('Total £' + amountOutstanding.toFixed(2))
   }
 

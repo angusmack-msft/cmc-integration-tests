@@ -1,4 +1,5 @@
 import I = CodeceptJS.I
+import { DateParser } from 'utils/date-parser'
 
 const I: I = actor()
 
@@ -14,11 +15,13 @@ const buttons = {
 
 export class DefendantPayBySetDatePage {
 
-  paymentBySetDate (paymentDate): void {
+  paymentBySetDate (paymentDate: string): void {
+    const [ year, month, day ] = DateParser.parse(paymentDate)
+
     I.see('Order them to pay full amount by a set date')
-    I.fillField(fields.day, paymentDate.day)
-    I.fillField(fields.month, paymentDate.month)
-    I.fillField(fields.year, paymentDate.year)
+    I.fillField(fields.day, day)
+    I.fillField(fields.month, month)
+    I.fillField(fields.year, year)
 
     I.click(buttons.submit)
   }

@@ -1,3 +1,4 @@
+import { DEFAULT_PASSWORD, createDefendant, defence } from 'data/test-data'
 import * as request from 'request-promise-native'
 import { DefendantCheckAndSendPage } from 'tests/citizen/defence/pages/defendant-check-and-send'
 import { DefendantDefenceTypePage } from 'tests/citizen/defence/pages/defendant-defence-type'
@@ -75,13 +76,14 @@ class Helper {
 
 const updatedAddress = { line1: 'ABC Street', line2: 'A cool place', city: 'Bristol', postcode: 'AAA BCC' }
 
-const defendantRepaymentPlan = {
+const defendantRepaymentPlan: PaymentPlan = {
   firstPayment: 50.00,
   equalInstalment: 20.00,
-  firstPaymentDate: { day: '1', month: '1', year: '2025' },
-  frequency: 'everyWeek',
-  text: 'I owe nothing'
+  firstPaymentDate: '2025-01-01',
+  frequency: 'everyWeek'
 }
+
+const text = 'I owe nothing'
 
 export class DefenceSteps {
 
@@ -112,18 +114,20 @@ export class DefenceSteps {
     defendantViewClaimPage.clickRespondToClaim()
   }
 
-  loginAsDefendant (defendant): void {
+  loginAsDefendant (defendantEmail: string): void {
     defendantRegisterPage.clickLinkIAlreadyHaveAnAccount()
-    loginPage.login(defendant.email, defendant.password)
+    loginPage.login(defendantEmail, DEFAULT_PASSWORD)
   }
 
-  confirmYourDetails (defendant, defendantType: PartyType): void {
+  confirmYourDetails (defendantType: PartyType): void {
+    const defendant: Party = createDefendant(defendantType)
+
     defendantSteps.selectTaskConfirmYourDetails()
     defendantNameAndAddressPage.enterAddress(updatedAddress)
     if (defendantType === PartyType.INDIVIDUAL) {
       defendantDobPage.enterDOB(defendant.dateOfBirth)
     }
-    defendantMobilePage.enterMobile(defendant.mobile)
+    defendantMobilePage.enterMobile(defendant.mobilePhone)
   }
 
   requestMoreTimeToRespond (): void {
@@ -144,55 +148,53 @@ export class DefenceSteps {
     defendantRejectAllOfClaimPage.alreadyPaid()
   }
 
-  addTimeLineOfEvents (defendant): void {
+  addTimeLineOfEvents (timeline: Timeline): void {
     I.see('Add your timeline of events')
-    defendantTimelineOfEventsPage.enterTimelineEvent(0, defendant.defence.partialRejection.timeline.event1.date,
-      defendant.defence.partialRejection.timeline.event1.description)
-    defendantTimelineOfEventsPage.enterTimelineEvent(1, defendant.defence.partialRejection.timeline.event2.date,
-      defendant.defence.partialRejection.timeline.event2.description)
+    defendantTimelineOfEventsPage.enterTimelineEvent(0, timeline.events[0].date, timeline.events[0].description)
+    defendantTimelineOfEventsPage.enterTimelineEvent(1, timeline.events[1].date, timeline.events[1].description)
     defendantTimelineOfEventsPage.submitForm()
   }
 
-  explainImpactOfDispute (defendant): void {
+  explainImpactOfDispute (impactOfDispute: string): void {
     I.see('How this dispute has affected you?')
-    defendantImpactOfDisputePage.enterImpactOfDispute(defendant.defence.partialRejection.impactOfDispute.explanation)
+    defendantImpactOfDisputePage.enterImpactOfDispute(impactOfDispute)
     defendantImpactOfDisputePage.submitForm()
   }
 
-  rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defendant): void {
+  rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defence: PartialDefence): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimPaidWhatIBelieveIOwe()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchPaidToClaiment()
     defendantHowMuchHaveYouPaidTheClaimant.enterAmountPaidWithDateAndExplaination(
-      defendant.defence.partialRejection.paidWhatIBelieveIOwe.howMuchAlreadyPaid,
-      defendant.defence.partialRejection.paidWhatIBelieveIOwe.paidDate,
-      defendant.defence.partialRejection.paidWhatIBelieveIOwe.explaination)
-    this.addTimeLineOfEvents(defendant)
+      defence.paidWhatIBelieveIOwe.howMuchAlreadyPaid,
+      defence.paidWhatIBelieveIOwe.paidDate,
+      defence.paidWhatIBelieveIOwe.explanation)
+    this.addTimeLineOfEvents(defence.timeline)
     I.see('List your evidence')
     I.click('Save and continue')
-    this.explainImpactOfDispute(defendant)
+    this.explainImpactOfDispute(defence.impactOfDispute)
     defendantSteps.selectTaskFreeMediation()
     defendantFreeMediationPage.chooseYes()
   }
 
-  rejectPartOfTheClaimTooMuch (defendant): void {
+  rejectPartOfTheClaimTooMuch (defence: PartialDefence): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
     defendantDefenceTypePage.rejectPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimTooMuch()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchMoneyBelieveYouOwe()
     defendantHowMuchYouBelieveYouOwePage.enterAmountOwedAndExplaination(
-      defendant.defence.partialRejection.claimAmountIsTooMuch.howMuchIbelieveIOwe,
-      defendant.defence.partialRejection.claimAmountIsTooMuch.explaination)
-    this.addTimeLineOfEvents(defendant)
+      defence.claimAmountIsTooMuch.howMuchIBelieveIOwe,
+      defence.claimAmountIsTooMuch.explanation)
+    this.addTimeLineOfEvents(defence.timeline)
     I.see('List your evidence')
     I.click('Save and continue')
-    this.explainImpactOfDispute(defendant)
+    this.explainImpactOfDispute(defence.impactOfDispute)
     defendantSteps.selectTaskWhenWillYouPay()
     defendantWhenWillYouPage.chooseInstalments()
-    defendantPaymentPlanPage.enterRepaymentPlan(defendantRepaymentPlan)
+    defendantPaymentPlanPage.enterRepaymentPlan(defendantRepaymentPlan, text)
     statementOfMeansSteps.fillStatementOfMeansData()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskFreeMediation()
@@ -217,8 +219,8 @@ export class DefenceSteps {
     }
   }
 
-  verifyImpactOfDisputeIsVisible (defendant): void {
-    I.see(defendant.defence.partialRejection.impactOfDispute.explanation)
+  verifyImpactOfDisputeIsVisible (impactOfDispute: string): void {
+    I.see(impactOfDispute)
   }
 
   checkAndSendAndSubmit (defendantType: PartyType): void {
@@ -229,15 +231,15 @@ export class DefenceSteps {
     }
   }
 
-  async makeDefenceAndSubmit (defendantType: PartyType, defendant, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): Promise<void> {
-    this.loginAsDefendant(defendant)
+  async makeDefenceAndSubmit (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): Promise<void> {
+    this.loginAsDefendant(defendantEmail)
     I.see('Confirm your details')
     I.see('More time needed to respond')
     I.see('Do you owe the money claimed')
     I.dontSee('Your defence')
     I.dontSee('COMPLETE')
 
-    this.confirmYourDetails(defendant, defendantType)
+    this.confirmYourDetails(defendantType)
     I.see('COMPLETE')
 
     this.requestMoreTimeToRespond()
@@ -259,17 +261,17 @@ export class DefenceSteps {
         break
 
       case DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH:
-        this.rejectPartOfTheClaimTooMuch(defendant)
+        this.rejectPartOfTheClaimTooMuch(defence)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
-        this.verifyImpactOfDisputeIsVisible(defendant)
+        this.verifyImpactOfDisputeIsVisible(defence.impactOfDispute)
         break
 
       case DefenceType.PART_ADMISSION_BECAUSE_BELIEVED_AMOUNT_IS_PAID:
-        this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe(defendant)
+        this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe(defence)
         defendantSteps.selectCheckAndSubmitYourDefence()
         this.verifyCheckAndSendPageCorrespondsTo(defenceType)
-        this.verifyImpactOfDisputeIsVisible(defendant)
+        this.verifyImpactOfDisputeIsVisible(defence.impactOfDispute)
         break
     }
 

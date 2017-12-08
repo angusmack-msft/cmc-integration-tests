@@ -1,6 +1,6 @@
 'use strict'
 
-const claimant = require('../../../../data/test-data').claimant
+const DEFAULT_PASSWORD = require('../../../../data/test-data').DEFAULT_PASSWORD
 
 let loginPage, startClaimPage, yourOrganisationNamePage, yourOrganisationAddressPage, yourContactDetailsPage,
   yourReferencePage, yourCountyCourtPage, claimantTypePage, claimantAddressPage, claimantAddPage
@@ -21,7 +21,7 @@ module.exports = {
   },
   loginUser (userEmail) {
     loginPage.open()
-    loginPage.login(userEmail, claimant(userEmail).password)
+    loginPage.login(userEmail, DEFAULT_PASSWORD)
   },
   startClaim () {
     startClaimPage.open()

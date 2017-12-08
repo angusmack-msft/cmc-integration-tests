@@ -2,7 +2,7 @@ import { PaymentConfirmationPage } from 'tests/citizen/claim/pages/govpay/paymen
 import { PaymentDetailsPage } from 'tests/citizen/claim/pages/govpay/payment-details'
 
 class CardDetailsFactory {
-  static createForCard (cardNumber: number) {
+  static createForCard (cardNumber: number): CardDetails {
     return {
       number: cardNumber,
       expiryMonth: '12',
@@ -16,8 +16,8 @@ class CardDetailsFactory {
 const govPaymentDetailsPage: PaymentDetailsPage = new PaymentDetailsPage()
 const govPaymentConfirmationPage: PaymentConfirmationPage = new PaymentConfirmationPage()
 
-const billingDetails = {
-  line: '221B Baker Street',
+const billingDetails: Address = {
+  line1: '221B Baker Street',
   city: 'London',
   postcode: 'NW1 6XE'
 }

@@ -1,5 +1,5 @@
 import I = CodeceptJS.I
-import { claimant } from 'data/test-data'
+import { claimAmount } from 'data/test-data'
 
 const I: I = actor()
 
@@ -32,7 +32,7 @@ export class DefendantPaidAnyMoneyPage {
 
   defendantPaid (amount: number): void {
     this.paidSome()
-    I.see('Total amount payable by the defendant is £' + claimant().claimAmount.getTotal().toFixed(2))
+    I.see('Total amount payable by the defendant is £' + claimAmount.getTotal().toFixed(2))
     I.fillField(fields.paidAmount, amount.toFixed(2))
     I.click(buttons.submit)
   }

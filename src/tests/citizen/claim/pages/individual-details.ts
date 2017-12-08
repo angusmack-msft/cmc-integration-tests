@@ -33,14 +33,14 @@ export class IndividualDetailsPage {
     I.fillField(fields.name, name)
   }
 
-  enterAddress (address): void {
+  enterAddress (address: Address): void {
     I.fillField(fields.address.line1, address.line1)
     I.fillField(fields.address.line2, address.line2)
     I.fillField(fields.address.postcode, address.postcode)
     I.fillField(fields.address.city, address.city)
   }
 
-  enterAddresses (address, correspondenceAddress): void {
+  enterAddresses (address: Address, correspondenceAddress: Address): void {
     I.fillField(fields.address.line1, address.line1)
     I.fillField(fields.address.line2, address.line2)
     I.fillField(fields.address.city, address.city)

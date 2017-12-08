@@ -1,16 +1,14 @@
-import * as testData from 'data/test-data'
+import { offer } from 'data/test-data'
 import { DefendantOfferPage } from 'tests/citizen/offers/pages/defendant-offer'
 import I = CodeceptJS.I
 
 const I: I = actor()
 const defendantOfferPage: DefendantOfferPage = new DefendantOfferPage()
 
-const defendant = testData.defendant('civilmoneyclaims+notused@gmail.com')
-
 export class OfferSteps {
 
   makeOffer (): void {
-    defendantOfferPage.enterOffer(defendant.offer.offerText, defendant.offer.dateOfcompletionDate)
+    defendantOfferPage.enterOffer(offer.offerText, offer.completionDate)
   }
 
   makeOfferFromDashboard (claimRef: string): void {

@@ -1,10 +1,8 @@
 import { PartyType } from 'data/party-type'
-import { defendant } from 'data/test-data'
-import { ClaimSteps } from 'tests/citizen/claim/steps/claim'
+import { createClaimData } from 'data/test-data'
 import { Helper } from 'tests/citizen/endToEnd/steps/helper'
 import I = CodeceptJS.I
 
-const claimSteps: ClaimSteps = new ClaimSteps()
 const helperSteps: Helper = new Helper()
 
 Feature('E2E tests for Claim and Defence response')
@@ -13,47 +11,59 @@ Feature('E2E tests for Claim and Defence response')
 Scenario('I can as an Individual make a claim against an Individual Without a defendant email address and are able to pay on the Gov Pay page @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const claimRef: string = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.INDIVIDUAL, PartyType.INDIVIDUAL, false)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL, false), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL)
 })
 
 Scenario('I can as Sole Trader make a claim against an Individual and are able to pay on the Gov Pay page @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail = yield I.createCitizenUser()
-  const claimRef = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.SOLE_TRADER, PartyType.INDIVIDUAL)
+
+  const claimRef = yield I.createClaim(createClaimData(PartyType.SOLE_TRADER, PartyType.INDIVIDUAL), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL)
 })
 
 Scenario('I can as a Company make a claim against an Individual and are able to pay on the Gov Pay page @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const claimRef: string = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.COMPANY, PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.COMPANY, PartyType.INDIVIDUAL), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL)
 })
 
 Scenario('I can as a Individual make a claim against a Company and are able to pay on the Gov Pay page @citizen @quick', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const claimRef: string = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.INDIVIDUAL, PartyType.COMPANY)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.COMPANY), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.COMPANY, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.COMPANY)
 })
 
 Scenario('I can as a Company make a claim against a company and are able to pay on the Gov Pay page @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const claimRef: string = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.COMPANY, PartyType.COMPANY)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.COMPANY, PartyType.COMPANY), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.COMPANY, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.COMPANY)
 })
 
 Scenario('I can as a Organisation make a claim against an Individual and are able to pay on the Gov Pay page @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const claimRef: string = yield claimSteps.makeAClaimAndSubmit(claimantEmail, PartyType.ORGANISATION, PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.ORGANISATION, PartyType.INDIVIDUAL), claimantEmail)
+
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(PartyType.INDIVIDUAL, defendant(defendantEmail))
+  helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL)
 })

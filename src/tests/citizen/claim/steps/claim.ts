@@ -1,5 +1,5 @@
 import { PartyType } from 'data/party-type'
-import * as testData from 'data/test-data'
+import { claimAmount, createClaimant, claimReason, createDefendant } from 'data/test-data'
 import { CitizenCompletingClaimInfoPage } from 'tests/citizen/claim/pages/citizen-completing-claim-info'
 import { CitizenDobPage } from 'tests/citizen/claim/pages/citizen-dob'
 import { CitizenEmailPage } from 'tests/citizen/claim/pages/citizen-email'
@@ -20,9 +20,6 @@ import { PaymentSteps } from 'tests/citizen/claim/steps/payment'
 import { UserSteps } from 'tests/citizen/home/steps/user'
 import I = CodeceptJS.I
 
-const claimant = testData.claimant('civilmoneyclaims+notused@gmail.com')
-const defendant = testData.defendant('civilmoneyclaims+adefendant@gmail.com')
-
 const I: I = actor()
 const citizenResolveDisputePage: CitizenResolveDisputePage = new CitizenResolveDisputePage()
 const citizenCompletingClaimInfoPage: CitizenCompletingClaimInfoPage = new CitizenCompletingClaimInfoPage()
@@ -40,8 +37,8 @@ const claimantCheckAndSendPage: ClaimantCheckAndSendPage = new ClaimantCheckAndS
 const claimantClaimConfirmedPage: ClaimantClaimConfirmedPage = new ClaimantClaimConfirmedPage()
 const userSteps: UserSteps = new UserSteps()
 const interestSteps: InterestSteps = new InterestSteps()
-const paymentSteps: PaymentSteps = new PaymentSteps()
 const eligibilitySteps: EligibilitySteps = new EligibilitySteps()
+const paymentSteps: PaymentSteps = new PaymentSteps()
 
 export class ClaimSteps {
 
@@ -52,7 +49,7 @@ export class ClaimSteps {
   }
 
   enterTestDataClaimAmount (): void {
-    claimantClaimAmountPage.enterAmount(claimant.claimAmount.amount1, claimant.claimAmount.amount2, claimant.claimAmount.amount3)
+    claimantClaimAmountPage.enterAmount(claimAmount.rows[0].amount, claimAmount.rows[1].amount, claimAmount.rows[2].amount)
     claimantClaimAmountPage.calculateTotal()
   }
 
@@ -65,6 +62,7 @@ export class ClaimSteps {
   }
 
   enterMyDetails (claimantType: PartyType): void {
+    const claimant = createClaimant(claimantType)
     switch (claimantType) {
       case PartyType.INDIVIDUAL:
         partyTypePage.selectIndividual()
@@ -75,31 +73,33 @@ export class ClaimSteps {
         break
       case PartyType.SOLE_TRADER:
         partyTypePage.selectSoleTrader()
-        individualDetailsPage.enterName(claimant.soleTraderName)
+        individualDetailsPage.enterName(claimant.name)
         individualDetailsPage.enterAddresses(claimant.address, claimant.correspondenceAddress)
         individualDetailsPage.submit()
         break
       case PartyType.COMPANY:
         partyTypePage.selectCompany()
-        companyDetailsPage.enterCompanyName(claimant.companyName)
-        companyDetailsPage.enterContactPerson(claimant.name)
+        companyDetailsPage.enterCompanyName(claimant.name)
+        companyDetailsPage.enterContactPerson(claimant.contactPerson)
         companyDetailsPage.enterAddresses(claimant.address, claimant.correspondenceAddress)
         companyDetailsPage.submit()
         break
       case PartyType.ORGANISATION:
         partyTypePage.selectOrganisationl()
-        organisationDetailsPage.enterOrganisationName(claimant.organisationName)
-        organisationDetailsPage.enterContactPerson(claimant.name)
+        organisationDetailsPage.enterOrganisationName(claimant.name)
+        organisationDetailsPage.enterContactPerson(claimant.contactPerson)
         organisationDetailsPage.enterAddresses(claimant.address, claimant.correspondenceAddress)
         organisationDetailsPage.submit()
         break
       default:
         throw new Error('non-matching claimant type for claim')
     }
-    citizenMobilePage.enterMobile(claimant.mobileNumber)
+    citizenMobilePage.enterMobile(claimant.mobilePhone)
   }
 
   enterTheirDetails (defendantType: PartyType, enterDefendantEmail: boolean = true): void {
+    const defendant = createDefendant(defendantType, enterDefendantEmail)
+
     switch (defendantType) {
       case PartyType.INDIVIDUAL:
         partyTypePage.selectIndividual()
@@ -109,19 +109,19 @@ export class ClaimSteps {
         break
       case PartyType.SOLE_TRADER:
         partyTypePage.selectSoleTrader()
-        individualDetailsPage.enterName(defendant.soleTraderName)
+        individualDetailsPage.enterName(defendant.name)
         individualDetailsPage.enterAddress(defendant.address)
         individualDetailsPage.submit()
         break
       case PartyType.COMPANY:
         partyTypePage.selectCompany()
-        companyDetailsPage.enterCompanyName(defendant.companyName)
+        companyDetailsPage.enterCompanyName(defendant.name)
         companyDetailsPage.enterAddress(defendant.address)
         companyDetailsPage.submit()
         break
       case PartyType.ORGANISATION:
         partyTypePage.selectOrganisationl()
-        organisationDetailsPage.enterOrganisationName(defendant.organisationName)
+        organisationDetailsPage.enterOrganisationName(defendant.name)
         organisationDetailsPage.enterAddress(defendant.address)
         organisationDetailsPage.submit()
         break
@@ -149,11 +149,11 @@ export class ClaimSteps {
   }
 
   enterClaimReason (): void {
-    claimantReasonPage.enterReason(claimant.claimReason)
+    claimantReasonPage.enterReason(claimReason)
   }
 
   checkClaimFactsAreTrueAndSubmit (claimantType: PartyType, defendantType: PartyType, enterDefendantEmail: boolean = true): void {
-    claimantCheckAndSendPage.verifyCheckAndSendAnswers(claimant, claimantType, defendant, defendantType, enterDefendantEmail)
+    claimantCheckAndSendPage.verifyCheckAndSendAnswers(claimantType, defendantType, enterDefendantEmail)
 
     if (claimantType === PartyType.COMPANY || claimantType === PartyType.ORGANISATION) {
       claimantCheckAndSendPage.signStatementOfTruthAndSubmit('Jonny', 'Director')
@@ -180,8 +180,8 @@ export class ClaimSteps {
     interestSteps.enterDefaultInterest()
     this.readFeesPage()
     I.see('Total amount you’re claiming')
-    I.see(claimant.claimAmount.getClaimTotal().toFixed(2), 'table.table-form > tbody > tr:nth-of-type(1) >td.numeric.last > span')
-    I.see(claimant.claimAmount.getTotal().toFixed(2), 'table.table-form > tfoot > tr > td.numeric.last > span')
+    I.see(claimAmount.getClaimTotal().toFixed(2), 'table.table-form > tbody > tr:nth-of-type(1) >td.numeric.last > span')
+    I.see(claimAmount.getTotal().toFixed(2), 'table.table-form > tfoot > tr > td.numeric.last > span')
     interestSteps.skipClaimantInterestTotalPage()
     userSteps.selectClaimDetails()
     this.enterClaimReason()
