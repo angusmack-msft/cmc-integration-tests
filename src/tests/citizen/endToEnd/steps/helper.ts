@@ -17,6 +17,7 @@ export class Helper {
   finishResponse (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): void {
     I.waitForText('View the claim')
     defenceSteps.respondToClaim()
+    defenceSteps.loginAsDefendant(defendantEmail)
     defenceSteps.makeDefenceAndSubmit(defendantEmail, defendantType, defenceType)
   }
 }

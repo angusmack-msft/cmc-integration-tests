@@ -15,6 +15,7 @@ declare type ClaimData = {
 }
 
 declare type Claim = {
+  id: number
   referenceNumber: string
 }
 
@@ -69,6 +70,15 @@ declare type Payment = {
 declare type PaymentState = {
   status: string
   finished: boolean
+}
+
+declare type ResponseData = {
+  responseType: 'FULL_DEFENCE'
+  defenceType: 'DISPUTE'
+  defendant: Party
+  moreTimeNeeded: string
+  freeMediation: string
+  defence: string
 }
 
 declare type PartialDefence = {

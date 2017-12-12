@@ -1,5 +1,5 @@
 import { DEFAULT_PASSWORD, createDefendant, defence } from 'data/test-data'
-import * as request from 'request-promise-native'
+import { request } from 'helpers/clients/base/request'
 import { DefendantCheckAndSendPage } from 'tests/citizen/defence/pages/defendant-check-and-send'
 import { DefendantDefenceTypePage } from 'tests/citizen/defence/pages/defendant-defence-type'
 import { DefendantDobPage } from 'tests/citizen/defence/pages/defendant-dob'
@@ -61,7 +61,8 @@ class Helper {
     return request.get({
       uri: `http://claim-store-api:4400/testing-support/claims/${claimRef}`,
       resolveWithFullResponse: true,
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      json: false
     })
   }
 
@@ -69,7 +70,8 @@ class Helper {
     return request.get({
       uri: `http://idam-api:8080/testing-support/accounts/pin/${letterHolderId}`,
       resolveWithFullResponse: true,
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      json: false
     })
   }
 }
@@ -232,7 +234,6 @@ export class DefenceSteps {
   }
 
   async makeDefenceAndSubmit (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): Promise<void> {
-    this.loginAsDefendant(defendantEmail)
     I.see('Confirm your details')
     I.see('More time needed to respond')
     I.see('Do you owe the money claimed')

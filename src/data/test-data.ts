@@ -137,6 +137,17 @@ function partyTypeAsString (type: PartyType): string {
   }
 }
 
+export function createResponseData (defendantType: PartyType): ResponseData {
+  return {
+    responseType: 'FULL_DEFENCE',
+    defenceType: 'DISPUTE',
+    defendant: createDefendant(defendantType, false),
+    moreTimeNeeded: 'no',
+    freeMediation: 'no',
+    defence: 'I fully dispute this claim'
+  }
+}
+
 export const defence: PartialDefence = {
   paidWhatIBelieveIOwe: {
     howMuchAlreadyPaid: 30.00,

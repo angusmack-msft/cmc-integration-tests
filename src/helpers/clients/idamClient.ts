@@ -1,4 +1,4 @@
-const request = require('request-promise-native')
+import { request } from 'helpers/clients/base/request'
 
 const baseURL: string = process.env.IDAM_URL
 
@@ -27,8 +27,7 @@ export class IdamClient {
         activationDate: '',
         lastAccess: '',
         password: password
-      },
-      json: true
+      }
     })
   }
 
@@ -45,8 +44,7 @@ export class IdamClient {
       uri: `${baseURL}/oauth2/authorize`,
       headers: {
         Authorization: `Basic ${base64EncodedCredentials}`
-      },
-      json: true
+      }
     })
 
     return token
@@ -63,8 +61,7 @@ export class IdamClient {
       uri: `${baseURL}/details`,
       headers: {
         Authorization: `Bearer ${jwt}`
-      },
-      json: true
+      }
     })
   }
 

@@ -1,7 +1,7 @@
 /* tslint:disable:no-console */
 
 import * as fs from 'fs'
-import * as request from 'request-promise-native'
+import { request } from 'helpers/clients/base/request'
 import { RequestResponse } from 'request'
 
 const citizenAppURL = process.env.CITIZEN_APP_URL
@@ -13,8 +13,7 @@ class Client {
       uri: `${appURL}/health`,
       resolveWithFullResponse: true,
       rejectUnauthorized: false,
-      ca: fs.readFileSync('localhost.crt'),
-      json: true
+      ca: fs.readFileSync('localhost.crt')
     }).catch((error) => {
       return error
     })
