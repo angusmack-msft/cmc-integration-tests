@@ -10,6 +10,7 @@ import { UnemployedPage } from 'tests/citizen/defence/pages/statement-of-means/u
 import { DebtsPage } from 'tests/citizen/defence/pages/statement-of-means/debts'
 import { CourtOrdersPage } from 'tests/citizen/defence/pages/statement-of-means/courtOrders'
 import { MonthlyIncomePage } from 'tests/citizen/defence/pages/statement-of-means/monthlyIncome'
+import { MonthlyExpensesPage } from 'tests/citizen/defence/pages/statement-of-means/monthlyExpenses'
 
 const somStartPage: StartPage = new StartPage()
 const somWhatYouNeedPage: WhatYouNeedPage = new WhatYouNeedPage()
@@ -22,6 +23,7 @@ const somSupportedByYouPage: SupportedByYouPage = new SupportedByYouPage()
 const somUnemployedPage: UnemployedPage = new UnemployedPage()
 const somDebtsPage: DebtsPage = new DebtsPage()
 const somMonthlyIncomePage: MonthlyIncomePage = new MonthlyIncomePage()
+const somMonthlyExpensesPage: MonthlyExpensesPage = new MonthlyExpensesPage()
 const somCourtOrdersPage: CourtOrdersPage = new CourtOrdersPage()
 
 export class StatementOfMeansSteps {
@@ -38,6 +40,7 @@ export class StatementOfMeansSteps {
     somBankAccountsPage.clickContinue()
     somDebtsPage.selectDontHaveDebts()
     somMonthlyIncomePage.fillOutAllFieldsAndContinue()
+    somMonthlyExpensesPage.fillOutAllFieldsAndContinue()
     somCourtOrdersPage.selectDontHaveCourtOrders()
   }
 }
