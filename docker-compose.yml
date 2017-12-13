@@ -31,7 +31,7 @@ services:
       volumes:
         - ./output:/usr/src/app/output
     remote-webdriver:
-      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.5.2
+      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.8.1
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
       mem_limit: 768m
