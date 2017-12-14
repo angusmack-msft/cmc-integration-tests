@@ -9,4 +9,8 @@ docker-compose ${COMPOSE_FILES} up ${@} -d claim-store-api \
                                            payments-api \
                                            pdf-service-api \
                                            document-management-api-gateway-web \
-                                           document-management-api
+                                           document-management-api \
+                                           ccd-data-store-api \
+                                           ccd-definition-store-api \
+                                           ccd-user-profile-api \
+                                           ccd-importer

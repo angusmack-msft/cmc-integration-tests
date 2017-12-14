@@ -125,7 +125,7 @@ services:
         idam-api:
           condition: service_started
     idam-api:
-      image: docker.artifactory.reform.hmcts.net/auth/idam-api:e1fe0c3cb8da83e80ccf939a32ee288cbae20c5a
+      image: docker.artifactory.reform.hmcts.net/auth/idam-api:ea84d227d19ae816686407bb49e747f779def5e4
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
@@ -176,6 +176,7 @@ services:
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DOCUMENT_MANAGEMENT_API_GATEWAY_URL=http://document-management-api-gateway-web:8080
         - CORE_CASE_DATA_API_URL=http://ccd-data-store-api:4452
+        - FEATURE_TOGGLE_CORE_CASE_DATA=true
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
@@ -198,6 +199,14 @@ services:
           condition: service_started
         document-management-api-gateway-web:
           condition: service_started
+        ccd-user-profile-api:
+          condition: service_started
+        ccd-definition-store-api:
+          condition: service_started
+        ccd-data-store-api:
+          condition: service_started
+
+
     fees-api:
       image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:33328e91ec54cbf4dbc9f52fe56f3712fe20a331
       healthcheck:
@@ -255,7 +264,10 @@ services:
         - auth.provider.service.server.jwtKey=wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
         - auth.provider.service.server.microserviceKeys.cmc=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.cmc_legal_frontend=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.cmc_claim_store=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.em_gw=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.ccd_data=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.ccd_definition=AAAAAAAAAAAAAAAA
         - auth.provider.service.testing-support.enabled=true
       mem_limit: 512m
       memswap_limit: 0
@@ -360,3 +372,76 @@ services:
           condition: service_started
         service-auth-provider-api:
           condition: service_started
+    ccd-user-profile-api:
+        image: docker.artifactory.reform.hmcts.net/ccd/ccd-user-profile-api:ae7bfdf86fc24fc0f44b5df11e7890f3bef1feff
+        environment:
+          - JAVA_OPTS=-Xms8m -Xmx256m
+          - USER_PROFILE_DB_HOST=shared-database
+          - USER_PROFILE_DB_PORT=5432
+          - USER_PROFILE_DB_USERNAME=ccd_user_profile
+          - USER_PROFILE_DB_PASSWORD=ccd_user_profile
+          - USER_PROFILE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_definition
+          - IDAM_S2S_URL=http://service-auth-provider-api:8080
+          - REFORM_SERVICE_NAME=ccd-user-profile-api
+          - REFORM_TEAM=ccd
+          - REFORM_ENVIRONMENT=local
+        mem_limit: 512m
+        memswap_limit: 0
+        depends_on:
+          shared-database:
+            condition: service_healthy
+
+    ccd-definition-store-api:
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-definition-store-api:7974d4a24d8453f8c1ab6e99a461a8f2e2106370
+      environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
+        - DEFINITION_STORE_DB_HOST=shared-database
+        - DEFINITION_STORE_DB_PORT=5432
+        - DEFINITION_STORE_DB_USERNAME=ccd_definition_store
+        - DEFINITION_STORE_DB_PASSWORD=ccd_definition_store
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/ccd_definition_store
+        - DEFINITION_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+        - DEFINITION_STORE_S2S_AUTHORISED_SERVICES=ccd_data,cmc_claim_store
+        - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+        - IDAM_USER_URL=http://idam-api:8080
+        - IDAM_S2S_URL=http://service-auth-provider-api:8080
+        - REFORM_SERVICE_NAME=ccd-definition-store-api
+        - REFORM_TEAM=ccd
+        - REFORM_ENVIRONMENT=local
+      mem_limit: 512m
+      memswap_limit: 0
+      depends_on:
+        shared-database:
+          condition: service_healthy
+
+    ccd-data-store-api:
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:e2ae1b5f161dd083002ad601fc01681093d78edb
+      environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
+        - DATA_STORE_DB_HOST=shared-database
+        - DATA_STORE_DB_PORT=5432
+        - DATA_STORE_DB_USERNAME=ccd_data_store
+        - DATA_STORE_DB_PASSWORD=ccd_data_store
+        - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/ccd_data_store?stringtype=unspecified
+        - DATA_STORE_TOKEN_SECRET=sdsadahjsadhgaskjhdhasghgkjasd
+        - DATA_STORE_S2S_AUTHORISED_SERVICES=cmc_claim_store
+        - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
+        - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+        - IDAM_USER_URL=http://idam-api:8080
+        - IDAM_S2S_URL=http://service-auth-provider-api:8080
+        - REFORM_SERVICE_NAME=ccd-data-store-api
+        - REFORM_TEAM=ccd
+        - REFORM_ENVIRONMENT=local
+      mem_limit: 512m
+      memswap_limit: 0
+      depends_on:
+        shared-database:
+          condition: service_healthy
+    ccd-importer:
+      build:
+        context: docker/ccd-definition-import
+      image: docker.artifactory.reform.hmcts.net/cmc/ccd-importer:${CCD_IMPORTER_VERSION:-latest}
+      environment:
+        WAIT_HOSTS: ccd-user-profile-api:4453, ccd-definition-store-api:4451, service-auth-provider-api:8080, idam-api:8080
+        WAIT_HOSTS_TIMEOUT: 300
