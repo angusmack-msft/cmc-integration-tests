@@ -312,7 +312,7 @@ services:
       mem_limit: 32m
       memswap_limit: 0
     document-management-api-gateway-web:
-      image: docker.artifactory.reform.hmcts.net/evidence/em-api-gateway-web:aec3b03a1f824881d4f09597ce29851b2be5b5cb
+      image: docker.artifactory.reform.hmcts.net/evidence/document-management-store-api-gateway-web:d8ed69bca12faad8906dd1eec5800b0134307901
       environment:
         - NODE_ENV=development
         - PORT=8080
