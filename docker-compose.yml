@@ -186,7 +186,7 @@ services:
         - REFORM_ENVIRONMENT
         - http_proxy
         - https_proxy
-        - no_proxy=idam-api,pdf-service-api,document-management-api-gateway-web,service-auth-provider-api,ccd-definition-store-api
+        - no_proxy=idam-api,service-auth-provider-api,pdf-service-api,document-management-api-gateway-web,ccd-data-store-api
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
