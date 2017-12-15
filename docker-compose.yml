@@ -48,7 +48,7 @@ services:
         - FEES_URL=http://fees-api:8080
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DRAFT_STORE_URL=http://draft-store-api:8800
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
         - UV_THREADPOOL_SIZE=64
       mem_limit: 256m
       memswap_limit: 0
@@ -87,7 +87,7 @@ services:
         - CLAIM_STORE_URL=http://claim-store-api:4400
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DOCUMENT_MANAGEMENT_API_GATEWAY_URL=http://document-management-api-gateway-web:8080
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
         - http_proxy=
         - https_proxy=
         - no_proxy=
@@ -234,6 +234,9 @@ services:
         - DRAFT_STORE_DB_PASSWORD=draftstore
         - IDAM_URL=http://idam-api:8080
         - S2S_URL=http://service-auth-provider-api:8080
+        - ROOT_APPENDER
+        - JSON_CONSOLE_PRETTY_PRINT
+        - ROOT_LOGGING_LEVEL
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
@@ -326,7 +329,7 @@ services:
         - REFORM_TEAM=cc
         - REFORM_ENVIRONMENT=docker
         - XFWD=true
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
       mem_limit: 256m
       memswap_limit: 0
       depends_on:
@@ -350,7 +353,7 @@ services:
         - SPRING_DATASOURCE_PASSWORD=evidence
         - SPRING_PROFILES_ACTIVE=dev
         - IDAM_TESTING_SUPPORT_ENABLED=true
-        - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM=DEBUG
+        - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM
         - IDAM_CLIENT_URL=http://idam-api:8080
         - PROVIDER_SERVICE_CLIENT_URL=http://service-auth-provider-api:8080
         - http_proxy=
@@ -362,7 +365,7 @@ services:
         - REFORM_SERVICE_NAME=document-management-api
         - REFORM_TEAM=cc
         - REFORM_ENVIRONMENT=docker
-        - LOGGING_LEVEL_ROOT=DEBUG
+        - LOGGING_LEVEL_ROOT
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
