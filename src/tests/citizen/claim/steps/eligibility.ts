@@ -14,6 +14,8 @@ export class EligibilitySteps {
     I.click('Continue to questions')
 
     completeEligibilityPage('input[id=claimValueUNDER_10000]')
+    completeEligibilityPage('input[id=singleClaimantyes]')
+    completeEligibilityPage('input[id=singleDefendantyes]')
     completeEligibilityPage('input[id=eighteenOrOveryes]')
     completeEligibilityPage('input[id=helpWithFeesno]')
     completeEligibilityPage('input[id=claimantAddressyes]')
