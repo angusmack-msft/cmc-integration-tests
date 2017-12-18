@@ -14,7 +14,6 @@ module.exports = {
     organisationName: 'input[id=organisation]',
     companyHouseNumber: 'input[id=companyHouseNumber]',
     individualType: 'input[id=individualType]',
-    individualTitle: 'input[id=title]',
     individualFullName: 'input[id=fullName]',
     changeFirstDefendant: '//*[@href="/legal/claim/defendant-change?index=1"]',
     removeSecondDefendant: '//*[@href="/legal/claim/defendant-remove?index=2"]'
@@ -26,8 +25,7 @@ module.exports = {
   data: {
     defendantOneOrganisationNameText: verifyPageData.defendantOrganization,
     defendantTwoOrganisationNameText: 'Ghi corporation',
-    individualTitleText: 'Mr',
-    individualFullNameText: 'Pret',
+    individualFullNameText: 'Mr Pret',
     updatedNameText: 'DefendantChange',
     removeButtonText: 'Remove',
     changeButtonText: 'Change'
@@ -38,7 +36,6 @@ module.exports = {
 
   enterDefendantTypeIndividual () {
     I.checkOption(this.fields.individualType)
-    I.fillField(this.fields.individualTitle, this.data.individualTitleText)
     I.fillField(this.fields.individualFullName, this.data.individualFullNameText)
     I.click(this.buttons.saveAndContinue)
   },
@@ -58,8 +55,7 @@ module.exports = {
 
   enterAnotherDefendantTypeIndividual () {
     I.checkOption(this.fields.individualType)
-    I.fillField(this.fields.individualTitle, 'Mrs')
-    I.fillField(this.fields.individualFullName, 'Orange')
+    I.fillField(this.fields.individualFullName, 'Mrs Orange')
     I.click(this.buttons.saveAndContinue)
   },
 

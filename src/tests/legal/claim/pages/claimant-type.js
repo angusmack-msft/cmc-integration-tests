@@ -15,7 +15,6 @@ module.exports = {
     organisationName: 'input[id=organisation]',
     companyHouseNumber: 'input[id=companyHouseNumber]',
     individualType: 'input[id=individualType]',
-    individualTitle: 'input[id=title]',
     individualFullName: 'input[id=fullName]',
     changeFirstClaimant: '//*[@href="/legal/claim/claimant-change?index=1"]',
     removeSecondClaimant: '//*[@href="/legal/claim/claimant-remove?index=2"]'
@@ -26,10 +25,8 @@ module.exports = {
   },
 
   data: {
-    individualTitleText: 'Mr',
-    updatedTitleText: 'Mrs',
-    individualFullNameText: 'Benugo',
-    updatedNameText: 'Gourmet',
+    individualFullNameText: 'Mr Benugo',
+    updatedNameText: 'Mr Gourmet',
     removeButtonText: 'Remove',
     changeButtonText: 'Change'
   },
@@ -40,13 +37,12 @@ module.exports = {
 
   enterClaimantTypeIndividual () {
     I.checkOption(this.fields.individualType)
-    I.fillField(this.fields.individualTitle, this.data.individualTitleText)
     I.fillField(this.fields.individualFullName, this.data.individualFullNameText)
     I.click(this.buttons.saveAndContinue)
   },
   verifyClaimantIndividualDetails () {
     I.see('Claimant')
-    I.see(this.data.individualTitleText + ' ' + this.data.individualFullNameText)
+    I.see(this.data.individualFullNameText)
     I.see(this.data.removeButtonText)
     I.see(this.data.changeButtonText)
   },
