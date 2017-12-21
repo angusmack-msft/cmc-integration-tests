@@ -213,14 +213,6 @@ export class DefenceSteps {
     defendantFreeMediationPage.chooseYes()
   }
 
-  verifyCheckAndSendPageCorrespondsTo (defenceType: DefenceType): void {
-    if (defenceType === DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH) {
-      defendantCheckAndSendPage.verifyFactsPartialResponseClaimAmountTooMuch()
-    } else {
-      defendantCheckAndSendPage.verifyFactsPartialResponseIBelieveIPaidWhatIOwe()
-    }
-  }
-
   verifyImpactOfDisputeIsVisible (impactOfDispute: string): void {
     I.see(impactOfDispute)
   }
@@ -233,7 +225,7 @@ export class DefenceSteps {
     }
   }
 
-  async makeDefenceAndSubmit (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): Promise<void> {
+  makeDefenceAndSubmit (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): void {
     I.see('Confirm your details')
     I.see('More time needed to respond')
     I.see('Do you owe the money claimed')
@@ -264,20 +256,28 @@ export class DefenceSteps {
       case DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH:
         this.rejectPartOfTheClaimTooMuch(defence)
         defendantSteps.selectCheckAndSubmitYourDefence()
-        this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        defendantCheckAndSendPage.verifyFactsPartialResponseClaimAmountTooMuch()
         this.verifyImpactOfDisputeIsVisible(defence.impactOfDispute)
+        defendantSteps.selectCheckAndSubmitYourDefence()
         break
 
       case DefenceType.PART_ADMISSION_BECAUSE_BELIEVED_AMOUNT_IS_PAID:
         this.rejectPartOfTheClaim_PaidWhatIBelieveIOwe(defence)
         defendantSteps.selectCheckAndSubmitYourDefence()
-        this.verifyCheckAndSendPageCorrespondsTo(defenceType)
+        defendantCheckAndSendPage.verifyFactsPartialResponseIBelieveIPaidWhatIOwe()
         this.verifyImpactOfDisputeIsVisible(defence.impactOfDispute)
+        defendantSteps.selectCheckAndSubmitYourDefence()
         break
     }
 
     this.checkAndSendAndSubmit(defendantType)
-    if (defenceType === DefenceType.FULL_REJECTION_WITH_DISPUTE || defenceType === DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID) {
+
+    const defenceTypeIsHandledWithHandoffPage = {
+      [DefenceType.FULL_REJECTION_WITH_DISPUTE]: true,
+      [DefenceType.FULL_REJECTION_WITH_COUNTER_CLAIM]: true
+    }
+
+    if (!defenceTypeIsHandledWithHandoffPage[defenceType]) {
       I.see('Defence submitted')
     } else {
       I.see('Next steps')
