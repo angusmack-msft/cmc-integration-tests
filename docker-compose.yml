@@ -181,7 +181,7 @@ services:
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
-        - REFORM_SERVICE_NAME
+        - REFORM_SERVICE_NAME=claim-store
         - REFORM_TEAM
         - REFORM_ENVIRONMENT
         - http_proxy
@@ -251,10 +251,11 @@ services:
       image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
+        - S2S_URL=http://service-auth-provider-api:8080
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
-        - REFORM_SERVICE_NAME
+        - REFORM_SERVICE_NAME=pdf-service
         - REFORM_TEAM
         - REFORM_ENVIRONMENT
       healthcheck:
