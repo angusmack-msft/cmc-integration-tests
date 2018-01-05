@@ -1,4 +1,5 @@
 import I = CodeceptJS.I
+import { DateParser } from 'utils/date-parser'
 
 const I: I = actor()
 
@@ -14,10 +15,12 @@ const buttons = {
 
 export class DefendantDobPage {
 
-  enterDOB (dob): void {
-    I.fillField(fields.day, dob.day)
-    I.fillField(fields.month, dob.month)
-    I.fillField(fields.year, dob.year)
+  enterDOB (dob: string): void {
+    const [ year, month, day ] = DateParser.parse(dob)
+
+    I.fillField(fields.day, day)
+    I.fillField(fields.month, month)
+    I.fillField(fields.year, year)
 
     I.click(buttons.submit)
   }

@@ -30,9 +30,12 @@ module.exports = {
   legalSubmittedPage: './src/tests/legal/amountClaim/pages/submitted',
   legalDashboardSearch: './src/tests/legal/dashboard/pages/claimSearch',
   legalDashboardClaimDetails: './src/tests/legal/dashboard/pages/claim-details',
+  legalCSWhatDocuments: './src/tests/legal/certificateOfService/pages/what-documents',
+  legalCSDocumentUpload: './src/tests/legal/certificateOfService/pages/document-upload',
 
   legalUserSteps: './src/tests/legal/home/steps/user.js',
   legalDefendantSteps: './src/tests/legal/home/steps/defendant.js',
   legalAmountClaimSteps: './src/tests/legal/home/steps/amountClaims.js',
-  legalDashboardSteps: './src/tests/legal/home/steps/dashboard.js'
+  legalDashboardSteps: './src/tests/legal/home/steps/dashboard.js',
+  legalCertificateOfServiceSteps: './src/tests/legal/home/steps/certificationOfService.js'
 }

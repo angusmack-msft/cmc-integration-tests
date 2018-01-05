@@ -21,7 +21,7 @@ export class CitizenAddressPage {
     I.amOnCitizenAppPage(`/claim/${type}-address`)
   }
 
-  enterAddress (address): void {
+  enterAddress (address: Address): void {
     I.fillField(fields.address.line1, address.line1)
     I.fillField(fields.address.line2, address.line2)
     I.fillField(fields.address.city, address.city)

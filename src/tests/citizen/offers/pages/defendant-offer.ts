@@ -1,4 +1,5 @@
 import I = CodeceptJS.I
+import { DateParser } from 'utils/date-parser'
 
 const I: I = actor()
 
@@ -17,12 +18,14 @@ const buttons = {
 
 export class DefendantOfferPage {
 
-  enterOffer (offerText: string, date): void {
+  enterOffer (offerText: string, date: string): void {
+    const [ year, month, day ] = DateParser.parse(date)
+
     I.see('Make an offer')
     I.fillField(fields.offerText, offerText)
-    I.fillField(fields.completionOfferDate.day, date.day)
-    I.fillField(fields.completionOfferDate.month, date.month)
-    I.fillField(fields.completionOfferDate.year, date.year)
+    I.fillField(fields.completionOfferDate.day, day)
+    I.fillField(fields.completionOfferDate.month, month)
+    I.fillField(fields.completionOfferDate.year, year)
     I.click(buttons.submit)
   }
 }

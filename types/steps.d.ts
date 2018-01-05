@@ -1,4 +1,3 @@
-
 type ICodeceptCallback = (i: CodeceptJS.I, ...steps: any) => void;
 
 declare const actor: () => CodeceptJS.I;
@@ -95,15 +94,6 @@ declare namespace CodeceptJS {
     debug: (msg) => any;
     debugSection: (section, msg) => any;
     say: (msg) => any;
-  }
-
-  export interface I {
-    createCitizenUser: () => string;
-    createSolicitorUser: () => string;
-
-    amOnCitizenAppPage: (path: string) => void;
-
-    fillField: (locator: string, value: string) => any;
   }
 }
 

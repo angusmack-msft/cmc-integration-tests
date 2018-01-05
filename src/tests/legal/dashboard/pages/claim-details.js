@@ -21,5 +21,6 @@ module.exports = {
     I.see(verifyPageData.claimantName)
     I.see(verifyPageData.defendantOrganization)
     I.see(verifyPageData.organizationRefNumber)
+    I.click('Download the sealed claim form')
   }
 }

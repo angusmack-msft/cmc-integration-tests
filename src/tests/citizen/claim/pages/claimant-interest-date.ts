@@ -1,4 +1,5 @@
 import I = CodeceptJS.I
+import { DateParser } from 'utils/date-parser'
 
 const I: I = actor()
 
@@ -24,7 +25,9 @@ export class ClaimantInterestDatePage {
     I.click(buttons.submit)
   }
 
-  selectParticularDate (day: string, month: string, year: string): void {
+  selectParticularDate (date: string): void {
+    const [ year, month, day ] = DateParser.parse(date)
+
     I.checkOption(fields.typeCustom)
     I.fillField(fields.day, day)
     I.fillField(fields.month, month)

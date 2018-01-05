@@ -7,7 +7,7 @@ const fields = {
 }
 
 const buttons = {
-  submit: 'input[type=submit]'
+  submit: 'input[id="saveAndContinue"]'
 }
 
 export class ResidencePage {

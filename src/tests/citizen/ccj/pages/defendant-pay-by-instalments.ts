@@ -1,4 +1,5 @@
-import { claimant } from 'data/test-data'
+import { claimAmount } from 'data/test-data'
+import { DateParser } from 'utils/date-parser'
 import I = CodeceptJS.I
 
 const I: I = actor()
@@ -27,16 +28,18 @@ const buttons = {
 export class DefendantPayByInstalmentsPage {
 
   checkOutstandingAmount (defendantPaidAmount: number): void {
-    const amountOutstanding: number = claimant().claimAmount.getTotal() - defendantPaidAmount
+    const amountOutstanding: number = claimAmount.getTotal() - defendantPaidAmount
     I.see('Total amount payable by the defendant is £' + amountOutstanding.toFixed(2))
   }
 
-  enterRepaymentPlan (plan): void {
+  enterRepaymentPlan (plan: PaymentPlan): void {
+    const [ year, month, day ] = DateParser.parse(plan.firstPaymentDate)
+
     I.fillField(fields.repayment.firstPayment, plan.firstPayment.toFixed(2))
     I.fillField(fields.repayment.equalInstalments, plan.equalInstalment.toFixed(2))
-    I.fillField(fields.repayment.firstPaymentDate.day, plan.firstPaymentDate.day)
-    I.fillField(fields.repayment.firstPaymentDate.month, plan.firstPaymentDate.month)
-    I.fillField(fields.repayment.firstPaymentDate.year, plan.firstPaymentDate.year)
+    I.fillField(fields.repayment.firstPaymentDate.day, day)
+    I.fillField(fields.repayment.firstPaymentDate.month, month)
+    I.fillField(fields.repayment.firstPaymentDate.year, year)
     I.checkOption(fields.repayment.frequency[plan.frequency])
     I.click(buttons.submit)
   }

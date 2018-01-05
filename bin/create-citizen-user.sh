@@ -6,18 +6,8 @@ USER_EMAIL="${1:-me@server.net}"
 FORENAME="${2:-John}"
 SURNAME="${3:-Smith}"
 PASSWORD=Password12
+ROLE="cmc-private-beta"
 
-curl -XPOST -H 'Content-Type: application/json' http://localhost:8080/testing-support/accounts -d '{
-    "email": "'${USER_EMAIL}'",
-    "forename": "'${FORENAME}'",
-    "surname": "'${SURNAME}'",
-    "levelOfAccess": 0,
-    "userGroup": {
-      "code": "cmc-private-beta"
-    },
-    "activationDate": "",
-    "lastAccess": "",
-    "password": "'${PASSWORD}'"
-}'
+binFolder=$(dirname "$0")
 
-echo -e "Created user with:\nUsername: ${USER_EMAIL}\nPassword:${PASSWORD}\nFirstname: ${FORENAME}\nSurname: ${SURNAME}"
+${binFolder}/create-user.sh "${USER_EMAIL}" "${FORENAME}" "${SURNAME}" "${ROLE}"

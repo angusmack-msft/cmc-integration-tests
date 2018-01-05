@@ -1,4 +1,4 @@
-import { claimant } from 'data/test-data'
+import { DEFAULT_PASSWORD } from 'data/test-data'
 import { ClaimantStartClaimPage } from 'tests/citizen/claim/pages/claimant-start-claim'
 import { ClaimantTaskListPage } from 'tests/citizen/claim/pages/claimant-task-list'
 import { LoginPage } from 'tests/citizen/home/pages/login'
@@ -9,9 +9,9 @@ const taskListPage: ClaimantTaskListPage = new ClaimantTaskListPage()
 
 export class UserSteps {
 
-  login (username): void {
+  login (username: string): void {
     loginPage.open()
-    loginPage.login(username, claimant(username).password)
+    loginPage.login(username, DEFAULT_PASSWORD)
   }
 
   startClaim (): void {

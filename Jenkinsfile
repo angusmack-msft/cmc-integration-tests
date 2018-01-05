@@ -21,6 +21,7 @@ timestamps {
     node {
       try {
         def integrationTestsVersion
+        def ccdImporterVersion
 
         stage('Checkout') {
           deleteDir()
@@ -37,6 +38,7 @@ timestamps {
 
         stage('Build image') {
           integrationTestsVersion = dockerImage imageName: 'cmc/integration-tests'
+          ccdImporterVersion = dockerImage imageName: 'cmc/ccd-importer', context: 'docker/ccd-definition-import'
         }
 
         stage('Run integration tests') {
@@ -44,7 +46,8 @@ timestamps {
 
           integrationTests.execute([
             'INTEGRATION_TESTS_VERSION': integrationTestsVersion,
-            'INTEGRATION_TESTS_BRANCH' : composeFileBranch
+            'INTEGRATION_TESTS_BRANCH' : composeFileBranch,
+            'CCD_IMPORTER_VERSION' : ccdImporterVersion
           ])
         }
       } catch (Throwable err) {

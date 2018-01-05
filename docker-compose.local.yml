@@ -10,7 +10,7 @@ services:
       volumes:
         - .:/usr/src/app
     remote-webdriver:
-      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome-debug:3.5.2
+      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome-debug:3.8.1
       ports:
         - 5900:5900
       environment:
@@ -76,6 +76,15 @@ services:
     document-management-api:
       ports:
         - 8083:8080
+    ccd-definition-store-api:
+      ports:
+        - 4451:4451
+    ccd-data-store-api:
+      ports:
+        - 4452:4452
+    ccd-user-profile-api:
+      ports:
+        - 4453:4453
 
 volumes:
   shared-database-data:

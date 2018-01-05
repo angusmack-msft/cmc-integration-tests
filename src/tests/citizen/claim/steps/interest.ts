@@ -17,9 +17,9 @@ export class InterestSteps {
     claimantInterestDatePage.selectDefaultDate()
   }
 
-  enterSpecificInterestRateAndDate (rate: number, date): void {
+  enterSpecificInterestRateAndDate (rate: number, date: string): void {
     claimantInterestPage.selectDifferentRate(rate)
-    claimantInterestDatePage.selectParticularDate(date.day, date.month, date.year)
+    claimantInterestDatePage.selectParticularDate(date)
   }
 
   skipClaimantInterestTotalPage (): void {

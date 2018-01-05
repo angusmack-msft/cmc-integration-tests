@@ -9,7 +9,7 @@ const fields = {
 
 export class DefendantTimelineEventsPage {
 
-  enterTimelineEvent (eventNum: number, date, description: string): void {
+  enterTimelineEvent (eventNum: number, date: string, description: string): void {
     const fieldDate: string = fields.date.replace('x', eventNum.toString())
     const fieldDescription: string = fields.description.replace('y', eventNum.toString())
     I.fillField(fieldDate, date)

@@ -15,6 +15,7 @@ services:
         - CITIZEN_APP_URL=https://www-citizen.moneyclaim.reform.hmcts.net:3000
         - LEGAL_APP_URL=https://www-legal.moneyclaim.reform.hmcts.net:4000/legal
         - IDAM_URL=http://idam-api:8080
+        - CLAIM_STORE_URL=http://claim-store-api:4400
         - http_proxy
         - https_proxy
         - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,idam-api,remote-webdriver,authentication-web,claim-store-api
@@ -30,7 +31,7 @@ services:
       volumes:
         - ./output:/usr/src/app/output
     remote-webdriver:
-      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.5.2
+      image: docker.artifactory.reform.hmcts.net/selenium/standalone-chrome:3.8.1
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
       mem_limit: 768m
@@ -47,7 +48,7 @@ services:
         - FEES_URL=http://fees-api:8080
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DRAFT_STORE_URL=http://draft-store-api:8800
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
         - UV_THREADPOOL_SIZE=64
       mem_limit: 256m
       memswap_limit: 0
@@ -86,7 +87,7 @@ services:
         - CLAIM_STORE_URL=http://claim-store-api:4400
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DOCUMENT_MANAGEMENT_API_GATEWAY_URL=http://document-management-api-gateway-web:8080
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
         - http_proxy=
         - https_proxy=
         - no_proxy=
@@ -124,7 +125,7 @@ services:
         idam-api:
           condition: service_started
     idam-api:
-      image: docker.artifactory.reform.hmcts.net/auth/idam-api:e1fe0c3cb8da83e80ccf939a32ee288cbae20c5a
+      image: docker.artifactory.reform.hmcts.net/auth/idam-api:ea84d227d19ae816686407bb49e747f779def5e4
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
@@ -165,6 +166,7 @@ services:
         - CLAIM_STORE_DB_USERNAME=claimstore
         - CLAIM_STORE_DB_PASSWORD=claimstore
         - IDAM_API_URL=http://idam-api:8080
+        - IDAM_S2S_AUTH_URL=http://service-auth-provider-api:8080
         - GOV_NOTIFY_API_KEY
         - FRONTEND_BASE_URL=https://www-citizen.moneyclaim.reform.hmcts.net:3000
         - CLAIM_STORE_TEST_SUPPORT_ENABLED=true
@@ -174,15 +176,17 @@ services:
         - SPRING_MAIL_PORT=1025
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DOCUMENT_MANAGEMENT_API_GATEWAY_URL=http://document-management-api-gateway-web:8080
+        - CORE_CASE_DATA_API_URL=http://ccd-data-store-api:4452
+        - FEATURE_TOGGLE_CORE_CASE_DATA=true
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
-        - REFORM_SERVICE_NAME
+        - REFORM_SERVICE_NAME=claim-store
         - REFORM_TEAM
         - REFORM_ENVIRONMENT
         - http_proxy
         - https_proxy
-        - no_proxy=idam-api,pdf-service-api,document-management-api-gateway-web
+        - no_proxy=idam-api,service-auth-provider-api,pdf-service-api,document-management-api-gateway-web,ccd-data-store-api
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
@@ -196,6 +200,14 @@ services:
           condition: service_started
         document-management-api-gateway-web:
           condition: service_started
+        ccd-user-profile-api:
+          condition: service_started
+        ccd-definition-store-api:
+          condition: service_started
+        ccd-data-store-api:
+          condition: service_started
+
+
     fees-api:
       image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:33328e91ec54cbf4dbc9f52fe56f3712fe20a331
       healthcheck:
@@ -223,6 +235,9 @@ services:
         - DRAFT_STORE_DB_PASSWORD=draftstore
         - IDAM_URL=http://idam-api:8080
         - S2S_URL=http://service-auth-provider-api:8080
+        - ROOT_APPENDER
+        - JSON_CONSOLE_PRETTY_PRINT
+        - ROOT_LOGGING_LEVEL
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
@@ -233,13 +248,14 @@ services:
         service-auth-provider-api:
           condition: service_started
     pdf-service-api:
-      image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
+      image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
+        - S2S_URL=http://service-auth-provider-api:8080
         - ROOT_APPENDER
         - JSON_CONSOLE_PRETTY_PRINT
         - ROOT_LOGGING_LEVEL
-        - REFORM_SERVICE_NAME
+        - REFORM_SERVICE_NAME=pdf-service
         - REFORM_TEAM
         - REFORM_ENVIRONMENT
       healthcheck:
@@ -253,20 +269,23 @@ services:
         - auth.provider.service.server.jwtKey=wThK0f0/lh3FlxFcL4xUWDMI5C1J9KyQBgXV4wseh1e5J1uYJIjvTvArHxQDrYoHJ23xFxjHkOnvNbR5dXRoxA==
         - auth.provider.service.server.microserviceKeys.cmc=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.cmc_legal_frontend=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.cmc_claim_store=AAAAAAAAAAAAAAAA
         - auth.provider.service.server.microserviceKeys.em_gw=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.ccd_data=AAAAAAAAAAAAAAAA
+        - auth.provider.service.server.microserviceKeys.ccd_definition=AAAAAAAAAAAAAAAA
         - auth.provider.service.testing-support.enabled=true
       mem_limit: 512m
       memswap_limit: 0
     payments-api:
-      image: docker.artifactory.reform.hmcts.net/common-components/payments-api:81c947e7ef478338d4aff8bd8536dd81d83e2104
+      image: docker.artifactory.reform.hmcts.net/common-components/payments-api:3672f2cb0658ea7fcbbc9039ae24eb0b66e9528f
       healthcheck:
         retries: 40
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
         - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/payment
-        - auth.provider.service.client.baseUrl=http://service-auth-provider-api:8080/
-        - auth.idam.client.baseUrl=http://idam-api:8080/
+        - AUTH_PROVIDER_SERVICE_CLIENT_BASEURL=http://service-auth-provider-api:8080/
+        - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080/
         - GOV_PAY_AUTH_KEY_CMC
         - http_proxy
         - https_proxy
@@ -294,7 +313,7 @@ services:
       mem_limit: 32m
       memswap_limit: 0
     document-management-api-gateway-web:
-      image: docker.artifactory.reform.hmcts.net/evidence/em-api-gateway-web:aec3b03a1f824881d4f09597ce29851b2be5b5cb
+      image: docker.artifactory.reform.hmcts.net/evidence/document-management-store-api-gateway-web:d8ed69bca12faad8906dd1eec5800b0134307901
       environment:
         - NODE_ENV=development
         - PORT=8080
@@ -312,7 +331,7 @@ services:
         - REFORM_TEAM=cc
         - REFORM_ENVIRONMENT=docker
         - XFWD=true
-        - LOG_LEVEL=DEBUG
+        - LOG_LEVEL
       mem_limit: 256m
       memswap_limit: 0
       depends_on:
@@ -336,7 +355,7 @@ services:
         - SPRING_DATASOURCE_PASSWORD=evidence
         - SPRING_PROFILES_ACTIVE=dev
         - IDAM_TESTING_SUPPORT_ENABLED=true
-        - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM=DEBUG
+        - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM
         - IDAM_CLIENT_URL=http://idam-api:8080
         - PROVIDER_SERVICE_CLIENT_URL=http://service-auth-provider-api:8080
         - http_proxy=
@@ -348,7 +367,7 @@ services:
         - REFORM_SERVICE_NAME=document-management-api
         - REFORM_TEAM=cc
         - REFORM_ENVIRONMENT=docker
-        - LOGGING_LEVEL_ROOT=DEBUG
+        - LOGGING_LEVEL_ROOT
       mem_limit: 512m
       memswap_limit: 0
       depends_on:
@@ -358,3 +377,76 @@ services:
           condition: service_started
         service-auth-provider-api:
           condition: service_started
+    ccd-user-profile-api:
+        image: docker.artifactory.reform.hmcts.net/ccd/ccd-user-profile-api:ae7bfdf86fc24fc0f44b5df11e7890f3bef1feff
+        environment:
+          - JAVA_OPTS=-Xms8m -Xmx256m
+          - USER_PROFILE_DB_HOST=shared-database
+          - USER_PROFILE_DB_PORT=5432
+          - USER_PROFILE_DB_USERNAME=ccd_user_profile
+          - USER_PROFILE_DB_PASSWORD=ccd_user_profile
+          - USER_PROFILE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_definition
+          - IDAM_S2S_URL=http://service-auth-provider-api:8080
+          - REFORM_SERVICE_NAME=ccd-user-profile-api
+          - REFORM_TEAM=ccd
+          - REFORM_ENVIRONMENT=local
+        mem_limit: 512m
+        memswap_limit: 0
+        depends_on:
+          shared-database:
+            condition: service_healthy
+
+    ccd-definition-store-api:
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-definition-store-api:7974d4a24d8453f8c1ab6e99a461a8f2e2106370
+      environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
+        - DEFINITION_STORE_DB_HOST=shared-database
+        - DEFINITION_STORE_DB_PORT=5432
+        - DEFINITION_STORE_DB_USERNAME=ccd_definition_store
+        - DEFINITION_STORE_DB_PASSWORD=ccd_definition_store
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/ccd_definition_store
+        - DEFINITION_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+        - DEFINITION_STORE_S2S_AUTHORISED_SERVICES=ccd_data,cmc_claim_store
+        - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+        - IDAM_USER_URL=http://idam-api:8080
+        - IDAM_S2S_URL=http://service-auth-provider-api:8080
+        - REFORM_SERVICE_NAME=ccd-definition-store-api
+        - REFORM_TEAM=ccd
+        - REFORM_ENVIRONMENT=local
+      mem_limit: 512m
+      memswap_limit: 0
+      depends_on:
+        shared-database:
+          condition: service_healthy
+
+    ccd-data-store-api:
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:9210c225611480022214e8f6fa968d1c2e4367c0
+      environment:
+        - JAVA_OPTS=-Xms8m -Xmx256m
+        - DATA_STORE_DB_HOST=shared-database
+        - DATA_STORE_DB_PORT=5432
+        - DATA_STORE_DB_USERNAME=ccd_data_store
+        - DATA_STORE_DB_PASSWORD=ccd_data_store
+        - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/ccd_data_store?stringtype=unspecified
+        - DATA_STORE_TOKEN_SECRET=sdsadahjsadhgaskjhdhasghgkjasd
+        - DATA_STORE_S2S_AUTHORISED_SERVICES=cmc_claim_store
+        - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
+        - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+        - IDAM_USER_URL=http://idam-api:8080
+        - IDAM_S2S_URL=http://service-auth-provider-api:8080
+        - REFORM_SERVICE_NAME=ccd-data-store-api
+        - REFORM_TEAM=ccd
+        - REFORM_ENVIRONMENT=local
+      mem_limit: 512m
+      memswap_limit: 0
+      depends_on:
+        shared-database:
+          condition: service_healthy
+    ccd-importer:
+      build:
+        context: docker/ccd-definition-import
+      image: docker.artifactory.reform.hmcts.net/cmc/ccd-importer:${CCD_IMPORTER_VERSION:-latest}
+      environment:
+        WAIT_HOSTS: ccd-user-profile-api:4453, ccd-definition-store-api:4451, service-auth-provider-api:8080, idam-api:8080
+        WAIT_HOSTS_TIMEOUT: 300

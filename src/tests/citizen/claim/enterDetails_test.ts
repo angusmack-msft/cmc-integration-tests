@@ -61,7 +61,7 @@ Scenario('I can prepare a claim with different interest rate and date @citizen',
   I.see('£80.50')
   claimSteps.claimantTotalAmountPageRead()
   I.see('Interest')
-  interestSteps.enterSpecificInterestRateAndDate(2, { day: '1', month: '1', year: '1990' })
+  interestSteps.enterSpecificInterestRateAndDate(2, '1990-01-01')
   I.see('Fees you’ll pay')
   claimSteps.readFeesPage()
   I.see('Total amount you’re claiming')

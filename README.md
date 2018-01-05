@@ -93,6 +93,15 @@ If you want to delete the volumes as well pass the `-v` flag:
 $ ./bin/stop-local-environment.sh -v
 ```
 
+### Loading CCD definition
+
+In order to upload new definition file, put the definition file at location 
+'docker/ccd-definition-import/data/CCD_Definition_CMC.xlsx'
+
+```bash
+$ docker-compose run ccd-importer
+```
+
 ### Executing cross-browser testing on Saucelabs locally
 
 In order to run tests against different browsers in [Saucelabs](https://saucelabs.com/) you'll need a slightly modified environment:

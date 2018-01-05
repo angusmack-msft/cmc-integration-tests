@@ -9,6 +9,6 @@ export class TestingSupportSteps {
   makeClaimAvailableForCCJ (claimRef: string): void {
     I.click('Testing support')
     I.click('Update response deadline')
-    updateResponseDeadline.updateDeadline(claimRef, { day: '1', month: '1', year: '2000' })
+    updateResponseDeadline.updateDeadline(claimRef, '2000-01-01')
   }
 }
