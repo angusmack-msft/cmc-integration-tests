@@ -48,6 +48,9 @@ exports.config = {
     IdamHelper: {
       require: './src/helpers/idamHelper'
     },
+    ClaimStoreHelper: {
+      require: './src/helpers/claimStoreHelper'
+    },
     PageHelper: {
       require: './src/helpers/pageHelper'
     },
