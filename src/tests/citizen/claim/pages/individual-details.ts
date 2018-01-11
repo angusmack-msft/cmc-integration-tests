@@ -8,14 +8,16 @@ const fields = {
     line1: 'input[id="address[line1]"]',
     line2: 'input[id="address[line2]"]',
     city: 'input[id="address[city]"]',
-    postcode: 'input[id="address[postcode]"]'
+    postcode: 'input[id="address[postcode]"]',
+    enterManually: 'a[id="address[enterManually]"]'
   },
   hasCorrespondenceAddress: 'input[id=hasCorrespondenceAddresstrue]',
   correspondenceAddress: {
     line1: 'input[id="correspondenceAddress[line1]"]',
     line2: 'input[id="correspondenceAddress[line2]"]',
     city: 'input[id="correspondenceAddress[city]"]',
-    postcode: 'input[id="correspondenceAddress[postcode]"]'
+    postcode: 'input[id="correspondenceAddress[postcode]"]',
+    enterManually: 'a[id="correspondenceAddress[enterManually]"]'
   }
 }
 
@@ -34,6 +36,7 @@ export class IndividualDetailsPage {
   }
 
   enterAddress (address: Address): void {
+    I.click(fields.address.enterManually)
     I.fillField(fields.address.line1, address.line1)
     I.fillField(fields.address.line2, address.line2)
     I.fillField(fields.address.postcode, address.postcode)
@@ -41,6 +44,7 @@ export class IndividualDetailsPage {
   }
 
   enterAddresses (address: Address, correspondenceAddress: Address): void {
+    I.click(fields.address.enterManually)
     I.fillField(fields.address.line1, address.line1)
     I.fillField(fields.address.line2, address.line2)
     I.fillField(fields.address.city, address.city)
@@ -48,6 +52,7 @@ export class IndividualDetailsPage {
 
     I.checkOption(fields.hasCorrespondenceAddress)
 
+    I.click(fields.correspondenceAddress.enterManually)
     I.fillField(fields.correspondenceAddress.line1, correspondenceAddress.line1)
     I.fillField(fields.correspondenceAddress.line2, correspondenceAddress.line2)
     I.fillField(fields.correspondenceAddress.city, correspondenceAddress.city)
