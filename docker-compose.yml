@@ -421,7 +421,7 @@ services:
           condition: service_healthy
 
     ccd-data-store-api:
-      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:9210c225611480022214e8f6fa968d1c2e4367c0
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:32abebb91947e4c7f4495c70b3a29daf589ecad5
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
         - DATA_STORE_DB_HOST=shared-database
