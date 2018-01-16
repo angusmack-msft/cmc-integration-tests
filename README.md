@@ -15,7 +15,7 @@ This is the integration tests for CMC.
 ### Environment variables
 
 Relevant environment variables that will be pulled from your environment:
-- `IDAM_CMC_GOV_NOTIFY_API_KEY`: a mock key which does not cause Notify to send emails, ask around for it.
+- `GOV_NOTIFY_API_KEY`: a notify api key, you can generate your own once you get a notify account, or ask for one to be setup for you
 - `GOV_PAY_AUTH_KEY_CMC`: payments sandbox API key, also ask around for it
 
 ### Running the tests
