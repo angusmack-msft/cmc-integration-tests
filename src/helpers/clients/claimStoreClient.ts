@@ -52,31 +52,35 @@ export class ClaimStoreClient {
   /**
    * Links defendant to claim in the claim store
    *
-   * @param {number} claimId - claim ID
-   * @param {string} defendantId - defendant ID
+   * @param {number} externalId - claim external ID
+   * @param {string} defendant - defendant ID
    * @returns {Promise<Claim>}
    */
-  static linkDefendant (claimId: number, defendantId: string): Promise<Claim> {
-    if (!claimId) {
+  static linkDefendant (externalId: string, defendant: User): Promise<Claim> {
+    if (!externalId) {
       return Promise.reject('Claim ID is required')
     }
-    if (!defendantId) {
-      return Promise.reject('Defendant ID is required')
+    if (!defendant) {
+      return Promise.reject('Defendant is required')
     }
 
-    return request.put(`${baseURL}/claims/${claimId}/defendant/${defendantId}`)
+    return request.put(`${baseURL}/claims/${externalId}/defendant/${defendant.id}`, {
+      headers: {
+        Authorization: `Bearer ${defendant.bearerToken}`
+      }
+    })
   }
 
   /**
    * Saves response to a claim identified by the ID in the claim store
    *
-   * @param {number} claimId - claim ID
+   * @param {number} externalId - claim external ID
    * @param {any} responseData - response data
    * @param {User} defendant - user that makes response
    * @returns {Promise<Claim>}
    */
-  static respond (claimId: number, responseData: ResponseData, defendant: User): Promise<Claim> {
-    if (!claimId) {
+  static respond (externalId: string, responseData: ResponseData, defendant: User): Promise<Claim> {
+    if (!externalId) {
       return Promise.reject('Claim ID is required')
     }
     if (!responseData) {
@@ -86,7 +90,7 @@ export class ClaimStoreClient {
       return Promise.reject('Defendant is required')
     }
 
-    return request.post(`${baseURL}/responses/claim/${claimId}/defendant/${defendant.id}`, {
+    return request.post(`${baseURL}/responses/claim/${externalId}/defendant/${defendant.id}`, {
       body: responseData,
       headers: {
         Authorization: `Bearer ${defendant.bearerToken}`

@@ -16,7 +16,7 @@ class ClaimStoreHelper extends codecept_helper {
     const claim: Claim = await ClaimStoreClient.retrieveByReferenceNumber(referenceNumber, owner)
 
     const defendant: User = await this.prepareAuthenticatedUser(defendantEmail)
-    await ClaimStoreClient.linkDefendant(claim.id, defendant.id)
+    await ClaimStoreClient.linkDefendant(claim.externalId, defendant)
   }
 
   async respondToClaim (referenceNumber: string, ownerEmail: string, responseData: ResponseData, defendantEmail: string): Promise<void> {
@@ -24,7 +24,7 @@ class ClaimStoreHelper extends codecept_helper {
     const claim: Claim = await ClaimStoreClient.retrieveByReferenceNumber(referenceNumber, owner)
 
     const defendant: User = await this.prepareAuthenticatedUser(defendantEmail)
-    await ClaimStoreClient.respond(claim.id, responseData, defendant)
+    await ClaimStoreClient.respond(claim.externalId, responseData, defendant)
   }
 
   private async prepareAuthenticatedUser (userEmail: string): Promise<User> {

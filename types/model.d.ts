@@ -17,6 +17,7 @@ declare type ClaimData = {
 declare type Claim = {
   id: number
   referenceNumber: string
+  externalId: string
 }
 
 declare type Party = {
