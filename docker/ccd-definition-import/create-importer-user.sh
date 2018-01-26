@@ -6,7 +6,7 @@ USER_EMAIL=ccd-importer@server.net
 FORENAME=CCD
 SURNAME=Importer
 PASSWORD=Password12
-ROLE=ccd-import
+USER_GROUP=ccd-import
 
 curl -XPOST -H 'Content-Type: application/json' http://idam-api:8080/testing-support/accounts -d '{
     "email": "'${USER_EMAIL}'",
@@ -14,12 +14,12 @@ curl -XPOST -H 'Content-Type: application/json' http://idam-api:8080/testing-sup
     "surname": "'${SURNAME}'",
     "levelOfAccess": 0,
     "userGroup": {
-      "code": "'${ROLE}'"
+      "code": "'${USER_GROUP}'"
     },
     "activationDate": "",
     "lastAccess": "",
     "password": "'${PASSWORD}'"
 }'
 
-echo -e "Created user with:\nUsername: ${USER_EMAIL}\nPassword:${PASSWORD}\nFirstname: ${FORENAME}\nSurname: ${SURNAME}\nROLE: ${ROLE}"
+echo -e "Created user with:\nUsername: ${USER_EMAIL}\nPassword:${PASSWORD}\nFirstname: ${FORENAME}\nSurname: ${SURNAME}\nUser group: ${USER_GROUP}"
 

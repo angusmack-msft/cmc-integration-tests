@@ -67,7 +67,7 @@ https://github.com/SeleniumHQ/docker-selenium#debugging
 The first time you will need to create a user to login with
 Run: 
 ```bash
-$ ./bin/create-idam-user.sh [optional-email] [optional-firstname] [optional-lastname]
+$ ./bin/create-user.sh [optional-email] [optional-firstname] [optional-lastname] [optional-usergroup]
 ```
 
 To use the compose files defined in the project to start a local development environment, use:
