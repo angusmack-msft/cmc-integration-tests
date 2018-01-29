@@ -76,7 +76,7 @@ class Helper {
   }
 }
 
-const updatedAddress = { line1: 'ABC Street', line2: 'A cool place', city: 'Bristol', postcode: 'AAA BCC' }
+const updatedAddress = { line1: 'ABC Street', line2: 'A cool place', city: 'Bristol', postcode: 'SW2 1AN' }
 
 const defendantRepaymentPlan: PaymentPlan = {
   firstPayment: 50.00,
