@@ -13,6 +13,7 @@ export class EligibilitySteps {
     I.see('Check eligibility')
     I.click('Continue to questions')
 
+    completeEligibilityPage('input[id=claimOnBehalfno]')
     completeEligibilityPage('input[id=claimIsForTenancyDepositno]')
     completeEligibilityPage('input[id=claimValueUNDER_10000]')
     completeEligibilityPage('input[id=singleClaimantyes]')
