@@ -90,7 +90,7 @@ declare type PartialDefence = {
 }
 
 declare type PaidWhatIBeliveIOweDefence = {
-  howMuchAlreadyPaid: numner
+  howMuchAlreadyPaid: number
   paidDate: string
   explanation: string
 }

@@ -28,6 +28,8 @@ import { DefendantSteps } from 'tests/citizen/home/steps/defendant'
 import I = CodeceptJS.I
 import { PartyType } from 'data/party-type'
 import { DefenceType } from 'data/defence-type'
+import { DefendantHowMuchHaveYouPaidClaimantPage } from 'tests/citizen/defence/pages/defendant-how-much-have-you-paid-claimant'
+import { DefendantWhenDidYouPayPage } from 'tests/citizen/defence/pages/defendant-when-did-you-pay'
 
 const I: I = actor()
 const defendantStartPage: DefendantStartPage = new DefendantStartPage()
@@ -55,6 +57,8 @@ const defendantPaymentPlanPage: DefendantPaymentPlanPage = new DefendantPaymentP
 const defendantWhenWillYouPage: DefendantWhenWillYouPayPage = new DefendantWhenWillYouPayPage()
 const defendantSteps: DefendantSteps = new DefendantSteps()
 const statementOfMeansSteps: StatementOfMeansSteps = new StatementOfMeansSteps()
+const defendantHowMuchHaveYouPaidClaimantPage: DefendantHowMuchHaveYouPaidClaimantPage = new DefendantHowMuchHaveYouPaidClaimantPage()
+const defendantWhenDidYouPayPage: DefendantWhenDidYouPayPage = new DefendantWhenDidYouPayPage()
 
 class Helper {
   static getLetterHolderId (claimRef: string) {
@@ -161,6 +165,39 @@ export class DefenceSteps {
     I.see('How this dispute has affected you?')
     defendantImpactOfDisputePage.enterImpactOfDispute(impactOfDispute)
     defendantImpactOfDisputePage.submitForm()
+  }
+
+  admitAllOfClaim () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+  }
+
+  admitPartOfClaim () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+  }
+
+  admitAllOfClaimAndMakeCounterClaim () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.counterClaim()
+  }
+
+  rejectAllOfTheClaim_PaidWhatIBeleiveIOwe () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.alreadyPaid()
+    defendantHowMuchHaveYouPaidClaimantPage.lessThanClaimed()
+  }
+
+  rejectAllOfTheClaim_WhenDidYouPay () {
+    defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.alreadyPaid()
+    defendantHowMuchHaveYouPaidClaimantPage.amountClaimed()
+    defendantSteps.selectTaskWhenDidYouPay()
+    defendantWhenDidYouPayPage.enterDateAndExplaination('2017-01-01', 'Paid Cash')
+    I.click('Save and continue')
   }
 
   rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defence: PartialDefence): void {
@@ -281,6 +318,56 @@ export class DefenceSteps {
       I.see('Defence submitted')
     } else {
       I.see('Next steps')
+    }
+  }
+
+  async makePartialDefence (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.PART_ADMISSION): Promise<void> {
+    I.see('Confirm your details')
+    I.see('More time needed to respond')
+    I.see('Do you owe the money claimed')
+    I.dontSee('Your defence')
+    I.dontSee('COMPLETE')
+
+    this.confirmYourDetails(defendantType)
+    I.see('COMPLETE')
+
+    this.requestMoreTimeToRespond()
+
+    switch (defenceType) {
+
+      case DefenceType.FULL_ADMISSION:
+        this.admitAllOfClaim()
+        I.see('Send your response by email')
+        I.see('admission form N9A')
+        break
+
+      case DefenceType.PART_ADMISSION:
+        this.admitPartOfClaim()
+        I.see('Send your response by email')
+        I.see('admission form N9A')
+        I.see('defence and counterclaim N9B')
+        break
+
+      case DefenceType.FULL_REJECTION_WITH_COUNTER_CLAIM:
+        this.admitAllOfClaimAndMakeCounterClaim()
+        I.see('Send your response by email')
+        I.see('View claim fees')
+        I.see('defence and counterclaim form N9B')
+        break
+
+      case DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID:
+        this.rejectAllOfTheClaim_PaidWhatIBeleiveIOwe()
+        I.see('Send your response by email')
+        I.see('admission form N9A')
+        I.see('defence and counterclaim N9B')
+        break
+
+      case DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID_WITH_AMOUNT_CLAIMED:
+        this.rejectAllOfTheClaim_WhenDidYouPay()
+        defendantSteps.selectCheckAndSubmitYourDefence()
+        I.see('When did you pay this amount?')
+        I.see('How did you pay the amount claimed?')
+        break
     }
   }
 }

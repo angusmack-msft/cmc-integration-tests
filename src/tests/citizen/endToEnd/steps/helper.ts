@@ -18,6 +18,12 @@ export class Helper {
     I.waitForText('View the claim')
     defenceSteps.respondToClaim()
     defenceSteps.loginAsDefendant(defendantEmail)
-    defenceSteps.makeDefenceAndSubmit(defendantEmail, defendantType, defenceType)
+    if (defenceType === DefenceType.FULL_REJECTION_WITH_DISPUTE) {
+      defenceSteps.makeDefenceAndSubmit(defendantEmail, defendantType, defenceType)
+
+    } else {
+      defenceSteps.makePartialDefence(defendantEmail, defendantType, defenceType)
+
+    }
   }
 }

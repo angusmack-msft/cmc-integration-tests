@@ -8,13 +8,18 @@ const buttons = {
 
 export class DefendantDefenceTypePage {
 
-  rejectMoneyClaim (): void {
-    I.checkOption('I reject all of the claim')
+  rejectAllOfMoneyClaim (): void {
+    I.checkOption('I admit all of the claim')
     I.click(buttons.submit)
   }
 
   rejectPartOfMoneyClaim (): void {
-    I.checkOption('I reject part of the claim')
+    I.checkOption('I admit part of the claim')
+    I.click(buttons.submit)
+  }
+
+  rejectMoneyClaim (): void {
+    I.checkOption('I reject all of the claim')
     I.click(buttons.submit)
   }
 

@@ -37,7 +37,7 @@ Scenario('I can complete the journey when I reject part of the claim as I’ve p
 
   yield helperSteps.enterPinNumber(claimRef)
   helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL,
-    DefenceType.PART_ADMISSION_BECAUSE_BELIEVED_AMOUNT_IS_PAID)
+    DefenceType.PART_ADMISSION)
 })
 
 Scenario('I can complete the journey when I reject part of the claim as claim amount is too much @citizen', function* (I: I) {

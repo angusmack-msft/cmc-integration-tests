@@ -23,4 +23,9 @@ export class DefendantRejectAllOfClaimPage {
     I.checkOption(fields.alreadyPaid)
     I.click(buttons.submit)
   }
+
+  counterClaim (): void {
+    I.checkOption(fields.counterClaim)
+    I.click(buttons.submit)
+  }
 }

@@ -28,6 +28,10 @@ export class DefendantTaskListPage {
     I.click('When will you pay?')
   }
 
+  selectTaskWhenDidYouPay (): void {
+    I.click('When did you pay?')
+  }
+
   selectTaskYourDefence (): void {
     I.click('Your defence')
   }
