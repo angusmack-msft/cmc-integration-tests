@@ -9,6 +9,7 @@ declare namespace CodeceptJS {
     amOnCitizenAppPage: (path: string) => void
 
     fillField: (locator: string, value: string) => any
+    selectOption: (select: string, option: string) => any
   }
 }
 

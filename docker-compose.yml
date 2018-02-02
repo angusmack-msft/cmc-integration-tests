@@ -16,6 +16,8 @@ services:
         - LEGAL_APP_URL=https://www-legal.moneyclaim.reform.hmcts.net:4000/legal
         - IDAM_URL=http://idam-api:8080
         - CLAIM_STORE_URL=http://claim-store-api:4400
+        - SMOKE_TEST_USERNAME
+        - SMOKE_TEST_PASSWORD
         - http_proxy
         - https_proxy
         - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,idam-api,remote-webdriver,authentication-web,claim-store-api
@@ -48,8 +50,12 @@ services:
         - FEES_URL=http://fees-api:8080
         - PDF_SERVICE_URL=http://pdf-service-api:5500
         - DRAFT_STORE_URL=http://draft-store-api:8800
+        - POSTCODE_LOOKUP_API_KEY
         - LOG_LEVEL
         - UV_THREADPOOL_SIZE=64
+        - http_proxy
+        - https_proxy
+        - no_proxy=claim-store-api, fees-api, payments-api, idam-api, service-auth-provider-api, draft-store-api
       mem_limit: 256m
       memswap_limit: 0
       depends_on:

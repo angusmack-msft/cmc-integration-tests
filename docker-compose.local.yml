@@ -20,6 +20,10 @@ services:
     citizen-frontend:
       ports:
         - 3000:3000
+      environment:
+        - http_proxy=
+        - https_proxy=
+        - no_proxy=
     legal-frontend:
       ports:
         - 4000:4000

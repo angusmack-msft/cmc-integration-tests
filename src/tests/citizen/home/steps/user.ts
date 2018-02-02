@@ -14,6 +14,11 @@ export class UserSteps {
     loginPage.login(username, DEFAULT_PASSWORD)
   }
 
+  loginWithPreRegisteredUser (username: string, password: string): void {
+    loginPage.open()
+    loginPage.login(username,password)
+  }
+
   startClaim (): void {
     startClaimPage.open()
     startClaimPage.startClaim()

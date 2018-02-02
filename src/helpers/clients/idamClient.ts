@@ -2,7 +2,7 @@ import { request } from 'helpers/clients/base/request'
 
 const baseURL: string = process.env.IDAM_URL
 
-const password = 'Password12'
+const defaultPassword = 'Password12'
 
 export class IdamClient {
 
@@ -13,7 +13,7 @@ export class IdamClient {
    * @param {string} userGroupCode
    * @returns {Promise<void>}
    */
-  static createUser (email: string, userGroupCode: string): Promise<void> {
+  static createUser (email: string, userGroupCode: string, password: string = undefined): Promise<void> {
     return request.post({
       uri: `${baseURL}/testing-support/accounts`,
       body: {
@@ -26,7 +26,7 @@ export class IdamClient {
         },
         activationDate: '',
         lastAccess: '',
-        password: password
+        password: password ? password : defaultPassword
       }
     })
   }
@@ -37,8 +37,9 @@ export class IdamClient {
    * @param {string} email
    * @returns {Promise<string>}
    */
-  static async authorizeUser (email: string): Promise<string> {
-    const base64EncodedCredentials = new Buffer(`${email}:${password}`).toString('base64')
+  static async authorizeUser (email: string, password: string = undefined): Promise<string> {
+    const base64EncodedCredentials = new Buffer(`${email}:${password ? password : defaultPassword}`)
+      .toString('base64')
 
     const { 'access-token': token } = await request.post({
       uri: `${baseURL}/oauth2/authorize`,

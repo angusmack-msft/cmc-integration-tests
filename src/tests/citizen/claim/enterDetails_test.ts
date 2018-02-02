@@ -3,6 +3,7 @@ import { ClaimantClaimAmountPage } from 'tests/citizen/claim/pages/claimant-clai
 import { ClaimSteps } from 'tests/citizen/claim/steps/claim'
 import { InterestSteps } from 'tests/citizen/claim/steps/interest'
 import { UserSteps } from 'tests/citizen/home/steps/user'
+import { PartyType } from 'data/party-type'
 
 const userSteps: UserSteps = new UserSteps()
 const claimSteps: ClaimSteps = new ClaimSteps()
@@ -94,4 +95,10 @@ Scenario('I can see the Claim amount page calculates properly and shows the corr
   I.see('£1,500.01 to £3,000.00 £105.00 £170.00')
   I.see('£3,000.01 to £5,000.00 £185.00 £335.00')
   I.see('£5,000.01 to £10,000.00 £410.00 £335.00')
+})
+
+// The @citizen-smoke-test tag used for running smoke tests with pre-registered user
+
+Scenario('I can enter a claim details and navigate up to payment page @citizen-smoke-test', function* (I: I) {
+  claimSteps.makeAClaimAndNavigateUpToPayment(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL, true)
 })
