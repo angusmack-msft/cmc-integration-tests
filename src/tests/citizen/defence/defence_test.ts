@@ -3,8 +3,10 @@ import { createClaimData } from 'data/test-data'
 import { Helper } from 'tests/citizen/endToEnd/steps/helper'
 import I = CodeceptJS.I
 import { DefenceType } from 'data/defence-type'
+import { DefendantClaimDetails } from 'tests/citizen/defence/pages/defendant-claim-details'
 
 const helperSteps: Helper = new Helper()
+const defendantDetails: DefendantClaimDetails = new DefendantClaimDetails()
 
 Feature('Respond to claim')
 
@@ -51,4 +53,16 @@ Scenario('I can complete the journey when I reject part of the claim as claim am
     defendantEmail, PartyType.INDIVIDUAL,
     DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH
   )
+})
+
+Scenario('I can view the claim details from a link on the dashboard @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.defendantViewCaseTaskList(defendantEmail)
+  defendantDetails.clickViewClaim()
+  defendantDetails.checkClaimData(claimRef)
 })

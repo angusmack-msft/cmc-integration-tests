@@ -20,4 +20,10 @@ export class Helper {
     defenceSteps.loginAsDefendant(defendantEmail)
     defenceSteps.makeDefenceAndSubmit(defendantEmail, defendantType, defenceType)
   }
+
+  defendantViewCaseTaskList (defendantEmail: string): void {
+    I.waitForText('View the claim')
+    defenceSteps.respondToClaim()
+    defenceSteps.loginAsDefendant(defendantEmail)
+  }
 }
