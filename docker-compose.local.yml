@@ -89,6 +89,9 @@ services:
     ccd-user-profile-api:
       ports:
         - 4453:4453
+    ccd-importer:
+      volumes:
+        - ./docker/ccd-definition-import/data/CCD_Definition_CMC.xlsx:/definition.xlsx
 
 volumes:
   shared-database-data:

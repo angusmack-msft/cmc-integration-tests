@@ -10,6 +10,7 @@ serviceToken=$(curl --silent http://service-auth-provider-api:8080/testing-suppo
 /add-ccd-role.sh "caseworker-cmc" "RESTRICTED" "${userToken}" "${serviceToken}"
 /add-ccd-role.sh "caseworker-cmc-solicitor" "RESTRICTED" "${userToken}" "${serviceToken}"
 /add-ccd-role.sh "citizen" "PUBLIC" "${userToken}" "${serviceToken}"
+/add-ccd-role.sh "letter-holder" "PUBLIC" "${userToken}" "${serviceToken}"
 
 # upload definition file
 /import-definition.sh "/definition.xlsx" "${userToken}" "${serviceToken}"

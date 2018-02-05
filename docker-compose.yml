@@ -395,7 +395,7 @@ services:
         service-auth-provider-api:
           condition: service_started
     ccd-user-profile-api:
-        image: docker.artifactory.reform.hmcts.net/ccd/ccd-user-profile-api:latest
+        image: docker.artifactory.reform.hmcts.net/ccd/ccd-user-profile-api:develop
         environment:
           - JAVA_OPTS=-Xms8m -Xmx256m
           - USER_PROFILE_DB_HOST=shared-database
@@ -414,7 +414,7 @@ services:
             condition: service_healthy
 
     ccd-definition-store-api:
-      image: docker.artifactory.reform.hmcts.net/ccd/ccd-definition-store-api:latest
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-definition-store-api:develop
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
         - DEFINITION_STORE_DB_HOST=shared-database
@@ -437,7 +437,7 @@ services:
           condition: service_healthy
 
     ccd-data-store-api:
-      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:latest
+      image: docker.artifactory.reform.hmcts.net/ccd/ccd-data-store-api:develop
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
         - DATA_STORE_DB_HOST=shared-database
