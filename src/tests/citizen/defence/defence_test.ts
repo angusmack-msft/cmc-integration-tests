@@ -1,5 +1,5 @@
 import { PartyType } from 'data/party-type'
-import { createClaimData } from 'data/test-data'
+import { createClaimant, createClaimData, createDefendant } from 'data/test-data'
 import { Helper } from 'tests/citizen/endToEnd/steps/helper'
 import I = CodeceptJS.I
 import { DefenceType } from 'data/defence-type'
@@ -34,10 +34,13 @@ Scenario('I can complete the journey when I reject part of the claim as I’ve p
   const defendantEmail: string = yield I.createCitizenUser()
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
 
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(defendantEmail, PartyType.INDIVIDUAL,
-    DefenceType.PART_ADMISSION)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.PART_ADMISSION_BECAUSE_BELIEVED_AMOUNT_IS_PAID)
 })
 
 Scenario('I can complete the journey when I reject part of the claim as claim amount is too much @citizen', function* (I: I) {
@@ -45,10 +48,88 @@ Scenario('I can complete the journey when I reject part of the claim as claim am
   const defendantEmail: string = yield I.createCitizenUser()
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
 
   yield helperSteps.enterPinNumber(claimRef)
-  helperSteps.finishResponse(
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
     defendantEmail, PartyType.INDIVIDUAL,
     DefenceType.PART_ADMISSION_BECAUSE_AMOUNT_IS_TOO_HIGH
+  )
+})
+
+Scenario('I can see send your response by email page when I admit all of the claim @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.FULL_ADMISSION
+  )
+})
+
+Scenario('I can see send your response by email page when I admit part of the claim @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+  // const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.PART_ADMISSION
+  )
+})
+
+Scenario('I can see send your response by email page when I reject all of the claim with counter claim @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.FULL_REJECTION_WITH_COUNTER_CLAIM
+  )
+})
+
+Scenario('I can see send your response by email page when I reject all of the claim with full amount paid less than claimed amount @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID
+  )
+})
+
+Scenario('I can see when did you pay page when I reject all of the claim as I’ve paid what I believe I owe @citizen', function* (I: I) {
+  const claimantEmail: string = yield I.createCitizenUser()
+  const defendantEmail: string = yield I.createCitizenUser()
+  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
+  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
+
+  yield helperSteps.enterPinNumber(claimRef)
+  helperSteps.finishPartialResponse(claimRef, defendant, claimant,
+    defendantEmail, PartyType.INDIVIDUAL,
+    DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID_WITH_AMOUNT_CLAIMED
   )
 })

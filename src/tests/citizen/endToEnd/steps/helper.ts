@@ -20,10 +20,13 @@ export class Helper {
     defenceSteps.loginAsDefendant(defendantEmail)
     if (defenceType === DefenceType.FULL_REJECTION_WITH_DISPUTE) {
       defenceSteps.makeDefenceAndSubmit(defendantEmail, defendantType, defenceType)
-
-    } else {
-      defenceSteps.makePartialDefence(defendantEmail, defendantType, defenceType)
-
     }
+  }
+
+  finishPartialResponse (claimRef: string, defendant: Party, claimantType: Party, defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): void {
+    I.waitForText('View the claim')
+    defenceSteps.respondToClaim()
+    defenceSteps.loginAsDefendant(defendantEmail)
+    defenceSteps.makePartialDefence(claimRef, defendant, claimantType, defendantEmail, defendantType, defenceType)
   }
 }

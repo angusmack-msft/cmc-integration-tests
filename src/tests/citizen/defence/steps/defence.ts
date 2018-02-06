@@ -179,20 +179,20 @@ export class DefenceSteps {
 
   admitAllOfClaimAndMakeCounterClaim () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantDefenceTypePage.rejectMoneyClaim()
     defendantRejectAllOfClaimPage.counterClaim()
   }
 
   rejectAllOfTheClaim_PaidWhatIBeleiveIOwe () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantDefenceTypePage.rejectMoneyClaim()
     defendantRejectAllOfClaimPage.alreadyPaid()
     defendantHowMuchHaveYouPaidClaimantPage.lessThanClaimed()
   }
 
-  rejectAllOfTheClaim_WhenDidYouPay () {
+  rejectAllOfTheClaim_WhenDidYouPay (defence: PartialDefence) {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantDefenceTypePage.rejectMoneyClaim()
     defendantRejectAllOfClaimPage.alreadyPaid()
     defendantHowMuchHaveYouPaidClaimantPage.amountClaimed()
     defendantSteps.selectTaskWhenDidYouPay()
@@ -321,7 +321,7 @@ export class DefenceSteps {
     }
   }
 
-  async makePartialDefence (defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.PART_ADMISSION): Promise<void> {
+  async makePartialDefence (claimRef: string, defendant: Party, claimantType: Party, defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_ADMISSION): Promise<void> {
     I.see('Confirm your details')
     I.see('More time needed to respond')
     I.see('Do you owe the money claimed')
@@ -337,33 +337,40 @@ export class DefenceSteps {
 
       case DefenceType.FULL_ADMISSION:
         this.admitAllOfClaim()
-        I.see('Send your response by email')
         I.see('admission form N9A')
+        I.see(claimRef)
+        I.see(claimantType.name)
+        I.see(defendant.name)
         break
 
       case DefenceType.PART_ADMISSION:
         this.admitPartOfClaim()
-        I.see('Send your response by email')
         I.see('admission form N9A')
         I.see('defence and counterclaim N9B')
+        I.see(claimRef)
+        I.see(claimantType.name)
+        I.see(defendant.name)
         break
 
       case DefenceType.FULL_REJECTION_WITH_COUNTER_CLAIM:
         this.admitAllOfClaimAndMakeCounterClaim()
-        I.see('Send your response by email')
-        I.see('View claim fees')
         I.see('defence and counterclaim form N9B')
+        I.see(claimRef)
+        I.see(claimantType.name)
+        I.see(defendant.name)
         break
 
       case DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID:
         this.rejectAllOfTheClaim_PaidWhatIBeleiveIOwe()
-        I.see('Send your response by email')
         I.see('admission form N9A')
         I.see('defence and counterclaim N9B')
+        I.see(claimRef)
+        I.see(claimantType.name)
+        I.see(defendant.name)
         break
 
       case DefenceType.FULL_REJECTION_BECAUSE_FULL_AMOUNT_IS_PAID_WITH_AMOUNT_CLAIMED:
-        this.rejectAllOfTheClaim_WhenDidYouPay()
+        this.rejectAllOfTheClaim_WhenDidYouPay(defence)
         defendantSteps.selectCheckAndSubmitYourDefence()
         I.see('When did you pay this amount?')
         I.see('How did you pay the amount claimed?')

@@ -22,8 +22,4 @@ export class DefendantWhenDidYouPayPage {
     I.fillField(fields.text, explaination)
     I.click(buttons.submit)
   }
-
-  continue (): void {
-    I.click('Save and continue')
-  }
 }
