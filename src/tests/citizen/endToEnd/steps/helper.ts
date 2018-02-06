@@ -29,4 +29,10 @@ export class Helper {
     defenceSteps.loginAsDefendant(defendantEmail)
     defenceSteps.makePartialDefence(claimRef, defendant, claimantType, defendantEmail, defendantType, defenceType)
   }
+
+  defendantViewCaseTaskList (defendantEmail: string): void {
+    I.waitForText('View the claim')
+    defenceSteps.respondToClaim()
+    defenceSteps.loginAsDefendant(defendantEmail)
+  }
 }

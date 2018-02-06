@@ -3,6 +3,7 @@
 import * as fs from 'fs'
 import { request } from 'helpers/clients/base/request'
 import { RequestResponse } from 'request'
+import { IdamClient } from 'helpers/clients/idamClient'
 
 const citizenAppURL = process.env.CITIZEN_APP_URL
 const legalAppURL = process.env.LEGAL_APP_URL
@@ -68,12 +69,25 @@ async function waitTillHealthy (appURL: string) {
   return Promise.reject(error)
 }
 
+async function createSmokeTestsUserIfDoesntExist (): Promise<any> {
+  try {
+    return await IdamClient.authorizeUser(process.env.SMOKE_TEST_USERNAME, process.env.SMOKE_TEST_PASSWORD)
+  } catch {
+    return IdamClient.createUser(
+      process.env.SMOKE_TEST_USERNAME,
+      'cmc-private-beta',
+      process.env.SMOKE_TEST_PASSWORD
+    )
+  }
+}
+
 module.exports = async function (done: () => void) {
   try {
     await Promise.all([
       waitTillHealthy(citizenAppURL),
       waitTillHealthy(legalAppURL)
     ])
+    await createSmokeTestsUserIfDoesntExist()
   } catch (error) {
     handleError(error)
   }

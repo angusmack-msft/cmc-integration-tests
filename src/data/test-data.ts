@@ -2,6 +2,9 @@ import { PartyType } from 'data/party-type'
 
 export const DEFAULT_PASSWORD = 'Password12'
 
+export const SMOKE_TEST_USER_NAME = process.env.SMOKE_TEST_USERNAME
+export const SMOKE_TEST_PASSWORD = process.env.SMOKE_TEST_PASSWORD
+
 export const claimFee = 25.00
 
 export const claimAmount: Amount = {
@@ -17,6 +20,11 @@ export const claimAmount: Amount = {
   getTotal (): number {
     return this.getClaimTotal() + claimFee
   }
+}
+
+export const postCodeLookup = {
+  postCode: 'M13 9PL',
+  selectedOption: 'University of Manchester, Oxford Road, Manchester, M13 9PL'
 }
 
 export const claimReason = 'My reasons for the claim are that I am owed this money for a variety of reason, these being...'
@@ -94,7 +102,7 @@ export function createDefendant (type: PartyType, hasEmailAddress: boolean = fal
     type: partyTypeAsString(type),
     name: undefined,
     address: {
-      line1: 'The University of Manchester',
+      line1: 'University of Manchester',
       line2: 'Oxford Road',
       city: 'Manchester',
       postcode: 'M13 9PL'
