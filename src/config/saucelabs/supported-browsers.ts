@@ -1,12 +1,12 @@
 export const supportedBrowsers = {
-  'ie10_win7': {
+  'ie11_win10': {
     'browserName': 'internet explorer',
-    'name': 'IE10_Win7',
-    'platform': 'Windows 7',
+    'name': 'IE11_Win10',
+    'platform': 'Windows 10',
     'ignoreZoomSetting': true,
     'nativeEvents': false,
     'ignoreProtectedModeSettings': true,
-    'version': '10'
+    'version': '11'
   },
   'chrome_win_latest': {
     'browserName': 'chrome',
