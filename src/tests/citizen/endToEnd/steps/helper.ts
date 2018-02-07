@@ -23,11 +23,11 @@ export class Helper {
     }
   }
 
-  finishPartialResponse (claimRef: string, defendant: Party, claimantType: Party, defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): void {
+  finishPartialResponse (claimRef: string, defendant: Party, claimant: Party, defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_REJECTION_WITH_DISPUTE): void {
     I.waitForText('View the claim')
     defenceSteps.respondToClaim()
     defenceSteps.loginAsDefendant(defendantEmail)
-    defenceSteps.makePartialDefence(claimRef, defendant, claimantType, defendantEmail, defendantType, defenceType)
+    defenceSteps.makePartialDefenceHandOff(claimRef, defendant, claimant, defendantType, defenceType)
   }
 
   defendantViewCaseTaskList (defendantEmail: string): void {

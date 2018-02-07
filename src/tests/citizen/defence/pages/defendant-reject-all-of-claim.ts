@@ -14,17 +14,17 @@ const buttons = {
 
 export class DefendantRejectAllOfClaimPage {
 
-  disputeTheClaim (): void {
+  selectDisputeTheClaimOption (): void {
     I.checkOption(fields.dispute)
     I.click(buttons.submit)
   }
 
-  alreadyPaid (): void {
+  selectAlreadyPaidOption (): void {
     I.checkOption(fields.alreadyPaid)
     I.click(buttons.submit)
   }
 
-  counterClaim (): void {
+  selectCounterClaimOption (): void {
     I.checkOption(fields.counterClaim)
     I.click(buttons.submit)
   }

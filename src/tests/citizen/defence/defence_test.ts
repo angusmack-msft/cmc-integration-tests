@@ -1,5 +1,5 @@
 import { PartyType } from 'data/party-type'
-import { createClaimant, createClaimData, createDefendant } from 'data/test-data'
+import { createClaimData } from 'data/test-data'
 import { Helper } from 'tests/citizen/endToEnd/steps/helper'
 import I = CodeceptJS.I
 import { DefenceType } from 'data/defence-type'
@@ -36,8 +36,10 @@ Scenario('I can complete the journey when I reject part of the claim as I’ve p
   const defendantEmail: string = yield I.createCitizenUser()
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   yield helperSteps.enterPinNumber(claimRef)
   helperSteps.finishPartialResponse(claimRef, defendant, claimant,
@@ -50,8 +52,10 @@ Scenario('I can complete the journey when I reject part of the claim as claim am
   const defendantEmail: string = yield I.createCitizenUser()
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   yield helperSteps.enterPinNumber(claimRef)
   helperSteps.finishPartialResponse(claimRef, defendant, claimant,
@@ -63,8 +67,10 @@ Scenario('I can complete the journey when I reject part of the claim as claim am
 Scenario('I can see send your response by email page when I admit all of the claim @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
 
@@ -78,9 +84,10 @@ Scenario('I can see send your response by email page when I admit all of the cla
 Scenario('I can see send your response by email page when I admit part of the claim @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
-  // const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
 
@@ -94,8 +101,10 @@ Scenario('I can see send your response by email page when I admit part of the cl
 Scenario('I can see send your response by email page when I reject all of the claim with counter claim @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
 
@@ -109,8 +118,10 @@ Scenario('I can see send your response by email page when I reject all of the cl
 Scenario('I can see send your response by email page when I reject all of the claim with full amount paid less than claimed amount @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
 
@@ -124,8 +135,10 @@ Scenario('I can see send your response by email page when I reject all of the cl
 Scenario('I can see when did you pay page when I reject all of the claim as I’ve paid what I believe I owe @citizen', function* (I: I) {
   const claimantEmail: string = yield I.createCitizenUser()
   const defendantEmail: string = yield I.createCitizenUser()
-  const defendant: Party = createDefendant(PartyType.INDIVIDUAL, true)
-  const claimant: Party = createClaimant(PartyType.INDIVIDUAL)
+
+  const claimData: ClaimData = createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL)
+  const defendant: Party = claimData.defendants[0]
+  const claimant: Party = claimData.claimants[0]
 
   const claimRef: string = yield I.createClaim(createClaimData(PartyType.INDIVIDUAL, PartyType.INDIVIDUAL), claimantEmail)
 

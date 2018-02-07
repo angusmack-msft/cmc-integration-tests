@@ -13,12 +13,12 @@ const buttons = {
 
 export class DefendantHowMuchHaveYouPaidClaimantPage {
 
-  amountClaimed (): void {
+  selectAmountClaimedOption (): void {
     I.checkOption(fields.amountClaimed)
     I.click(buttons.submit)
   }
 
-  lessThanClaimed (): void {
+  selectLessThanClaimedOption (): void {
     I.checkOption(fields.lessThanClaimed)
     I.click(buttons.submit)
   }

@@ -144,14 +144,14 @@ export class DefenceSteps {
 
   rejectAllOfClaimAsDisputeClaim (): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectMoneyClaim()
-    defendantRejectAllOfClaimPage.disputeTheClaim()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.selectDisputeTheClaimOption()
   }
 
   rejectAllOfClaimAsAlreadyPaid (): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectMoneyClaim()
-    defendantRejectAllOfClaimPage.alreadyPaid()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.selectAlreadyPaidOption()
   }
 
   addTimeLineOfEvents (timeline: Timeline): void {
@@ -169,32 +169,32 @@ export class DefenceSteps {
 
   admitAllOfClaim () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantDefenceTypePage.admitAllOfMoneyClaim()
   }
 
   admitPartOfClaim () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+    defendantDefenceTypePage.admitPartOfMoneyClaim()
   }
 
   admitAllOfClaimAndMakeCounterClaim () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectMoneyClaim()
-    defendantRejectAllOfClaimPage.counterClaim()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.selectCounterClaimOption()
   }
 
   rejectAllOfTheClaim_PaidWhatIBeleiveIOwe () {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectMoneyClaim()
-    defendantRejectAllOfClaimPage.alreadyPaid()
-    defendantHowMuchHaveYouPaidClaimantPage.lessThanClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.selectAlreadyPaidOption()
+    defendantHowMuchHaveYouPaidClaimantPage.selectLessThanClaimedOption()
   }
 
   rejectAllOfTheClaim_WhenDidYouPay (defence: PartialDefence) {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectMoneyClaim()
-    defendantRejectAllOfClaimPage.alreadyPaid()
-    defendantHowMuchHaveYouPaidClaimantPage.amountClaimed()
+    defendantDefenceTypePage.rejectAllOfMoneyClaim()
+    defendantRejectAllOfClaimPage.selectAlreadyPaidOption()
+    defendantHowMuchHaveYouPaidClaimantPage.selectAmountClaimedOption()
     defendantSteps.selectTaskWhenDidYouPay()
     defendantWhenDidYouPayPage.enterDateAndExplaination('2017-01-01', 'Paid Cash')
     I.click('Save and continue')
@@ -202,7 +202,7 @@ export class DefenceSteps {
 
   rejectPartOfTheClaim_PaidWhatIBelieveIOwe (defence: PartialDefence): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+    defendantDefenceTypePage.admitPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimPaidWhatIBelieveIOwe()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchPaidToClaiment()
@@ -220,7 +220,7 @@ export class DefenceSteps {
 
   rejectPartOfTheClaimTooMuch (defence: PartialDefence): void {
     defendantSteps.selectTaskDoYouOweTheMoneyClaimed()
-    defendantDefenceTypePage.rejectPartOfMoneyClaim()
+    defendantDefenceTypePage.admitPartOfMoneyClaim()
     defendantRejectPartOfClaimPage.rejectClaimTooMuch()
     I.see('Respond to a money claim')
     defendantSteps.selectTaskHowMuchMoneyBelieveYouOwe()
@@ -321,7 +321,7 @@ export class DefenceSteps {
     }
   }
 
-  async makePartialDefence (claimRef: string, defendant: Party, claimantType: Party, defendantEmail: string, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_ADMISSION): Promise<void> {
+  makePartialDefenceHandOff (claimRef: string, defendant: Party, claimant: Party, defendantType: PartyType, defenceType: DefenceType = DefenceType.FULL_ADMISSION): void {
     I.see('Confirm your details')
     I.see('More time needed to respond')
     I.see('Do you owe the money claimed')
@@ -339,7 +339,7 @@ export class DefenceSteps {
         this.admitAllOfClaim()
         I.see('admission form N9A')
         I.see(claimRef)
-        I.see(claimantType.name)
+        I.see(claimant.name)
         I.see(defendant.name)
         break
 
@@ -348,7 +348,7 @@ export class DefenceSteps {
         I.see('admission form N9A')
         I.see('defence and counterclaim N9B')
         I.see(claimRef)
-        I.see(claimantType.name)
+        I.see(claimant.name)
         I.see(defendant.name)
         break
 
@@ -356,7 +356,7 @@ export class DefenceSteps {
         this.admitAllOfClaimAndMakeCounterClaim()
         I.see('defence and counterclaim form N9B')
         I.see(claimRef)
-        I.see(claimantType.name)
+        I.see(claimant.name)
         I.see(defendant.name)
         break
 
@@ -365,7 +365,7 @@ export class DefenceSteps {
         I.see('admission form N9A')
         I.see('defence and counterclaim N9B')
         I.see(claimRef)
-        I.see(claimantType.name)
+        I.see(claimant.name)
         I.see(defendant.name)
         break
 
