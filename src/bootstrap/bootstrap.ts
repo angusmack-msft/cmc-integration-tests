@@ -83,10 +83,15 @@ async function createSmokeTestsUserIfDoesntExist (): Promise<any> {
 
 module.exports = async function (done: () => void) {
   try {
-    await Promise.all([
-      waitTillHealthy(citizenAppURL),
-      waitTillHealthy(legalAppURL)
-    ])
+    const healthChecks = []
+    if (process.env.HEALTHCHECK_CITIZEN === 'true') {
+     healthChecks.push(waitTillHealthy(citizenAppURL))
+    }
+    if (process.env.HEALTHCHECK_LEGAL === 'true') {
+      healthChecks.push(waitTillHealthy(legalAppURL))
+    }
+
+    await Promise.all(healthChecks)
     await createSmokeTestsUserIfDoesntExist()
   } catch (error) {
     handleError(error)
