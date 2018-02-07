@@ -92,6 +92,12 @@ services:
     ccd-importer:
       volumes:
         - ./docker/ccd-definition-import/data/CCD_Definition_CMC.xlsx:/definition.xlsx
+    ccd-case-management-web:
+      ports:
+        - 3451:80
+    ccd-api-gateway:
+      ports:
+        - 3453:3453
 
 volumes:
   shared-database-data:

@@ -93,6 +93,25 @@ If you want to delete the volumes as well pass the `-v` flag:
 $ ./bin/stop-local-environment.sh -v
 ```
 
+### Steps to start ccd management web
+If docker's local environments are already running, then execute following
+
+  ```bash
+  $ ./bin/start-local-ccd-web.sh
+  ```
+  else
+  
+  ```bash
+  $ ./bin/start-local-environment.sh
+  
+  $ ./bin/start-local-ccd-web.sh
+  ```
+create caseworker user
+   ```bash
+   $ ./bin/create-case-worker.sh
+  ```
+Open management web page http://localhost:3451 and login with user created above
+
 ### Loading CCD definition
 
 In order to upload new definition file, put the definition file at location 
