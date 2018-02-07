@@ -9,6 +9,8 @@ services:
       - SAUCELABS_TUNNEL_IDENTIFIER
       - SAUCELABS_USERNAME
       - SAUCELABS_ACCESS_KEY
+      - HEALTHCHECK_CITIZEN=true
+      - HEALTHCHECK_LEGAL=true
       - http_proxy
       - https_proxy
       - no_proxy=www-citizen.moneyclaim.reform.hmcts.net,www-legal.moneyclaim.reform.hmcts.net,authentication-web,idam-api,claim-store-api,saucelabs-connect
