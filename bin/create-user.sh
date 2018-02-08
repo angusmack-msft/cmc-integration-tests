@@ -7,6 +7,7 @@ FORENAME="${2:-John}"
 SURNAME="${3:-Smith}"
 PASSWORD=Password12
 USER_GROUP="${4:-cmc-private-beta}"
+USER_ROLES="${5:-[]}"
 
 curl -XPOST -H 'Content-Type: application/json' http://localhost:8080/testing-support/accounts -d '{
     "email": "'${USER_EMAIL}'",
@@ -18,7 +19,8 @@ curl -XPOST -H 'Content-Type: application/json' http://localhost:8080/testing-su
     },
     "activationDate": "",
     "lastAccess": "",
+    "roles": '${USER_ROLES}',
     "password": "'${PASSWORD}'"
 }'
 
-echo -e "Created user with:\nUsername: ${USER_EMAIL}\nPassword:${PASSWORD}\nFirstname: ${FORENAME}\nSurname: ${SURNAME}\nUser group: ${USER_GROUP}"
+echo -e "Created user with:\nUsername: ${USER_EMAIL}\nPassword:${PASSWORD}\nFirstname: ${FORENAME}\nSurname: ${SURNAME}\nUser group: ${USER_GROUP}\nRoles: ${USER_ROLES}"

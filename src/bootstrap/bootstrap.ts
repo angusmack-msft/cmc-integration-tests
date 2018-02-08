@@ -85,7 +85,7 @@ module.exports = async function (done: () => void) {
   try {
     const healthChecks = []
     if (process.env.HEALTHCHECK_CITIZEN === 'true') {
-     healthChecks.push(waitTillHealthy(citizenAppURL))
+      healthChecks.push(waitTillHealthy(citizenAppURL))
     }
     if (process.env.HEALTHCHECK_LEGAL === 'true') {
       healthChecks.push(waitTillHealthy(legalAppURL))

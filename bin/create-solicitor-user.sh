@@ -2,7 +2,7 @@
 
 set -e
 
-USER_EMAIL="${1:-me@server.net}"
+USER_EMAIL="${1:-solicitor@server.net}"
 FORENAME="${2:-John}"
 SURNAME="${3:-Smith}"
 PASSWORD=Password12
