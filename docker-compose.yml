@@ -135,7 +135,7 @@ services:
         idam-api:
           condition: service_started
     idam-api:
-      image: docker.artifactory.reform.hmcts.net/auth/idam-api:1620c9973d85ca622904ecbf01c47a4abb91f7c9
+      image: docker.artifactory.reform.hmcts.net/auth/idam-api:6f7988fadf1d8feb5e999006387a58dc24cdf024
       command: --wait-for-database 60
       environment:
         - JAVA_OPTS=-Xms8m -Xmx256m
