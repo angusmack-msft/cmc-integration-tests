@@ -7,6 +7,8 @@ services:
         - http_proxy=
         - https_proxy=
         - no_proxy=
+        - SMOKE_TEST_USERNAME=test1@test.com
+        - SMOKE_TEST_PASSWORD=Password12
       volumes:
         - .:/usr/src/app
     remote-webdriver:
